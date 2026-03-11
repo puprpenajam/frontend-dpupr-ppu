@@ -131,13 +131,14 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+    </nav>
 
-      {/* Mobile Dropdown Menu - Fixed Position Overlay (outside container) */}
-      <div
-        className={`fixed left-0 right-0 bg-gradient-to-r from-dpupr-yellow to-yellow-400 shadow-2xl transition-all duration-300 ease-in-out lg:hidden overflow-y-auto z-50 ${
-          isOpen ? 'top-[155px] sm:top-[187px] max-h-[calc(100vh-155px)] sm:max-h-[calc(100vh-187px)] opacity-100' : 'top-[-100vh] max-h-0 opacity-0'
-        }`}
-      >
+    {/* Mobile Dropdown Menu - Fixed Position Overlay (completely outside nav) */}
+    <div
+      className={`fixed left-0 right-0 bg-gradient-to-r from-dpupr-yellow to-yellow-400 shadow-2xl transition-all duration-300 ease-in-out lg:hidden overflow-y-auto z-50 ${
+        isOpen ? 'top-[155px] sm:top-[187px] max-h-[calc(100vh-155px)] sm:max-h-[calc(100vh-187px)] opacity-100' : 'top-[-100vh] max-h-0 opacity-0'
+      }`}
+    >
           <ul className="py-2 space-y-1">
             <li>
               <Link
@@ -238,7 +239,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-    </nav>
+
     </>
   );
 };
