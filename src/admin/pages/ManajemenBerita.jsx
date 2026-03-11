@@ -54,7 +54,30 @@ const ManajemenBerita = () => {
     }
   }, [user, navigate]);
 
+  // Reload newsData from localStorage whenever we're back to list view
+  useEffect(() => {
+    if (!showForm) {
+      const savedNews = localStorage.getItem('newsData');
+      if (savedNews) {
+        const currentNews = JSON.parse(savedNews);
+        setNewsData(currentNews);
+      }
+    }
+  }, [showForm]);
+
   const handlePreview = (news) => {
+    // Reload from localStorage to ensure preview shows latest data
+    const savedNews = localStorage.getItem('newsData');
+    if (savedNews) {
+      const currentNews = JSON.parse(savedNews);
+      const latestNews = currentNews.find(n => n.id === news.id);
+      if (latestNews) {
+        setPreviewNews(latestNews);
+        setShowPreview(true);
+        return;
+      }
+    }
+    // Fallback to original if not found
     setPreviewNews(news);
     setShowPreview(true);
   };
@@ -126,6 +149,10 @@ const ManajemenBerita = () => {
   };
 
   const handleSubmitNews = () => {
+    // Always reload from localStorage first to prevent data loss
+    const savedNews = localStorage.getItem('newsData');
+    const currentNewsData = savedNews ? JSON.parse(savedNews) : newsData;
+
     // Get first text block for excerpt
     const firstTextBlock = newNews.contentBlocks.find(block => block.type === 'text' && block.content.trim() !== '');
     const excerpt = firstTextBlock ? firstTextBlock.content.substring(0, 150) + '...' : '';
@@ -157,16 +184,19 @@ const ManajemenBerita = () => {
       content: formattedContent
     };
 
+    let updatedNewsData;
     if (editingId) {
       // Update existing news
-      setNewsData(newsData.map(news => news.id === editingId ? newsItem : news));
+      updatedNewsData = currentNewsData.map(news => news.id === editingId ? newsItem : news);
       setPesanBerhasil('Berita berhasil diupdate!');
     } else {
       // Add new news
-      setNewsData([newsItem, ...newsData]);
+      updatedNewsData = [newsItem, ...currentNewsData];
       setPesanBerhasil('Berita berhasil ditambahkan!');
     }
 
+    setNewsData(updatedNewsData);
+    localStorage.setItem('newsData', JSON.stringify(updatedNewsData));
     setShowBerhasil(true);
     resetForm();
   };
@@ -190,7 +220,11 @@ const ManajemenBerita = () => {
   };
 
   const handleConfirmDelete = () => {
-    const updatedNews = newsData.filter(news => news.id !== konfirmasiData.id);
+    // Reload from localStorage first
+    const savedNews = localStorage.getItem('newsData');
+    const currentNewsData = savedNews ? JSON.parse(savedNews) : newsData;
+    
+    const updatedNews = currentNewsData.filter(news => news.id !== konfirmasiData.id);
     setNewsData(updatedNews);
     localStorage.setItem('newsData', JSON.stringify(updatedNews));
     setShowKonfirmasi(false);
@@ -199,21 +233,33 @@ const ManajemenBerita = () => {
   };
 
   const handleEdit = (news) => {
-    setEditingId(news.id);
+    // Reload from localStorage to ensure we have the latest data
+    const savedNews = localStorage.getItem('newsData');
+    let newsToEdit = news;
+    
+    if (savedNews) {
+      const currentNewsData = JSON.parse(savedNews);
+      const latestNews = currentNewsData.find(n => n.id === news.id);
+      if (latestNews) {
+        newsToEdit = latestNews;
+      }
+    }
+    
+    setEditingId(newsToEdit.id);
     
     // If news has contentBlocks, use them directly
-    let contentBlocks = news.contentBlocks;
+    let contentBlocks = newsToEdit.contentBlocks;
     
     // If old format (no contentBlocks), convert from content and images
     if (!contentBlocks || contentBlocks.length === 0) {
-      const contentWithoutLocation = news.content.replace(/^[A-Z]+\.\s/, '');
+      const contentWithoutLocation = newsToEdit.content.replace(/^[A-Z]+\.\s/, '');
       
       // Create blocks from text content
       contentBlocks = [{ type: 'text', content: contentWithoutLocation }];
       
       // Add image blocks if any
-      if (news.images && news.images.length > 0) {
-        news.images.forEach(img => {
+      if (newsToEdit.images && newsToEdit.images.length > 0) {
+        newsToEdit.images.forEach(img => {
           contentBlocks.push({ type: 'image', content: img });
         });
       }
@@ -221,10 +267,10 @@ const ManajemenBerita = () => {
     
     setNewNews({
       thumbnail: null,
-      thumbnailPreview: news.image,
-      date: news.date,
-      title: news.title,
-      location: news.location || 'Penajam',
+      thumbnailPreview: newsToEdit.image,
+      date: newsToEdit.date,
+      title: newsToEdit.title,
+      location: newsToEdit.location || 'Penajam',
       contentBlocks: contentBlocks
     });
     setShowForm(true);

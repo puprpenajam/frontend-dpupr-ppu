@@ -122,7 +122,30 @@ const ManajemenKonten = () => {
     }
   }, []);
 
+  // Reload konten from localStorage whenever we're back to list view
+  useEffect(() => {
+    if (!showForm) {
+      const savedPages = localStorage.getItem('kontenPages');
+      if (savedPages) {
+        const currentKonten = JSON.parse(savedPages);
+        setKonten(currentKonten);
+      }
+    }
+  }, [showForm]);
+
   const handlePreview = (halaman) => {
+    // Reload from localStorage to ensure preview shows latest data
+    const savedPages = localStorage.getItem('kontenPages');
+    if (savedPages) {
+      const currentKonten = JSON.parse(savedPages);
+      const latestHalaman = currentKonten.find(k => k.id === halaman.id);
+      if (latestHalaman) {
+        setPreviewHalaman(latestHalaman);
+        setShowPreview(true);
+        return;
+      }
+    }
+    // Fallback to original if not found
     setPreviewHalaman(halaman);
     setShowPreview(true);
   };
@@ -161,9 +184,13 @@ const ManajemenKonten = () => {
       return;
     }
 
+    // Always reload from localStorage first to prevent data loss from other tabs/sessions
+    const savedPages = localStorage.getItem('kontenPages');
+    const currentKonten = savedPages ? JSON.parse(savedPages) : konten;
+
     if (editingId) {
       // Update existing
-      const updatedKonten = konten.map(k => 
+      const updatedKonten = currentKonten.map(k => 
         k.id === editingId ? { ...k, ...formData } : k
       );
       setKonten(updatedKonten);
@@ -175,7 +202,7 @@ const ManajemenKonten = () => {
         id: new Date().getTime(),
         ...formData
       };
-      const updatedKonten = [...konten, newKonten];
+      const updatedKonten = [...currentKonten, newKonten];
       setKonten(updatedKonten);
       localStorage.setItem('kontenPages', JSON.stringify(updatedKonten));
       setPesanBerhasil('Konten berhasil ditambahkan!');
@@ -186,6 +213,28 @@ const ManajemenKonten = () => {
   };
 
   const handleEdit = (item) => {
+    // Reload from localStorage to ensure we have the latest data
+    const savedPages = localStorage.getItem('kontenPages');
+    if (savedPages) {
+      const currentKonten = JSON.parse(savedPages);
+      const latestItem = currentKonten.find(k => k.id === item.id);
+      if (latestItem) {
+        setFormData({
+          name: latestItem.name,
+          slug: latestItem.slug,
+          category: latestItem.category || 'kegiatan',
+          description: latestItem.description,
+          title: latestItem.title || latestItem.name,
+          contentBlocks: latestItem.contentBlocks || [],
+          isPublished: latestItem.isPublished
+        });
+        setEditingId(latestItem.id);
+        setShowForm(true);
+        setErrors({});
+        return;
+      }
+    }
+    // Fallback to original if localStorage not available
     setFormData({
       name: item.name,
       slug: item.slug,
@@ -206,7 +255,11 @@ const ManajemenKonten = () => {
   };
 
   const handleConfirmDelete = () => {
-    const updatedKonten = konten.filter(k => k.id !== konfirmasiData.id);
+    // Reload from localStorage first
+    const savedPages = localStorage.getItem('kontenPages');
+    const currentKonten = savedPages ? JSON.parse(savedPages) : konten;
+    
+    const updatedKonten = currentKonten.filter(k => k.id !== konfirmasiData.id);
     setKonten(updatedKonten);
     localStorage.setItem('kontenPages', JSON.stringify(updatedKonten));
     setShowKonfirmasi(false);
@@ -215,7 +268,11 @@ const ManajemenKonten = () => {
   };
 
   const handleTogglePublish = (id) => {
-    const updatedKonten = konten.map(k =>
+    // Reload from localStorage first
+    const savedPages = localStorage.getItem('kontenPages');
+    const currentKonten = savedPages ? JSON.parse(savedPages) : konten;
+    
+    const updatedKonten = currentKonten.map(k =>
       k.id === id ? { ...k, isPublished: !k.isPublished } : k
     );
     setKonten(updatedKonten);
