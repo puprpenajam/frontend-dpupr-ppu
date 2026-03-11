@@ -201,7 +201,7 @@ const Navbar = () => {
                 className="w-full text-left px-4 py-3 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors flex justify-between items-center"
               >
                 PROFIL DPUPR
-                <span className={`transform transition-transform duration-200 ${openSubmenu === 'profil' ? 'rotate-180' : ''}`}>▼</span>
+                <ChevronDown size={16} className={`transform transition-transform duration-200 ${openSubmenu === 'profil' ? 'rotate-180' : ''}`} />
               </button>
               <ul
                 className={`overflow-hidden transition-all duration-300 bg-white/50 ${

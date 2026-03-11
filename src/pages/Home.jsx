@@ -33,8 +33,8 @@ const Home = () => {
             Your browser does not support the video tag.
           </video>
           
-          {/* Optional Overlay for better text visibility */}
-          <div className="absolute inset-0 bg-black/20"></div>
+          {/* Overlay for better visibility and mobile protection */}
+          <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
         
         </section>
 
