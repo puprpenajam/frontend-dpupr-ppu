@@ -67,9 +67,14 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="bg-dpupr-blue/30 backdrop-blur-sm py-5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-gray-100 text-xs sm:text-sm text-center">
-            © Copyright 2026 Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Penajam Paser Utara
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p className="text-gray-100 text-xs sm:text-sm text-center sm:text-left">
+              © Copyright 2026 Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Penajam Paser Utara
+            </p>
+            <p className="text-gray-300 text-xs">
+              Developed by <a href="https://github.com/Ardi11220126" target="_blank" rel="noopener noreferrer" className="text-dpupr-yellow hover:underline font-semibold">Ardi11220126</a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
