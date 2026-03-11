@@ -15,6 +15,23 @@ const Home = () => {
   });
   
   const totalPages = Math.ceil(newsData.length / 4);
+
+  // Function to render excerpt with bold location
+  const renderExcerptWithBoldLocation = (excerpt) => {
+    // Check if excerpt starts with uppercase location (e.g., "PENAJAM. content...")
+    const locationMatch = excerpt.match(/^([A-Z\s]+)\.\s/);
+    if (locationMatch) {
+      const location = locationMatch[1];
+      const restOfText = excerpt.substring(locationMatch[0].length);
+      return (
+        <>
+          <strong className="font-bold">{location}.</strong> {restOfText}
+        </>
+      );
+    }
+    return excerpt;
+  };
+
   return (
     <>
       <Header />
@@ -104,7 +121,7 @@ const Home = () => {
 
                         {/* Excerpt */}
                         <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                          {news.excerpt}
+                          {renderExcerptWithBoldLocation(news.excerpt)}
                         </p>
 
                         {/* Read More Link */}

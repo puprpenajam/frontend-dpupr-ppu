@@ -24,6 +24,24 @@ const Berita = () => {
   // Get other news (exclude current)
   const otherNews = newsData.filter(news => news.id !== currentNews?.id).slice(0, 5);
 
+  // Function to render text with bold location
+  const renderTextWithBoldLocation = (text, isFirstParagraph) => {
+    if (isFirstParagraph) {
+      // Check if text starts with uppercase location (e.g., "PENAJAM. content...")
+      const locationMatch = text.match(/^([A-Z\s]+)\.\s/);
+      if (locationMatch) {
+        const location = locationMatch[1];
+        const restOfText = text.substring(locationMatch[0].length);
+        return (
+          <>
+            <strong className="font-bold">{location}.</strong> {restOfText}
+          </>
+        );
+      }
+    }
+    return text;
+  };
+
   if (!currentNews) {
     return (
       <>
@@ -106,11 +124,14 @@ const Berita = () => {
                         {currentNews.contentBlocks.map((block, index) => (
                           <div key={index}>
                             {block.type === 'text' ? (
-                              block.content.split('\n\n').map((paragraph, pIndex) => (
-                                <p key={pIndex} className="mb-4 text-justify">
-                                  {paragraph}
-                                </p>
-                              ))
+                              block.content.split('\n\n').map((paragraph, pIndex) => {
+                                const isFirstParagraph = index === 0 && pIndex === 0;
+                                return (
+                                  <p key={pIndex} className="mb-4 text-justify">
+                                    {renderTextWithBoldLocation(paragraph, isFirstParagraph)}
+                                  </p>
+                                );
+                              })
                             ) : (
                               block.content && (
                                 <div className="my-6 rounded-xl overflow-hidden">
@@ -135,7 +156,7 @@ const Berita = () => {
                       <>
                         {currentNews.content.split('\n\n').map((paragraph, index) => (
                           <p key={index} className="mb-4 text-justify">
-                            {paragraph}
+                            {renderTextWithBoldLocation(paragraph, index === 0)}
                           </p>
                         ))}
                         

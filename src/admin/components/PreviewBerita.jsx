@@ -4,6 +4,24 @@ import { Calendar } from 'lucide-react';
 const PreviewBerita = ({ isOpen, news, onClose }) => {
   if (!isOpen || !news) return null;
 
+  // Function to render text with bold location
+  const renderTextWithBoldLocation = (text, isFirstParagraph) => {
+    if (isFirstParagraph) {
+      // Check if text starts with uppercase location (e.g., "PENAJAM. content...")
+      const locationMatch = text.match(/^([A-Z\s]+)\.\s/);
+      if (locationMatch) {
+        const location = locationMatch[1];
+        const restOfText = text.substring(locationMatch[0].length);
+        return (
+          <>
+            <strong className="font-bold">{location}.</strong> {restOfText}
+          </>
+        );
+      }
+    }
+    return text;
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -42,11 +60,14 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
                 {news.contentBlocks.map((block, index) => (
                   <div key={index}>
                     {block.type === 'text' ? (
-                      block.content.split('\n\n').map((paragraph, pIndex) => (
-                        <p key={pIndex} className="mb-4 text-justify leading-relaxed">
-                          {paragraph}
-                        </p>
-                      ))
+                      block.content.split('\n\n').map((paragraph, pIndex) => {
+                        const isFirstParagraph = index === 0 && pIndex === 0;
+                        return (
+                          <p key={pIndex} className="mb-4 text-justify leading-relaxed">
+                            {renderTextWithBoldLocation(paragraph, isFirstParagraph)}
+                          </p>
+                        );
+                      })
                     ) : (
                       block.content && (
                         <div className="my-6 rounded-xl overflow-hidden">
@@ -71,7 +92,7 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
               <>
                 {news.content.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="mb-4 text-justify leading-relaxed">
-                    {paragraph}
+                    {renderTextWithBoldLocation(paragraph, index === 0)}
                   </p>
                 ))}
                 
