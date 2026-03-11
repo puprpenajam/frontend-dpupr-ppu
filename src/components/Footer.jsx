@@ -5,8 +5,8 @@ const Footer = () => {
     <footer className="bg-gradient-to-b from-dpupr-blue to-blue-700 text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {/* About Section */}
-          <div className="space-y-4">
+          {/* About Section - Left */}
+          <div className="space-y-4 text-left">
             <img src="/logo/logo PUPR.png" alt="Logo DPUPR" className="h-14 sm:h-16 mb-4" />
             <h3 className="text-lg sm:text-xl font-semibold">
               Dinas Pekerjaan Umum dan Penataan Ruang
@@ -26,12 +26,12 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Social Media Section */}
-          <div className="space-y-6">
+          {/* Social Media Section - Right */}
+          <div className="space-y-6 text-left md:text-right">
             <h3 className="text-lg sm:text-xl font-semibold text-dpupr-yellow mb-4">
               Ikuti Kami
             </h3>
-            <div className="flex gap-4">
+            <div className="flex gap-4 md:justify-end">
               <a 
                 href="https://facebook.com" 
                 target="_blank" 
@@ -67,8 +67,8 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="bg-dpupr-blue/30 backdrop-blur-sm py-5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="text-gray-100 text-xs sm:text-sm text-center sm:text-left">
+          <div className="flex items-center justify-center">
+            <p className="text-gray-100 text-xs sm:text-sm text-center">
               © Copyright 2026 Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Penajam Paser Utara
             </p>
           </div>
