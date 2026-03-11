@@ -18,11 +18,20 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-dpupr-yellow to-yellow-400 shadow-md sticky top-[96px] sm:top-[128px] lg:top-[144px] z-40">
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-end lg:justify-center">
-          {/* Desktop Menu */}
-          <ul className="hidden lg:flex items-center justify-center gap-1">
+    <>
+      {/* Background overlay for mobile menu */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+      
+      <nav className="bg-gradient-to-r from-dpupr-yellow to-yellow-400 shadow-md sticky top-[96px] sm:top-[128px] lg:top-[144px] z-40">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-end lg:justify-center">
+            {/* Desktop Menu */}
+            <ul className="hidden lg:flex items-center justify-center gap-1">
             <li>
               <Link 
                 to="/" 
@@ -122,10 +131,10 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown Menu - Fixed Position Overlay */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+          className={`fixed left-0 right-0 bg-gradient-to-r from-dpupr-yellow to-yellow-400 shadow-2xl transition-all duration-300 ease-in-out lg:hidden overflow-y-auto z-50 ${
+            isOpen ? 'top-[155px] sm:top-[187px] max-h-[calc(100vh-155px)] sm:max-h-[calc(100vh-187px)] opacity-100' : 'top-[-100vh] max-h-0 opacity-0'
           }`}
         >
           <ul className="py-2 space-y-1">
@@ -230,6 +239,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+    </>
   );
 };
 
