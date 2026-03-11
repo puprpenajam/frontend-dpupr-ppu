@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -37,27 +38,27 @@ const Footer = () => {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="Facebook"
-                className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-dpupr-yellow hover:text-dpupr-blue transform hover:-translate-y-1 transition-all duration-200"
+                className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center hover:bg-dpupr-yellow hover:text-dpupr-blue transform hover:-translate-y-1 transition-all duration-200"
               >
-                <span className="text-xl font-bold">f</span>
+                <Facebook size={50} />
               </a>
               <a 
                 href="https://instagram.com" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="Instagram"
-                className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-dpupr-yellow hover:text-dpupr-blue transform hover:-translate-y-1 transition-all duration-200"
+                className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center hover:bg-dpupr-yellow hover:text-dpupr-blue transform hover:-translate-y-1 transition-all duration-200"
               >
-                <span className="text-xl">📷</span>
+                <Instagram size={50} />
               </a>
               <a 
                 href="https://youtube.com" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="YouTube"
-                className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-dpupr-yellow hover:text-dpupr-blue transform hover:-translate-y-1 transition-all duration-200"
+                className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center hover:bg-dpupr-yellow hover:text-dpupr-blue transform hover:-translate-y-1 transition-all duration-200"
               >
-                <span className="text-xl">▶</span>
+                <Youtube size={50} />
               </a>
             </div>
           </div>
