@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/admin-website-pupr');
+      navigate('/admin-website-pupr-ppu');
     }
   }, [user, navigate]);
 
@@ -106,7 +106,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold text-gray-800 mb-4">Aksi Cepat</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button
-                onClick={() => navigate('/admin-website-pupr/manajemen-berita')}
+                onClick={() => navigate('/admin-website-pupr-ppu/manajemen-berita')}
                 className="bg-[#1E3A7D] hover:bg-[#152856] text-white font-semibold py-4 px-6 rounded-xl transition-colors text-left flex items-center gap-3"
               >
                 <Newspaper className="w-6 h-6" />

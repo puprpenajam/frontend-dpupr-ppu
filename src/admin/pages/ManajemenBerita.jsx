@@ -49,7 +49,7 @@ const ManajemenBerita = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/admin-website-pupr');
+      navigate('/admin-website-pupr-ppu');
     }
   }, [user, navigate]);
 

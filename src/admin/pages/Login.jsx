@@ -19,7 +19,7 @@ const Login = () => {
 
     const result = login(formData.email, formData.password);
     if (result.success) {
-      navigate('/admin-website-pupr/dashboard');
+      navigate('/admin-website-pupr-ppu/dashboard');
     } else {
       setError(result.message);
     }

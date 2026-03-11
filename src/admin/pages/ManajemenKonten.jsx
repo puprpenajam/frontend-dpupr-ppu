@@ -85,7 +85,7 @@ const ManajemenKonten = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/admin-website-pupr');
+      navigate('/admin-website-pupr-ppu');
       return;
     }
   }, [user, navigate]);

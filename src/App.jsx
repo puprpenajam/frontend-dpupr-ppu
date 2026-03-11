@@ -33,11 +33,11 @@ const App = () => {
           <Route path="/profil/:slug" element={<DynamicPage />} />
           
           {/* Admin Routes */}
-          <Route path="/admin-website-pupr" element={<Login />} />
-          <Route path="/admin-website-pupr/dashboard" element={<Dashboard />} />
-          <Route path="/admin-website-pupr/manajemen-berita" element={<ManajemenBerita />} />
-          <Route path="/admin-website-pupr/manajemen-arsip" element={<ManajemenArsip />} />
-          <Route path="/admin-website-pupr/manajemen-konten" element={<ManajemenKonten />} />
+          <Route path="/admin-website-pupr-ppu" element={<Login />} />
+          <Route path="/admin-website-pupr-ppu/dashboard" element={<Dashboard />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-berita" element={<ManajemenBerita />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-arsip" element={<ManajemenArsip />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-konten" element={<ManajemenKonten />} />
         </Routes>
       </Router>
     </AuthProvider>

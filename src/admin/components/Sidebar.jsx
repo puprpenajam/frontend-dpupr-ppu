@@ -9,22 +9,22 @@ const Sidebar = () => {
 
   const menuItems = [
     {
-      path: '/admin-website-pupr/dashboard',
+      path: '/admin-website-pupr-ppu/dashboard',
       icon: LayoutDashboard,
       label: 'Dashboard'
     },
     {
-      path: '/admin-website-pupr/manajemen-berita',
+      path: '/admin-website-pupr-ppu/manajemen-berita',
       icon: Newspaper,
       label: 'Manajemen Berita'
     },
     {
-      path: '/admin-website-pupr/manajemen-arsip',
+      path: '/admin-website-pupr-ppu/manajemen-arsip',
       icon: Archive,
       label: 'Manajemen Arsip'
     },
     {
-      path: '/admin-website-pupr/manajemen-konten',
+      path: '/admin-website-pupr-ppu/manajemen-konten',
       icon: FileText,
       label: 'Manajemen Konten'
     }
@@ -32,7 +32,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/admin-website-pupr');
+    navigate('/admin-website-pupr-ppu');
   };
 
   return (
