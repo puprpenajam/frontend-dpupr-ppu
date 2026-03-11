@@ -53,21 +53,17 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
           </h1>
 
           {/* Content */}
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <div className="max-w-none text-gray-700">
             {/* If news has contentBlocks, render them */}
             {news.contentBlocks && news.contentBlocks.length > 0 ? (
               <div className="space-y-6">
                 {news.contentBlocks.map((block, index) => (
                   <div key={index}>
                     {block.type === 'text' ? (
-                      block.content.split('\n\n').map((paragraph, pIndex) => {
-                        const isFirstParagraph = index === 0 && pIndex === 0;
-                        return (
-                          <p key={pIndex} className="mb-4 text-justify leading-relaxed">
-                            {renderTextWithBoldLocation(paragraph, isFirstParagraph)}
-                          </p>
-                        );
-                      })
+                      <div 
+                        className="rich-text-editor"
+                        dangerouslySetInnerHTML={{ __html: block.content }}
+                      />
                     ) : (
                       block.content && (
                         <div className="my-6 rounded-xl overflow-hidden">

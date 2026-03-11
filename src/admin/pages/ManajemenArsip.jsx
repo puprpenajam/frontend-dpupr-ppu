@@ -8,6 +8,7 @@ import { Calendar, ChevronRight, ArrowLeft } from 'lucide-react';
 const ManajemenArsip = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const [newsData] = useState(() => {
     const savedNews = localStorage.getItem('newsData');
@@ -90,28 +91,29 @@ const ManajemenArsip = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+      <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         {/* Header */}
         <AdminHeader 
           title="Manajemen Arsip Berita" 
           subtitle="Lihat berita berdasarkan bulan dan tahun"
+          onMenuClick={() => setIsMobileMenuOpen(true)}
         />
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {selectedMonth === null ? (
             // Month List View
             <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Arsip Berita</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Arsip Berita</h2>
               {monthsList.length === 0 ? (
-                <div className="bg-white rounded-xl shadow-md p-8 text-center">
-                  <Calendar className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                  <p className="text-gray-500">Belum ada berita yang diarsipkan</p>
+                <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 text-center">
+                  <Calendar className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-gray-400 mb-4" />
+                  <p className="text-sm sm:text-base text-gray-500">Belum ada berita yang diarsipkan</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {monthsList.map((month) => (
                     <button
                       key={month.monthKey}
@@ -173,9 +175,9 @@ const ManajemenArsip = () => {
                   <div className="space-y-4">
                     {articles.map((article) => (
                       <div key={article.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                        <div className="flex">
+                        <div className="flex flex-col sm:flex-row">
                           {/* Thumbnail */}
-                          <div className="w-40 h-40 flex-shrink-0">
+                          <div className="w-full sm:w-40 h-40 flex-shrink-0">
                             <img
                               src={article.image}
                               alt={article.title}
@@ -184,18 +186,18 @@ const ManajemenArsip = () => {
                           </div>
 
                           {/* Content */}
-                          <div className="flex-1 p-6">
-                            <div className="flex items-center gap-2 text-gray-500 mb-2 text-sm">
-                              <Calendar className="w-4 h-4" />
+                          <div className="flex-1 p-4 sm:p-6">
+                            <div className="flex items-center gap-2 text-gray-500 mb-2 text-xs sm:text-sm">
+                              <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                               {article.date}
                             </div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2">
                               {article.title}
                             </h3>
-                            <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+                            <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 mb-3">
                               {article.excerpt}
                             </p>
-                            <span className="inline-block px-3 py-1 bg-[#FDB913] text-[#1E3A7D] text-xs font-semibold rounded-full">
+                            <span className="inline-block px-2 sm:px-3 py-1 bg-[#FDB913] text-[#1E3A7D] text-xs font-semibold rounded-full">
                               {article.location}
                             </span>
                           </div>

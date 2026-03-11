@@ -15,7 +15,7 @@ const PreviewHalaman = ({ isOpen, halaman, onClose }) => {
         return (
           <div
             key={block.id || index}
-            className="prose prose-lg max-w-none mb-6"
+            className="rich-text-editor mb-6"
             dangerouslySetInnerHTML={{ __html: block.content }}
           />
         );
@@ -24,9 +24,12 @@ const PreviewHalaman = ({ isOpen, halaman, onClose }) => {
           <div key={block.id || index} className="mb-8">
             <img
               src={block.content}
-              alt={`Content ${index + 1}`}
+              alt={block.caption || `Content ${index + 1}`}
               className="w-full h-auto rounded-xl shadow-lg object-cover"
             />
+            {block.caption && (
+              <p className="text-sm text-gray-600 text-center mt-3 italic">{block.caption}</p>
+            )}
           </div>
         );
       }
@@ -81,7 +84,7 @@ const PreviewHalaman = ({ isOpen, halaman, onClose }) => {
           )}
 
           {/* Content Blocks */}
-          <div className="prose prose-lg max-w-none">
+          <div className="max-w-none">
             {renderContentBlocks()}
           </div>
 

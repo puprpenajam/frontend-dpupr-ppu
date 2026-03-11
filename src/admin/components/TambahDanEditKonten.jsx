@@ -1,299 +1,726 @@
-import { AlertCircle, Type, Image as ImageIcon, Upload } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { X, Type, Image as ImageIcon, AlertCircle, Trash2, FileText, Bold, Italic, Underline, List, ListOrdered, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Eraser, Palette } from 'lucide-react';
 
-const TambahDanEditKonten = ({ 
-  formData, 
-  setFormData, 
-  errors, 
-  isEditing, 
-  onSubmit, 
-  onCancel 
+const TambahDanEditKonten = ({
+  isOpen,
+  editingId,
+  formData,
+  setFormData,
+  onSubmit,
+  onCancel,
+  onAddContentBlock,
+  onUpdateContentBlock,
+  onRemoveContentBlock,
+  onContentImageUpload
 }) => {
-  
-  const handleAddContentBlock = (type) => {
-    const newBlock = {
-      id: new Date().getTime(),
-      type: type, // 'text' or 'image'
-      content: ''
-    };
-    setFormData({
-      ...formData,
-      contentBlocks: [...formData.contentBlocks, newBlock]
-    });
+  const [errors, setErrors] = useState({});
+  const editorRefs = useRef({});
+  const [activeFormats, setActiveFormats] = useState({});
+  const [showColorPicker, setShowColorPicker] = useState({});
+  const [isInitialized, setIsInitialized] = useState({});
+
+  // Initialize editors when content blocks change
+  useEffect(() => {
+    if (formData.contentBlocks) {
+      formData.contentBlocks.forEach((block, index) => {
+        if (block.type === 'text' && editorRefs.current[index] && !isInitialized[index]) {
+          // Set initial content only once
+          editorRefs.current[index].innerHTML = block.content || '<p><br></p>';
+          setIsInitialized(prev => ({ ...prev, [index]: true }));
+        }
+      });
+    }
+  }, [formData.contentBlocks, isInitialized]);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name || formData.name.trim() === '') {
+      newErrors.name = 'Nama konten tidak boleh kosong';
+    }
+
+    if (!formData.slug || formData.slug.trim() === '') {
+      newErrors.slug = 'Slug tidak boleh kosong';
+    }
+
+    if (!formData.category) {
+      newErrors.category = 'Pilih kategori konten';
+    }
+
+    if (!formData.title || formData.title.trim() === '') {
+      newErrors.title = 'Judul halaman tidak boleh kosong';
+    }
+
+    const hasContent = formData.contentBlocks && formData.contentBlocks.length > 0 && 
+                      formData.contentBlocks.some(block => block.content.trim() !== '');
+    if (!hasContent) {
+      newErrors.content = 'Minimal harus ada 1 konten (teks atau gambar)';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleUpdateContentBlock = (blockId, newContent) => {
-    const updatedBlocks = formData.contentBlocks.map(block =>
-      block.id === blockId ? { ...block, content: newContent } : block
-    );
-    setFormData({ ...formData, contentBlocks: updatedBlocks });
-  };
-
-  const handleRemoveContentBlock = (blockId) => {
-    const updatedBlocks = formData.contentBlocks.filter(block => block.id !== blockId);
-    setFormData({ ...formData, contentBlocks: updatedBlocks });
-  };
-
-  const handleContentImageUpload = (blockId, e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Ukuran gambar maksimal 5MB');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleUpdateContentBlock(blockId, reader.result);
-      };
-      reader.readAsDataURL(file);
+  const handleSubmit = () => {
+    if (validateForm()) {
+      onSubmit();
     }
   };
 
+  const generateSlug = (text) => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+  };
+
+  const handleNameChange = (value) => {
+    setFormData({
+      ...formData,
+      name: value,
+      slug: generateSlug(value)
+    });
+  };
+
+  // Rich Text Editor Functions
+  const applyFormat = (index, command, value = null) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand(command, false, value);
+    
+    // Update content
+    const content = editor.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+    
+    // Update active formats
+    updateActiveFormats(index);
+  };
+
+  const insertList = (index, listType) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    
+    if (listType === 'ol-alpha') {
+      // Ordered list dengan huruf kecil (a, b, c)
+      document.execCommand('insertHTML', false, '<ol style="list-style-type: lower-alpha;"><li>Item a</li><li>Item b</li><li>Item c</li></ol>');
+    } else if (listType === 'ol-alpha-upper') {
+      // Ordered list dengan huruf besar (A, B, C)
+      document.execCommand('insertHTML', false, '<ol style="list-style-type: upper-alpha;"><li>Item A</li><li>Item B</li><li>Item C</li></ol>');
+    } else if (listType === 'ul') {
+      document.execCommand('insertUnorderedList', false, null);
+    } else if (listType === 'ol') {
+      document.execCommand('insertOrderedList', false, null);
+    }
+    
+    const content = editor.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+    updateActiveFormats(index);
+  };
+
+  const insertHeading = (index, level) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('formatBlock', false, level);
+    
+    const content = editor.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+    updateActiveFormats(index);
+  };
+
+  const insertLink = (index) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    const url = prompt('Masukkan URL:');
+    if (url) {
+      editor.focus();
+      document.execCommand('createLink', false, url);
+      
+      const content = editor.innerHTML;
+      onUpdateContentBlock(index, 'content', content);
+    }
+  };
+
+  const clearFormatting = (index) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('removeFormat', false, null);
+    document.execCommand('formatBlock', false, 'p');
+    
+    const content = editor.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+    updateActiveFormats(index);
+  };
+
+  const applyTextColor = (index, color) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('foreColor', false, color);
+    
+    const content = editor.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+    setShowColorPicker(prev => ({ ...prev, [index]: false }));
+  };
+
+  const applyBackgroundColor = (index, color) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('hiliteColor', false, color);
+    
+    const content = editor.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+  };
+
+  const updateActiveFormats = (index) => {
+    const formats = {
+      bold: document.queryCommandState('bold'),
+      italic: document.queryCommandState('italic'),
+      underline: document.queryCommandState('underline'),
+    };
+    
+    setActiveFormats(prev => ({
+      ...prev,
+      [index]: formats
+    }));
+  };
+
+  const handleEditorInput = (index, e) => {
+    const content = e.target.innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+    updateActiveFormats(index);
+  };
+
+  const handleEditorPaste = (index, e) => {
+    e.preventDefault();
+    
+    // Get plain text from clipboard
+    const text = e.clipboardData.getData('text/plain');
+    
+    // Insert as plain text
+    document.execCommand('insertText', false, text);
+    
+    const content = editorRefs.current[index].innerHTML;
+    onUpdateContentBlock(index, 'content', content);
+  };
+
+  if (!isOpen) return null;
+
   return (
-    <div className="bg-white rounded-xl shadow-md p-8">
-      <h2 className="text-2xl font-bold text-[#1E3A7D] mb-6">
-        {isEditing ? 'Edit Konten' : 'Tambah Konten Baru'}
-      </h2>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden flex flex-col my-4">
+        {/* Modal Header */}
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between z-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1E3A7D]">
+            {editingId ? 'Edit Konten' : 'Buat Konten Baru'}
+          </h2>
+          <button
+            onClick={onCancel}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Tutup"
+          >
+            <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+          </button>
+        </div>
 
-      {Object.keys(errors).length > 0 && (
-        <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 flex gap-3 mb-6">
-          <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+        {/* Modal Content */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+          {/* Error Summary */}
+          {Object.keys(errors).length > 0 && (
+            <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 flex gap-3">
+              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-red-700 mb-2 text-sm sm:text-base">Mohon perbaiki kesalahan berikut:</p>
+                <ul className="list-disc list-inside space-y-1 text-xs sm:text-sm text-red-600">
+                  {Object.values(errors).map((error, idx) => (
+                    <li key={idx}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Nama Konten */}
           <div>
-            <p className="font-semibold text-red-700 mb-2">Mohon perbaiki kesalahan berikut:</p>
-            <ul className="list-disc list-inside space-y-1 text-sm text-red-600">
-              {Object.values(errors).map((error, idx) => (
-                <li key={idx}>{error}</li>
-              ))}
-            </ul>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Nama Konten <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleNameChange(e.target.value)}
+              placeholder="Contoh: Visi dan Misi PPID"
+              className={`w-full px-4 py-3 rounded-lg border-2 ${
+                errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
+              } focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base`}
+            />
           </div>
-        </div>
-      )}
 
-      <div className="space-y-6">
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Nama Konten <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="Contoh: Profil Dinas"
-            className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${
-              errors.name
-                ? 'border-red-400 bg-red-50 focus:border-red-500'
-                : 'border-gray-300 focus:border-[#1E3A7D]'
-            }`}
-          />
-        </div>
-
-        {/* Slug */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Slug / URL <span className="text-red-500">*</span>
-          </label>
-          <div className="flex items-center">
-            <span className="text-gray-500 px-3 py-3 border-2 border-r-0 border-gray-300 rounded-l-lg bg-gray-50">
-              /{formData.category || 'kategori'}/
-            </span>
+          {/* Slug */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Slug (URL) <span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
               value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase() })}
-              placeholder="profil-dinas"
-              className={`flex-1 px-4 py-3 border-2 rounded-r-lg focus:outline-none ${
-                errors.slug
-                  ? 'border-red-400 bg-red-50 focus:border-red-500'
-                  : 'border-gray-300 focus:border-[#1E3A7D]'
-              }`}
+              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+              placeholder="visi-misi-ppid"
+              className={`w-full px-4 py-3 rounded-lg border-2 ${
+                errors.slug ? 'border-red-300 bg-red-50' : 'border-gray-300'
+              } focus:border-[#1E3A7D] focus:outline-none transition-colors font-mono text-sm`}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              URL: /{formData.category}/{formData.slug}
+            </p>
+          </div>
+
+          {/* Kategori */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Kategori <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              className={`w-full px-4 py-3 rounded-lg border-2 ${
+                errors.category ? 'border-red-300 bg-red-50' : 'border-gray-300'
+              } focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base`}
+            >
+              <option value="kegiatan">Informasi Kegiatan PUPR</option>
+              <option value="ppid">PPID DPUPR</option>
+              <option value="profil">Profil DPUPR</option>
+            </select>
+          </div>
+
+          {/* Deskripsi */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Deskripsi
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              placeholder="Deskripsi singkat tentang halaman ini..."
+              rows="3"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base"
             />
           </div>
-          <p className="text-xs text-gray-500 mt-2">Hanya huruf kecil, angka, dan tanda strip</p>
-        </div>
 
-        {/* Category */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Kategori <span className="text-red-500">*</span>
-          </label>
-          <select
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${
-              errors.category
-                ? 'border-red-400 bg-red-50 focus:border-red-500'
-                : 'border-gray-300 focus:border-[#1E3A7D]'
-            }`}
-          >
-            <option value="kegiatan">Informasi Kegiatan PUPR</option>
-            <option value="ppid">PPID DPUPR</option>
-            <option value="profil">Profil DPUPR</option>
-          </select>
-          <p className="text-xs text-gray-500 mt-2">Pilih kategori menu untuk halaman ini</p>
-        </div>
-
-        {/* Description */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Deskripsi <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            placeholder="Deskripsi singkat konten ini"
-            rows="4"
-            className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none resize-none ${
-              errors.description
-                ? 'border-red-400 bg-red-50 focus:border-red-500'
-                : 'border-gray-300 focus:border-[#1E3A7D]'
-            }`}
-          />
-        </div>
-
-        {/* Page Title */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Judul Halaman <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            placeholder="Judul yang akan ditampilkan di halaman"
-            className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${
-              errors.title
-                ? 'border-red-400 bg-red-50 focus:border-red-500'
-                : 'border-gray-300 focus:border-[#1E3A7D]'
-            }`}
-          />
-          <p className="text-xs text-gray-500 mt-2">Judul yang muncul di header halaman</p>
-        </div>
-
-        {/* Content Blocks */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Konten Halaman
-          </label>
-          
-          {/* Add Content Block Buttons */}
-          <div className="flex gap-3 mb-4">
-            <button
-              type="button"
-              onClick={() => handleAddContentBlock('text')}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-            >
-              <Type className="w-4 h-4" />
-              Tambah Teks
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAddContentBlock('image')}
-              className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
-            >
-              <ImageIcon className="w-4 h-4" />
-              Tambah Gambar
-            </button>
+          {/* Judul Halaman */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Judul Halaman <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              placeholder="Judul yang akan ditampilkan di halaman"
+              className={`w-full px-4 py-3 rounded-lg border-2 ${
+                errors.title ? 'border-red-300 bg-red-50' : 'border-gray-300'
+              } focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base`}
+            />
           </div>
 
-          {/* Content Blocks List */}
-          <div className="space-y-4">
-            {formData.contentBlocks.map((block, index) => (
-              <div key={block.id} className="border-2 border-gray-300 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold text-gray-700">
-                    {block.type === 'text' ? '📝 Blok Teks' : '🖼️ Blok Gambar'} #{index + 1}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveContentBlock(block.id)}
-                    className="text-red-500 hover:text-red-700 text-sm font-semibold"
-                  >
-                    Hapus
-                  </button>
-                </div>
-
-                {block.type === 'text' ? (
-                  <textarea
-                    value={block.content}
-                    onChange={(e) => handleUpdateContentBlock(block.id, e.target.value)}
-                    placeholder="Tulis konten teks di sini... Anda bisa gunakan HTML tags seperti <h2>, <h3>, <p>, <strong>, <ul>, <li>"
-                    rows="6"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#1E3A7D] resize-none font-mono text-sm"
-                  />
-                ) : (
-                  <div>
-                    {block.content ? (
-                      <div className="relative">
-                        <img
-                          src={block.content}
-                          alt="Preview"
-                          className="w-full h-64 object-cover rounded-lg"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleUpdateContentBlock(block.id, '')}
-                          className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm"
-                        >
-                          Ganti Gambar
-                        </button>
-                      </div>
-                    ) : (
-                      <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#1E3A7D] hover:bg-gray-50 transition-all">
-                        <Upload className="w-12 h-12 text-gray-400 mb-2" />
-                        <span className="text-sm text-gray-500">Klik untuk upload gambar</span>
-                        <span className="text-xs text-gray-400 mt-1">Maks. 5MB</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleContentImageUpload(block.id, e)}
-                          className="hidden"
-                        />
-                      </label>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {formData.contentBlocks.length === 0 && (
-              <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                <p className="text-gray-500 text-sm">Belum ada konten. Klik tombol di atas untuk menambahkan teks atau gambar.</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Published Toggle */}
-        <div>
-          <label className="flex items-center gap-3 cursor-pointer">
+          {/* Status Published */}
+          <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
             <input
               type="checkbox"
+              id="isPublished"
               checked={formData.isPublished}
               onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
-              className="w-5 h-5 rounded border-2 border-gray-300 text-[#1E3A7D] focus:ring-2 focus:ring-[#1E3A7D]"
+              className="w-5 h-5 text-[#1E3A7D] border-gray-300 rounded focus:ring-[#1E3A7D]"
             />
-            <span className="text-sm font-semibold text-gray-700">
-              Publikasikan halaman ini
-            </span>
-          </label>
+            <label htmlFor="isPublished" className="text-sm font-medium text-gray-700 cursor-pointer">
+              Publikasikan halaman ini (halaman akan muncul di website)
+            </label>
+          </div>
+
+          {/* Content Blocks */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <label className="block text-sm font-semibold text-gray-700">
+                Konten Halaman <span className="text-red-500">*</span>
+              </label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => onAddContentBlock('text')}
+                  className="flex items-center gap-2 px-3 py-2 bg-[#1E3A7D] hover:bg-[#152856] text-white text-xs sm:text-sm font-semibold rounded-lg transition-colors"
+                >
+                  <Type className="w-4 h-4" />
+                  <span className="hidden sm:inline">Teks</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onAddContentBlock('image')}
+                  className="flex items-center gap-2 px-3 py-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] text-xs sm:text-sm font-semibold rounded-lg transition-colors"
+                >
+                  <ImageIcon className="w-4 h-4" />
+                  <span className="hidden sm:inline">Gambar</span>
+                </button>
+              </div>
+            </div>
+
+            {errors.content && (
+              <div className="mb-3 p-3 bg-red-50 border border-red-300 rounded-lg text-sm text-red-600">
+                {errors.content}
+              </div>
+            )}
+
+            {/* Content Blocks List */}
+            <div className="space-y-4">
+              {formData.contentBlocks && formData.contentBlocks.map((block, index) => (
+                <div key={index} className="border-2 border-gray-200 rounded-xl p-4 bg-gray-50">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      {block.type === 'text' ? (
+                        <>
+                          <FileText className="w-5 h-5 text-[#1E3A7D]" />
+                          <span className="font-semibold text-gray-700 text-sm sm:text-base">Blok Teks #{index + 1}</span>
+                        </>
+                      ) : (
+                        <>
+                          <ImageIcon className="w-5 h-5 text-[#FDB913]" />
+                          <span className="font-semibold text-gray-700 text-sm sm:text-base">Blok Gambar #{index + 1}</span>
+                        </>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveContentBlock(index)}
+                      className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+                      title="Hapus blok"
+                    >
+                      <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </button>
+                  </div>
+
+                  {block.type === 'text' ? (
+                    <div>
+                      {/* Toolbar Formatting WYSIWYG */}
+                      <div className="flex flex-wrap gap-1 mb-3 p-2 bg-white border-2 border-gray-200 rounded-lg">
+                        {/* Text Formatting */}
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'bold')}
+                          className={`p-2 rounded transition-colors ${
+                            activeFormats[index]?.bold ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100 text-gray-700'
+                          }`}
+                          title="Tebal (Ctrl+B)"
+                        >
+                          <Bold className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'italic')}
+                          className={`p-2 rounded transition-colors ${
+                            activeFormats[index]?.italic ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100 text-gray-700'
+                          }`}
+                          title="Miring (Ctrl+I)"
+                        >
+                          <Italic className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'underline')}
+                          className={`p-2 rounded transition-colors ${
+                            activeFormats[index]?.underline ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100 text-gray-700'
+                          }`}
+                          title="Garis Bawah (Ctrl+U)"
+                        >
+                          <Underline className="w-4 h-4" />
+                        </button>
+                        
+                        <div className="w-px bg-gray-300 mx-1"></div>
+                        
+                        {/* Headings */}
+                        <button
+                          type="button"
+                          onClick={() => insertHeading(index, 'h2')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Judul Besar (H2)"
+                        >
+                          <Heading2 className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertHeading(index, 'h3')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Subjudul (H3)"
+                        >
+                          <Heading3 className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertHeading(index, 'p')}
+                          className="px-2 py-1 hover:bg-gray-100 rounded transition-colors text-xs font-semibold text-gray-700"
+                          title="Paragraf Normal"
+                        >
+                          P
+                        </button>
+                        
+                        <div className="w-px bg-gray-300 mx-1"></div>
+                        
+                        {/* Lists */}
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ul')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Poin Bulat (Bullet)"
+                        >
+                          <List className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ol')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Poin Angka (1, 2, 3)"
+                        >
+                          <ListOrdered className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ol-alpha')}
+                          className="px-2 py-1 hover:bg-gray-100 rounded transition-colors text-xs font-bold text-gray-700"
+                          title="Poin Huruf Kecil (a, b, c)"
+                        >
+                          abc
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ol-alpha-upper')}
+                          className="px-2 py-1 hover:bg-gray-100 rounded transition-colors text-xs font-bold text-gray-700"
+                          title="Poin Huruf Besar (A, B, C)"
+                        >
+                          ABC
+                        </button>
+                        
+                        <div className="w-px bg-gray-300 mx-1"></div>
+                        
+                        {/* Alignment */}
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyLeft')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Kiri"
+                        >
+                          <AlignLeft className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyCenter')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Tengah"
+                        >
+                          <AlignCenter className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyRight')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Kanan"
+                        >
+                          <AlignRight className="w-4 h-4 text-gray-700" />
+                        </button>
+                        
+                        <div className="w-px bg-gray-300 mx-1"></div>
+                        
+                        {/* Link & Clear */}
+                        <button
+                          type="button"
+                          onClick={() => insertLink(index)}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Tambah Link"
+                        >
+                          <LinkIcon className="w-4 h-4 text-gray-700" />
+                        </button>
+                        
+                        <div className="w-px bg-gray-300 mx-1"></div>
+                        
+                        {/* Color Picker */}
+                        <div className="relative">
+                          <button
+                            type="button"
+                            onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: !prev[index] }))}
+                            className="p-2 hover:bg-gray-100 rounded transition-colors"
+                            title="Warna Teks"
+                          >
+                            <Palette className="w-4 h-4 text-gray-700" />
+                          </button>
+                          
+                          {showColorPicker[index] && (
+                            <div className="absolute top-full left-0 mt-2 p-3 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-50">
+                              <p className="text-xs font-semibold text-gray-700 mb-2">Pilih Warna Teks:</p>
+                              <div className="grid grid-cols-6 gap-2 mb-3">
+                                {[
+                                  { color: '#000000', label: 'Hitam' },
+                                  { color: '#1E3A7D', label: 'Biru' },
+                                  { color: '#DC2626', label: 'Merah' },
+                                  { color: '#059669', label: 'Hijau' },
+                                  { color: '#D97706', label: 'Orange' },
+                                  { color: '#7C3AED', label: 'Ungu' },
+                                  { color: '#4B5563', label: 'Abu' },
+                                  { color: '#EC4899', label: 'Pink' },
+                                  { color: '#0891B2', label: 'Cyan' },
+                                  { color: '#84CC16', label: 'Lime' },
+                                  { color: '#F59E0B', label: 'Kuning' },
+                                  { color: '#8B5CF6', label: 'Violet' },
+                                ].map(({ color, label }) => (
+                                  <button
+                                    key={color}
+                                    type="button"
+                                    onClick={() => applyTextColor(index, color)}
+                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-500 transition-colors"
+                                    style={{ backgroundColor: color }}
+                                    title={label}
+                                  />
+                                ))}
+                              </div>
+                              <p className="text-xs font-semibold text-gray-700 mb-2">Highlight Background:</p>
+                              <div className="grid grid-cols-6 gap-2">
+                                {[
+                                  { color: '#FEF3C7', label: 'Kuning' },
+                                  { color: '#DBEAFE', label: 'Biru' },
+                                  { color: '#DCFCE7', label: 'Hijau' },
+                                  { color: '#FEE2E2', label: 'Merah' },
+                                  { color: '#FCE7F3', label: 'Pink' },
+                                  { color: '#E0E7FF', label: 'Indigo' },
+                                ].map(({ color, label }) => (
+                                  <button
+                                    key={color}
+                                    type="button"
+                                    onClick={() => applyBackgroundColor(index, color)}
+                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-500 transition-colors"
+                                    style={{ backgroundColor: color }}
+                                    title={label}
+                                  />
+                                ))}
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: false }))}
+                                className="w-full mt-3 px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xs font-semibold"
+                              >
+                                Tutup
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        
+                        <button
+                          type="button"
+                          onClick={() => clearFormatting(index)}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Hapus Format"
+                        >
+                          <Eraser className="w-4 h-4 text-red-500" />
+                        </button>
+                      </div>
+                      
+                      {/* Rich Text Editor (ContentEditable) */}
+                      <div
+                        ref={(el) => {
+                          if (el && !editorRefs.current[index]) {
+                            editorRefs.current[index] = el;
+                            el.innerHTML = block.content || '<p><br></p>';
+                          }
+                        }}
+                        contentEditable
+                        onInput={(e) => handleEditorInput(index, e)}
+                        onPaste={(e) => handleEditorPaste(index, e)}
+                        onMouseUp={() => updateActiveFormats(index)}
+                        onKeyUp={() => updateActiveFormats(index)}
+                        className="rich-text-editor w-full min-h-[200px] max-h-[400px] overflow-y-auto px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors bg-white"
+                        suppressContentEditableWarning
+                      />
+                      <p className="text-xs text-gray-500 mt-2">
+                        💡 Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => onContentImageUpload(e, index)}
+                        className="hidden"
+                        id={`image-upload-${index}`}
+                      />
+                      <label
+                        htmlFor={`image-upload-${index}`}
+                        className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#1E3A7D] hover:bg-gray-100 transition-colors"
+                      >
+                        {block.content ? (
+                          <div className="relative w-full h-full">
+                            <img
+                              src={block.content}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-full object-contain rounded-lg"
+                            />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
+                              <span className="text-white font-semibold text-sm">Klik untuk ganti gambar</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center py-6">
+                            <ImageIcon className="w-12 h-12 text-gray-400 mb-3" />
+                            <p className="text-sm text-gray-600 font-semibold">Klik untuk upload gambar</p>
+                            <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF hingga 10MB</p>
+                          </div>
+                        )}
+                      </label>
+                      {block.content && (
+                        <input
+                          type="text"
+                          value={block.caption || ''}
+                          onChange={(e) => onUpdateContentBlock(index, 'caption', e.target.value)}
+                          placeholder="Caption gambar (opsional)"
+                          className="w-full mt-3 px-4 py-2 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm"
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {(!formData.contentBlocks || formData.contentBlocks.length === 0) && (
+                <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <FileText className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                  <p className="text-sm">Belum ada konten. Klik tombol "Teks" atau "Gambar" untuk menambah konten.</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-4 pt-4">
+        {/* Modal Footer */}
+        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
           <button
-            type="button"
-            onClick={onSubmit}
-            className="flex-1 bg-[#1E3A7D] hover:bg-[#152856] text-white font-semibold py-3 rounded-xl transition-colors"
-          >
-            {isEditing ? 'Update Konten' : 'Simpan Konten'}
-          </button>
-          <button
-            type="button"
             onClick={onCancel}
-            className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-xl transition-colors"
+            className="px-4 sm:px-6 py-2 sm:py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base"
           >
             Batal
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="px-4 sm:px-6 py-2 sm:py-3 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold rounded-lg transition-colors text-sm sm:text-base"
+          >
+            {editingId ? 'Simpan Perubahan' : 'Simpan Konten'}
           </button>
         </div>
       </div>

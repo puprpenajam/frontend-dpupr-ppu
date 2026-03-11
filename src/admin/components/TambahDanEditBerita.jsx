@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Eraser, Palette } from 'lucide-react';
 
 const TambahDanEditBerita = ({
   isOpen,
@@ -17,6 +17,98 @@ const TambahDanEditBerita = ({
   kecamatanOptions
 }) => {
   const [errors, setErrors] = useState({});
+  const editorRefs = useRef({});
+  const [activeFormats, setActiveFormats] = useState({});
+  const [showColorPicker, setShowColorPicker] = useState({});
+  const [isInitialized, setIsInitialized] = useState({});
+
+  // Initialize editors when contentBlocks change
+  useEffect(() => {
+    newNews.contentBlocks.forEach((block, index) => {
+      if (block.type === 'text' && editorRefs.current[index] && !isInitialized[index]) {
+        setIsInitialized(prev => ({ ...prev, [index]: true }));
+      }
+    });
+  }, [newNews.contentBlocks, isInitialized]);
+
+  const applyFormat = (index, command, value = null) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand(command, false, value);
+    onUpdateContentBlock(index, editor.innerHTML);
+
+    // Update active formats
+    updateActiveFormats(index);
+  };
+
+  const updateActiveFormats = (index) => {
+    const formats = {
+      bold: document.queryCommandState('bold'),
+      italic: document.queryCommandState('italic'),
+      underline: document.queryCommandState('underline')
+    };
+    setActiveFormats(prev => ({ ...prev, [index]: formats }));
+  };
+
+  const insertHeading = (index, level) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('formatBlock', false, level);
+    onUpdateContentBlock(index, editor.innerHTML);
+  };
+
+  const insertList = (index, listType) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    
+    if (listType === 'ol-alpha') {
+      // Ordered list dengan huruf kecil (a, b, c)
+      document.execCommand('insertHTML', false, '<ol style="list-style-type: lower-alpha;"><li>Item a</li><li>Item b</li><li>Item c</li></ol>');
+    } else if (listType === 'ol-alpha-upper') {
+      // Ordered list dengan huruf besar (A, B, C)
+      document.execCommand('insertHTML', false, '<ol style="list-style-type: upper-alpha;"><li>Item A</li><li>Item B</li><li>Item C</li></ol>');
+    } else if (listType === 'ul') {
+      document.execCommand('insertUnorderedList', false, null);
+    } else if (listType === 'ol') {
+      document.execCommand('insertOrderedList', false, null);
+    }
+    
+    onUpdateContentBlock(index, editor.innerHTML);
+    updateActiveFormats(index);
+  };
+
+  const insertLink = (index) => {
+    const url = prompt('Masukkan URL link:');
+    if (url) {
+      applyFormat(index, 'createLink', url);
+    }
+  };
+
+  const applyTextColor = (index, color) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('foreColor', false, color);
+    onUpdateContentBlock(index, editor.innerHTML);
+    setShowColorPicker(prev => ({ ...prev, [index]: false }));
+  };
+
+  const applyBackgroundColor = (index, color) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('hiliteColor', false, color);
+    onUpdateContentBlock(index, editor.innerHTML);
+    setShowColorPicker(prev => ({ ...prev, [index]: false }));
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -68,23 +160,24 @@ const TambahDanEditBerita = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col my-4">
         {/* Modal Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-[#1E3A7D]">
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between z-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1E3A7D]">
             {editingId ? 'Edit Berita' : 'Buat Berita Baru'}
           </h2>
           <button
             onClick={onCancel}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Tutup"
           >
-            <X className="w-6 h-6 text-gray-600" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
           </button>
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
           {/* Error Summary */}
           {Object.keys(errors).length > 0 && (
             <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 flex gap-3">
@@ -294,13 +387,249 @@ const TambahDanEditBerita = ({
                   </div>
 
                   {block.type === 'text' ? (
-                    <textarea
-                      value={block.content}
-                      onChange={(e) => onUpdateContentBlock(index, e.target.value)}
-                      placeholder="Masukkan teks konten berita. Gunakan Enter dua kali untuk paragraf baru."
-                      rows="6"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#1E3A7D] focus:outline-none resize-none"
-                    />
+                    <div>
+                      {/* Toolbar */}
+                      <div className="flex flex-wrap gap-1 mb-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
+                        {/* Bold, Italic, Underline */}
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'bold')}
+                          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
+                            activeFormats[index]?.bold ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
+                          }`}
+                          title="Bold (Ctrl+B)"
+                        >
+                          <Bold className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'italic')}
+                          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
+                            activeFormats[index]?.italic ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
+                          }`}
+                          title="Italic (Ctrl+I)"
+                        >
+                          <Italic className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'underline')}
+                          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
+                            activeFormats[index]?.underline ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
+                          }`}
+                          title="Underline (Ctrl+U)"
+                        >
+                          <Underline className="w-4 h-4" />
+                        </button>
+
+                        <div className="w-px bg-gray-300 mx-1"></div>
+
+                        {/* Headings */}
+                        <button
+                          type="button"
+                          onClick={() => insertHeading(index, 'h2')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Heading 2"
+                        >
+                          <Heading2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertHeading(index, 'h3')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Heading 3"
+                        >
+                          <Heading3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertHeading(index, 'p')}
+                          className="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-xs font-semibold text-gray-700"
+                          title="Paragraph"
+                        >
+                          P
+                        </button>
+
+                        <div className="w-px bg-gray-300 mx-1"></div>
+
+                        {/* Lists */}
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ul')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Bullet List"
+                        >
+                          <List className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ol')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Numbered List (1, 2, 3)"
+                        >
+                          <ListOrdered className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ol-alpha')}
+                          className="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-xs font-bold text-gray-700"
+                          title="Alphabetical List (a, b, c)"
+                        >
+                          abc
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => insertList(index, 'ol-alpha-upper')}
+                          className="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-xs font-bold text-gray-700"
+                          title="Alphabetical List (A, B, C)"
+                        >
+                          ABC
+                        </button>
+
+                        <div className="w-px bg-gray-300 mx-1"></div>
+
+                        {/* Alignment */}
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyLeft')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Align Left"
+                        >
+                          <AlignLeft className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyCenter')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Align Center"
+                        >
+                          <AlignCenter className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyRight')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Align Right"
+                        >
+                          <AlignRight className="w-4 h-4" />
+                        </button>
+
+                        <div className="w-px bg-gray-300 mx-1"></div>
+
+                        {/* Link */}
+                        <button
+                          type="button"
+                          onClick={() => insertLink(index)}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Insert Link"
+                        >
+                          <LinkIcon className="w-4 h-4" />
+                        </button>
+
+                        {/* Color Picker */}
+                        <div className="relative">
+                          <button
+                            type="button"
+                            onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: !prev[index] }))}
+                            className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                            title="Text Color"
+                          >
+                            <Palette className="w-4 h-4" />
+                          </button>
+                          {showColorPicker[index] && (
+                            <div className="absolute top-full left-0 mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-3 z-50 w-64">
+                              <div className="flex justify-between items-center mb-2">
+                                <span className="text-xs font-semibold text-gray-600">Warna Teks</span>
+                                <button
+                                  type="button"
+                                  onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: false }))}
+                                  className="text-gray-400 hover:text-gray-600"
+                                >
+                                  <X className="w-3 h-3" />
+                                </button>
+                              </div>
+                              <div className="grid grid-cols-6 gap-2 mb-3">
+                                {[
+                                  { color: '#000000', name: 'Hitam' },
+                                  { color: '#1E40AF', name: 'Biru' },
+                                  { color: '#DC2626', name: 'Merah' },
+                                  { color: '#16A34A', name: 'Hijau' },
+                                  { color: '#EA580C', name: 'Oranye' },
+                                  { color: '#9333EA', name: 'Ungu' },
+                                  { color: '#6B7280', name: 'Abu' },
+                                  { color: '#EC4899', name: 'Pink' },
+                                  { color: '#06B6D4', name: 'Cyan' },
+                                  { color: '#84CC16', name: 'Lime' },
+                                  { color: '#EAB308', name: 'Kuning' },
+                                  { color: '#8B5CF6', name: 'Violet' },
+                                ].map((item, idx) => (
+                                  <button
+                                    key={idx}
+                                    type="button"
+                                    onClick={() => applyTextColor(index, item.color)}
+                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-600 transition-all"
+                                    style={{ backgroundColor: item.color }}
+                                    title={item.name}
+                                  />
+                                ))}
+                              </div>
+                              <div className="text-xs font-semibold text-gray-600 mb-2">Highlight</div>
+                              <div className="grid grid-cols-6 gap-2">
+                                {[
+                                  { color: '#FEF08A', name: 'Kuning' },
+                                  { color: '#BFDBFE', name: 'Biru' },
+                                  { color: '#BBF7D0', name: 'Hijau' },
+                                  { color: '#FECACA', name: 'Merah' },
+                                  { color: '#FBCFE8', name: 'Pink' },
+                                  { color: '#C7D2FE', name: 'Indigo' },
+                                ].map((item, idx) => (
+                                  <button
+                                    key={idx}
+                                    type="button"
+                                    onClick={() => applyBackgroundColor(index, item.color)}
+                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-600 transition-all"
+                                    style={{ backgroundColor: item.color }}
+                                    title={item.name}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Clear Formatting */}
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'removeFormat')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Clear Formatting"
+                        >
+                          <Eraser className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Editor */}
+                      <div
+                        ref={(el) => {
+                          if (el && !editorRefs.current[index]) {
+                            editorRefs.current[index] = el;
+                            el.innerHTML = block.content || '<p><br></p>';
+                          }
+                        }}
+                        contentEditable
+                        onInput={(e) => {
+                          onUpdateContentBlock(index, e.target.innerHTML);
+                          updateActiveFormats(index);
+                        }}
+                        onMouseUp={() => updateActiveFormats(index)}
+                        onKeyUp={() => updateActiveFormats(index)}
+                        className="rich-text-editor w-full min-h-[200px] px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#1E3A7D] focus:outline-none"
+                        style={{ minHeight: '200px' }}
+                      />
+                      <p className="text-xs text-gray-500 mt-2">
+                        💡 Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
+                      </p>
+                    </div>
                   ) : (
                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                       <input
@@ -338,23 +667,13 @@ const TambahDanEditBerita = ({
                         {block.content ? 'Ganti Gambar' : 'Pilih Gambar'}
                       </label>
                       {block.content && (
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                          <div className="w-full">
-                            <label className="block text-sm font-semibold text-gray-700 mb-3">
-                              Keterangan Gambar <span className="text-gray-400 font-normal">(Opsional)</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={block.caption || ''}
-                              onChange={(e) => onUpdateContentBlock(index, block.content, e.target.value)}
-                              placeholder="Contoh: Menanam pohon di taman, Pelatihan kepada masyarakat"
-                              className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-[#1E3A7D] focus:outline-none text-sm focus:ring-0"
-                            />
-                            <p className="text-xs text-gray-500 mt-2">
-                              Keterangan akan muncul di bawah gambar pada halaman publik
-                            </p>
-                          </div>
-                        </div>
+                        <input
+                          type="text"
+                          value={block.caption || ''}
+                          onChange={(e) => onUpdateContentBlock(index, block.content, e.target.value)}
+                          placeholder="Caption gambar (opsional)"
+                          className="w-full mt-3 px-4 py-2 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm"
+                        />
                       )}
                     </div>
                   )}
@@ -365,7 +684,7 @@ const TambahDanEditBerita = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6">
+        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6">
           <div className="flex gap-3">
             <button
               onClick={onCancel}

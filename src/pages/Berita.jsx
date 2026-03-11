@@ -117,21 +117,17 @@ const Berita = () => {
                   </h1>
 
                   {/* Content */}
-                  <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                  <div className="max-w-none text-gray-700 leading-relaxed">
                     {/* If news has contentBlocks, render them */}
                     {currentNews.contentBlocks && currentNews.contentBlocks.length > 0 ? (
                       <div className="space-y-6">
                         {currentNews.contentBlocks.map((block, index) => (
                           <div key={index}>
                             {block.type === 'text' ? (
-                              block.content.split('\n\n').map((paragraph, pIndex) => {
-                                const isFirstParagraph = index === 0 && pIndex === 0;
-                                return (
-                                  <p key={pIndex} className="mb-4 text-justify">
-                                    {renderTextWithBoldLocation(paragraph, isFirstParagraph)}
-                                  </p>
-                                );
-                              })
+                              <div 
+                                className="rich-text-editor"
+                                dangerouslySetInnerHTML={{ __html: block.content }}
+                              />
                             ) : (
                               block.content && (
                                 <div className="my-6 rounded-xl overflow-hidden">

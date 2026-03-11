@@ -73,16 +73,7 @@ const DynamicPage = () => {
         return (
           <div
             key={block.id || index}
-            className="prose prose-lg max-w-none mb-6
-              prose-headings:text-dpupr-blue prose-headings:font-bold
-              prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
-              prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
-              prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
-              prose-strong:text-dpupr-blue prose-strong:font-semibold
-              prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4
-              prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-4
-              prose-li:text-gray-700 prose-li:mb-2
-              prose-a:text-blue-600 prose-a:hover:underline prose-a:font-medium"
+            className="rich-text-editor mb-6"
             dangerouslySetInnerHTML={{ __html: block.content }}
           />
         );
@@ -91,9 +82,12 @@ const DynamicPage = () => {
           <div key={block.id || index} className="mb-8">
             <img
               src={block.content}
-              alt={`Content ${index + 1}`}
+              alt={block.caption || `Content ${index + 1}`}
               className="w-full h-auto rounded-xl shadow-lg object-cover"
             />
+            {block.caption && (
+              <p className="text-sm text-gray-600 text-center mt-3 italic">{block.caption}</p>
+            )}
           </div>
         );
       }

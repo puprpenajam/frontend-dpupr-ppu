@@ -13,6 +13,7 @@ import { Plus } from 'lucide-react';
 const ManajemenBerita = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Initialize newsData from localStorage
   const [newsData, setNewsData] = useState(() => {
@@ -235,17 +236,18 @@ const ManajemenBerita = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+      <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         {/* Header */}
         <AdminHeader 
           title="Manajemen Berita" 
           subtitle="Kelola semua berita website DPUPR PPU"
+          onMenuClick={() => setIsMobileMenuOpen(true)}
         />
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <DaftarBerita 
             newsData={newsData}
             onPreview={handlePreview}

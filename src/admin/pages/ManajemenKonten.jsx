@@ -14,6 +14,7 @@ import ppidContentData from '../../data/ppidContent';
 const ManajemenKonten = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const [konten, setKonten] = useState(() => {
     const savedPages = localStorage.getItem('kontenPages');
@@ -228,6 +229,50 @@ const ManajemenKonten = () => {
     setErrors({});
   };
 
+  // Content Block handlers
+  const handleAddContentBlock = (type) => {
+    const newBlock = {
+      id: new Date().getTime(),
+      type: type, // 'text' or 'image'
+      content: '',
+      caption: ''
+    };
+    setFormData({
+      ...formData,
+      contentBlocks: [...formData.contentBlocks, newBlock]
+    });
+  };
+
+  const handleUpdateContentBlock = (index, field, value) => {
+    const updatedBlocks = [...formData.contentBlocks];
+    updatedBlocks[index] = {
+      ...updatedBlocks[index],
+      [field]: value
+    };
+    setFormData({ ...formData, contentBlocks: updatedBlocks });
+  };
+
+  const handleRemoveContentBlock = (index) => {
+    const updatedBlocks = formData.contentBlocks.filter((_, i) => i !== index);
+    setFormData({ ...formData, contentBlocks: updatedBlocks });
+  };
+
+  const handleContentImageUpload = (e, index) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert('Ukuran gambar maksimal 10MB');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        handleUpdateContentBlock(index, 'content', reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleInitializePPIDContent = () => {
     const savedPages = localStorage.getItem('kontenPages');
     if (!savedPages) {
@@ -270,17 +315,18 @@ const ManajemenKonten = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+      <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         {/* Header */}
         <AdminHeader 
           title="Manajemen Konten" 
           subtitle="Kelola halaman dan menu utama website"
+          onMenuClick={() => setIsMobileMenuOpen(true)}
         />
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {showMessage && (
             <div className="mb-4 p-4 bg-green-50 border border-green-300 rounded-lg flex items-center gap-2">
               <div className="flex-1 text-green-700">{message}</div>
@@ -293,28 +339,30 @@ const ManajemenKonten = () => {
             </div>
           )}
 
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Daftar Konten</h2>
-            <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Daftar Konten</h2>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
               <button
                 onClick={handleInitializePPIDContent}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
                 title="Inisialisasi atau update konten PPID dengan data terbaru"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
                 </svg>
-                Inisialisasi PPID
+                <span className="hidden sm:inline">Inisialisasi PPID</span>
+                <span className="sm:hidden">Init PPID</span>
               </button>
               <button
                 onClick={() => {
                   resetForm();
                   setShowForm(true);
                 }}
-                className="flex items-center gap-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
               >
-                <Plus className="w-5 h-5" />
-                Tambah Konten Baru
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Tambah Konten Baru</span>
+                <span className="sm:hidden">Tambah</span>
               </button>
             </div>
           </div>
@@ -474,270 +522,19 @@ const ManajemenKonten = () => {
         </div>
       </div>
 
-      {/* Form Modal */}
-      {showForm && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-[#1E3A7D]">
-                {editingId ? 'Edit Konten' : 'Tambah Konten Baru'}
-              </h2>
-              <button
-                onClick={resetForm}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6 space-y-6">
-              {Object.keys(errors).length > 0 && (
-                <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 flex gap-3">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-red-700 mb-2">Mohon perbaiki kesalahan berikut:</p>
-                    <ul className="list-disc list-inside space-y-1 text-sm text-red-600">
-                      {Object.values(errors).map((error, idx) => (
-                        <li key={idx}>{error}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Nama Konten <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Contoh: Profil Dinas"
-                  className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${
-                    errors.name
-                      ? 'border-red-400 bg-red-50 focus:border-red-500'
-                      : 'border-gray-300 focus:border-[#1E3A7D]'
-                  }`}
-                />
-              </div>
-
-              {/* Slug */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Slug / URL <span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center">
-                  <span className="text-gray-500 px-3 border-2 border-gray-300 rounded-l-lg">https://website.com/</span>
-                  <input
-                    type="text"
-                    value={formData.slug}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase() })}
-                    placeholder="profil-dinas"
-                    className={`flex-1 px-4 py-3 border-2 border-l-0 rounded-r-lg focus:outline-none ${
-                      errors.slug
-                        ? 'border-red-400 bg-red-50 focus:border-red-500'
-                        : 'border-gray-300 focus:border-[#1E3A7D]'
-                    }`}
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-2">Hanya huruf kecil, angka, dan tanda strip</p>
-              </div>
-
-              {/* Category */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Kategori <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${
-                    errors.category
-                      ? 'border-red-400 bg-red-50 focus:border-red-500'
-                      : 'border-gray-300 focus:border-[#1E3A7D]'
-                  }`}
-                >
-                  <option value="kegiatan">Informasi Kegiatan PUPR</option>
-                  <option value="ppid">PPID DPUPR</option>
-                  <option value="profil">Profil DPUPR</option>
-                </select>
-                <p className="text-xs text-gray-500 mt-2">Pilih kategori menu untuk halaman ini</p>
-              </div>
-
-              {/* Description */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Deskripsi <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Deskripsi singkat konten ini"
-                  rows="4"
-                  className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none resize-none ${
-                    errors.description
-                      ? 'border-red-400 bg-red-50 focus:border-red-500'
-                      : 'border-gray-300 focus:border-[#1E3A7D]'
-                  }`}
-                />
-              </div>
-
-              {/* Page Title */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Judul Halaman <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Judul yang akan ditampilkan di halaman"
-                  className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${
-                    errors.title
-                      ? 'border-red-400 bg-red-50 focus:border-red-500'
-                      : 'border-gray-300 focus:border-[#1E3A7D]'
-                  }`}
-                />
-                <p className="text-xs text-gray-500 mt-2">Judul yang muncul di header halaman</p>
-              </div>
-
-              {/* Content Blocks */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Konten Halaman
-                </label>
-                
-                {/* Add Content Block Buttons */}
-                <div className="flex gap-3 mb-4">
-                  <button
-                    type="button"
-                    onClick={() => handleAddContentBlock('text')}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-                  >
-                    <Type className="w-4 h-4" />
-                    Tambah Teks
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleAddContentBlock('image')}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
-                  >
-                    <ImageIcon className="w-4 h-4" />
-                    Tambah Gambar
-                  </button>
-                </div>
-
-                {/* Content Blocks List */}
-                <div className="space-y-4">
-                  {formData.contentBlocks.map((block, index) => (
-                    <div key={block.id} className="border-2 border-gray-300 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm font-semibold text-gray-700">
-                          {block.type === 'text' ? '📝 Blok Teks' : '🖼️ Blok Gambar'} #{index + 1}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveContentBlock(block.id)}
-                          className="text-red-500 hover:text-red-700 text-sm font-semibold"
-                        >
-                          Hapus
-                        </button>
-                      </div>
-
-                      {block.type === 'text' ? (
-                        <textarea
-                          value={block.content}
-                          onChange={(e) => handleUpdateContentBlock(block.id, e.target.value)}
-                          placeholder="Tulis konten teks di sini... Anda bisa gunakan HTML tags seperti <h2>, <h3>, <p>, <strong>, <ul>, <li>"
-                          rows="6"
-                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#1E3A7D] resize-none font-mono text-sm"
-                        />
-                      ) : (
-                        <div>
-                          {block.content ? (
-                            <div className="relative">
-                              <img
-                                src={block.content}
-                                alt="Preview"
-                                className="w-full h-64 object-cover rounded-lg"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateContentBlock(block.id, '')}
-                                className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm"
-                              >
-                                Ganti Gambar
-                              </button>
-                            </div>
-                          ) : (
-                            <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#1E3A7D] hover:bg-gray-50 transition-all">
-                              <Upload className="w-12 h-12 text-gray-400 mb-2" />
-                              <span className="text-sm text-gray-500">Klik untuk upload gambar</span>
-                              <span className="text-xs text-gray-400 mt-1">Maks. 5MB</span>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleContentImageUpload(block.id, e)}
-                                className="hidden"
-                              />
-                            </label>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                  {formData.contentBlocks.length === 0 && (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                      <p className="text-gray-500 text-sm">Belum ada konten. Klik tombol di atas untuk menambahkan teks atau gambar.</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Published Toggle */}
-              <div>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.isPublished}
-                    onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
-                    className="w-5 h-5 rounded border-2 border-gray-300 text-[#1E3A7D] focus:ring-2 focus:ring-[#1E3A7D]"
-                  />
-                  <span className="text-sm font-semibold text-gray-700">
-                    Tampilkan di menu navigasi publik
-                  </span>
-                </label>
-                <p className="text-xs text-gray-500 mt-2">
-                  Jika diaktifkan, halaman ini akan tampil di menu navigasi website publik
-                </p>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6">
-              <div className="flex gap-3">
-                <button
-                  onClick={resetForm}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-xl transition-colors"
-                >
-                  Batal
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  className="flex-1 bg-[#1E3A7D] hover:bg-[#152856] text-white font-semibold py-3 rounded-xl transition-colors"
-                >
-                  {editingId ? 'Update Konten' : 'Simpan Konten'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Form Modal with TambahDanEditKonten Component */}
+      <TambahDanEditKonten 
+        isOpen={showForm}
+        editingId={editingId}
+        formData={formData}
+        setFormData={setFormData}
+        onSubmit={handleSubmit}
+        onCancel={resetForm}
+        onAddContentBlock={handleAddContentBlock}
+        onUpdateContentBlock={handleUpdateContentBlock}
+        onRemoveContentBlock={handleRemoveContentBlock}
+        onContentImageUpload={handleContentImageUpload}
+      />
 
       {/* Preview Modal */}
       <PreviewHalaman 
