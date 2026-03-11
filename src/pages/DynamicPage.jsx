@@ -78,12 +78,16 @@ const DynamicPage = () => {
           />
         );
       } else if (block.type === 'image') {
+        // Skip empty image blocks
+        if (!block.content || block.content.trim() === '') {
+          return null;
+        }
         return (
           <div key={block.id || index} className="mb-8">
             <img
               src={block.content}
               alt={block.caption || `Content ${index + 1}`}
-              className="w-full h-auto rounded-xl shadow-lg object-cover"
+              className="w-full h-auto rounded-xl shadow-lg object-cover max-h-[600px]"
             />
             {block.caption && (
               <p className="text-sm text-gray-600 text-center mt-3 italic">{block.caption}</p>

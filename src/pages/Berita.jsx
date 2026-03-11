@@ -129,12 +129,12 @@ const Berita = () => {
                                 dangerouslySetInnerHTML={{ __html: block.content }}
                               />
                             ) : (
-                              block.content && (
+                              block.content && block.content.trim() !== '' && (
                                 <div className="my-6 rounded-xl overflow-hidden">
                                   <img
                                     src={block.content}
                                     alt={`${currentNews.title} - gambar ${index + 1}`}
-                                    className="w-full h-auto object-cover"
+                                    className="w-full h-auto object-cover max-h-[600px]"
                                   />
                                   {block.caption && (
                                     <p className="text-sm text-gray-600 italic mt-2 text-center">
