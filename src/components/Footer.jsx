@@ -71,9 +71,6 @@ const Footer = () => {
             <p className="text-gray-100 text-xs sm:text-sm text-center sm:text-left">
               © Copyright 2026 Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Penajam Paser Utara
             </p>
-            <p className="text-gray-300 text-xs">
-              Developed by <a href="https://github.com/Ardi11220126" target="_blank" rel="noopener noreferrer" className="text-dpupr-yellow hover:underline font-semibold">Ardi11220126</a>
-            </p>
           </div>
         </div>
       </div>
