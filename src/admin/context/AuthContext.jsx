@@ -21,10 +21,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = (email, password) => {
     // Simple authentication check
-    if (email === 'adminpupr@gmail.com' && password === 'adminpupr123') {
+    if (email === 'puprpenajamkab@gmail.com' && password === '@AdminPUPR2026') {
       const userData = {
         email: email,
-        name: 'Admin DPUPR',
+        name: 'Admin Website PUPR PPU',
+        username: 'admin-website-pupr-ppu',
         role: 'admin'
       };
       setUser(userData);
