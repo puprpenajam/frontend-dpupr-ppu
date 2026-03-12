@@ -33,11 +33,11 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
         {/* Modal Content */}
         <div className="p-6">
           {/* Featured Image */}
-          <div className="mb-6 bg-gray-50 rounded-xl">
+          <div className="mb-6">
             <img
               src={news.image}
               alt={news.title}
-              className="w-full h-80 object-contain rounded-xl"
+              className="w-full h-80 object-cover rounded-xl"
             />
           </div>
 

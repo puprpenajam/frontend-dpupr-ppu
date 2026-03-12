@@ -230,11 +230,11 @@ const TambahDanEditBerita = ({
               errors.thumbnail ? 'border-red-400 bg-red-50' : 'border-gray-300'
             }`}>
               {newNews.thumbnailPreview ? (
-                <div className="relative bg-gray-50 rounded-lg">
+                <div className="relative">
                   <img
                     src={newNews.thumbnailPreview}
                     alt="Preview"
-                    className="w-full h-48 object-contain rounded-lg mb-3"
+                    className="w-full h-48 object-cover rounded-lg mb-3"
                   />
                   <button
                     type="button"

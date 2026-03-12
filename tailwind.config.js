@@ -13,6 +13,7 @@ export default {
         'dpupr-yellow-dark': '#F4C430',
       },
       fontFamily: {
+        'sans': ['Poppins', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
       },
       keyframes: {

@@ -59,13 +59,11 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete, onAddNew }) => {
                 <tr key={news.id} className="hover:bg-gray-50 transition-colors">
                   {/* Thumbnail */}
                   <td className="px-6 py-4">
-                    <div className="bg-gray-50 rounded-lg">
-                      <img
-                        src={news.image}
-                        alt={news.title}
-                        className="w-24 h-20 object-contain rounded-lg shadow-sm"
-                      />
-                    </div>
+                    <img
+                      src={news.image}
+                      alt={news.title}
+                      className="w-24 h-20 object-cover rounded-lg shadow-sm"
+                    />
                   </td>
 
                   {/* Judul */}
@@ -83,7 +81,7 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete, onAddNew }) => {
 
                   {/* Deskripsi */}
                   <td className="px-6 py-4">
-                    <p className="text-sm text-gray-600 line-clamp-3 max-w-md">
+                    <p className="text-sm text-gray-600 line-clamp-3 max-w-md text-justify">
                       {stripHtmlTags(news.excerpt)}
                     </p>
                   </td>
