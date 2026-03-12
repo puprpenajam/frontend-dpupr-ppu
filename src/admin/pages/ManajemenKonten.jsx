@@ -9,7 +9,6 @@ import PreviewHalaman from '../components/PreviewHalaman';
 import PopupBerhasil from '../components/PopupBerhasil';
 import PopupKonfirmasi from '../components/PopupKonfirmasi';
 import { Plus, AlertCircle, Eye, EyeOff, Edit, Trash2 } from 'lucide-react';
-import ppidContentData from '../../data/ppidContent';
 
 const ManajemenKonten = () => {
   const navigate = useNavigate();
@@ -21,7 +20,8 @@ const ManajemenKonten = () => {
     if (savedPages) {
       return JSON.parse(savedPages);
     }
-    // Default content pages sesuai dengan menu navbar
+    // Default content pages - hanya untuk kategori Informasi Kegiatan PUPR
+    // PPID dan Profil DPUPR menggunakan JSX components
     const defaultPages = [
       // INFORMASI KEGIATAN PUPR
       { id: 1, name: 'Bagian Umum & Bagian Sunram dan Keuangan', slug: 'bagian-umum-sunram', category: 'kegiatan', description: 'Informasi kegiatan Bagian Umum & Bagian Sunram dan Keuangan', isPublished: true, title: 'Bagian Umum & Bagian Sunram dan Keuangan', contentBlocks: [] },
@@ -34,36 +34,14 @@ const ManajemenKonten = () => {
       { id: 8, name: 'Cipta Karya', slug: 'cipta-karya', category: 'kegiatan', description: 'Informasi kegiatan Cipta Karya', isPublished: true, title: 'Cipta Karya', contentBlocks: [] },
       { id: 9, name: 'Tata Ruang', slug: 'tata-ruang', category: 'kegiatan', description: 'Informasi kegiatan Tata Ruang', isPublished: true, title: 'Tata Ruang', contentBlocks: [] },
       { id: 10, name: 'PSDA', slug: 'psda', category: 'kegiatan', description: 'Informasi kegiatan PSDA', isPublished: true, title: 'PSDA', contentBlocks: [] },
-      { id: 11, name: 'Bina Marga', slug: 'bina-marga', category: 'kegiatan', description: 'Informasi kegiatan Bina Marga', isPublished: true, title: 'Bina Marga', contentBlocks: [] },
-      
-      // PPID DPUPR (with content from ppidContentData)
-      { ...ppidContentData['visi-misi-ppid'] },
-      { ...ppidContentData['maklumat-pelayanan'] },
-      { id: 14, name: 'SOP Pelayanan Publik', slug: 'sop-pelayanan', category: 'ppid', description: 'Standar Operasional Prosedur Pelayanan Publik', isPublished: true, title: 'SOP Pelayanan Publik', contentBlocks: [] },
-      { ...ppidContentData['formulir-permohonan'] },
-      { ...ppidContentData['tata-cara-permohonan'] },
-      { id: 17, name: 'Tata Cara Pengajuan Keberatan Informasi Publik', slug: 'tata-cara-keberatan', category: 'ppid', description: 'Tata Cara Pengajuan Keberatan Informasi Publik', isPublished: true, title: 'Tata Cara Pengajuan Keberatan Informasi Publik', contentBlocks: [] },
-      { id: 18, name: 'Tata Cara Pengajuan Sengketa Informasi Publik', slug: 'tata-cara-sengketa', category: 'ppid', description: 'Tata Cara Pengajuan Sengketa Informasi Publik', isPublished: true, title: 'Tata Cara Pengajuan Sengketa Informasi Publik', contentBlocks: [] },
-      { id: 19, name: 'Jam Layanan Informasi Publik', slug: 'jam-layanan', category: 'ppid', description: 'Jam Layanan Informasi Publik PPID', isPublished: true, title: 'Jam Layanan Informasi Publik', contentBlocks: [] },
-      { id: 20, name: 'SK PPID', slug: 'sk-ppid', category: 'ppid', description: 'Surat Keputusan PPID', isPublished: true, title: 'SK PPID', contentBlocks: [] },
-      { id: 21, name: 'Kanal Pengaduan Masyarakat', slug: 'kanal-pengaduan', category: 'ppid', description: 'Kanal Pengaduan Masyarakat', isPublished: true, title: 'Kanal Pengaduan Masyarakat', contentBlocks: [] },
-      
-      // PROFIL DPUPR
-      { id: 22, name: 'Visi dan Misi PUPR', slug: 'visi-misi-pupr', category: 'profil', description: 'Visi dan Misi Dinas PUPR', isPublished: true, title: 'Visi dan Misi PUPR', contentBlocks: [] },
-      { id: 23, name: 'Landasan Hukum', slug: 'landasan-hukum', category: 'profil', description: 'Landasan Hukum DPUPR', isPublished: true, title: 'Landasan Hukum', contentBlocks: [] },
-      { id: 24, name: 'Tupoksi', slug: 'tupoksi', category: 'profil', description: 'Tugas Pokok dan Fungsi DPUPR', isPublished: true, title: 'Tupoksi', contentBlocks: [] },
-      { id: 25, name: 'Daftar Pejabat di DPUPR PPU', slug: 'daftar-pejabat', category: 'profil', description: 'Daftar Pejabat di DPUPR PPU', isPublished: true, title: 'Daftar Pejabat di DPUPR PPU', contentBlocks: [] },
-      { id: 26, name: 'Riwayat Kepala Dinas', slug: 'riwayat-kepala-dinas', category: 'profil', description: 'Riwayat Kepala Dinas PUPR', isPublished: true, title: 'Riwayat Kepala Dinas', contentBlocks: [] }
+      { id: 11, name: 'Bina Marga', slug: 'bina-marga', category: 'kegiatan', description: 'Informasi kegiatan Bina Marga', isPublished: true, title: 'Bina Marga', contentBlocks: [] }
     ];
     localStorage.setItem('kontenPages', JSON.stringify(defaultPages));
     return defaultPages;
   });
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [filterCategory, setFilterCategory] = useState(() => {
-    const savedFilter = localStorage.getItem('kontenFilterCategory');
-    return savedFilter || 'all';
-  });
+  const [filterCategory, setFilterCategory] = useState('kegiatan');
   
   // New states for preview and popups
   const [previewHalaman, setPreviewHalaman] = useState(null);
@@ -89,37 +67,6 @@ const ManajemenKonten = () => {
       return;
     }
   }, [user, navigate]);
-
-  // Initialize PPID content if not yet loaded
-  useEffect(() => {
-    const savedPages = localStorage.getItem('kontenPages');
-    if (savedPages) {
-      const pages = JSON.parse(savedPages);
-      let needsUpdate = false;
-      
-      // Check and update PPID pages that have no content
-      const updatedPages = pages.map(page => {
-        if (page.category === 'ppid' && ppidContentData[page.slug]) {
-          // If page has no content or empty contentBlocks, update it
-          if (!page.contentBlocks || page.contentBlocks.length === 0) {
-            needsUpdate = true;
-            console.log(`Initializing content for: ${page.name}`);
-            return {
-              ...page,
-              ...ppidContentData[page.slug]
-            };
-          }
-        }
-        return page;
-      });
-      
-      if (needsUpdate) {
-        localStorage.setItem('kontenPages', JSON.stringify(updatedPages));
-        setKonten(updatedPages);
-        console.log('✅ PPID content initialized successfully!');
-      }
-    }
-  }, []);
 
   // Reload konten from localStorage whenever we're back to list view
   useEffect(() => {
@@ -293,42 +240,6 @@ const ManajemenKonten = () => {
     }
   };
 
-  const handleInitializePPIDContent = () => {
-    const savedPages = localStorage.getItem('kontenPages');
-    if (!savedPages) {
-      setPesanBerhasil('localStorage kosong, silakan refresh halaman untuk inisialisasi!');
-      setShowBerhasil(true);
-      return;
-    }
-    
-    const pages = JSON.parse(savedPages);
-    let updateCount = 0;
-    
-    const updatedPages = pages.map(page => {
-      if (page.category === 'ppid' && ppidContentData[page.slug]) {
-        // Force update with PPID content
-        updateCount++;
-        console.log(`🔄 Force updating: ${page.name}`);
-        return {
-          ...page,
-          ...ppidContentData[page.slug]
-        };
-      }
-      return page;
-    });
-    
-    if (updateCount > 0) {
-      localStorage.setItem('kontenPages', JSON.stringify(updatedPages));
-      setKonten(updatedPages);
-      setPesanBerhasil(`${updateCount} halaman PPID berhasil diinisialisasi/diupdate!`);
-      setShowBerhasil(true);
-      console.log(`✅ ${updateCount} PPID pages updated!`);
-    } else {
-      setPesanBerhasil('Semua halaman PPID sudah terinisialisasi!');
-      setShowBerhasil(true);
-    }
-  };
-
   if (!user) {
     return null;
   }
@@ -349,95 +260,26 @@ const ManajemenKonten = () => {
         <div className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Daftar Konten</h2>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
-              <button
-                onClick={handleInitializePPIDContent}
-                className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
-                title="Inisialisasi atau update konten PPID dengan data terbaru"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
-                </svg>
-                <span className="hidden sm:inline">Inisialisasi PPID</span>
-                <span className="sm:hidden">Init PPID</span>
-              </button>
-              <button
-                onClick={() => {
-                  resetForm();
-                  setShowForm(true);
-                }}
-                className="flex items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
-              >
-                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="hidden sm:inline">Tambah Konten Baru</span>
-                <span className="sm:hidden">Tambah</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Category Filter */}
-          <div className="flex gap-3 mb-6">
             <button
               onClick={() => {
-                setFilterCategory('all');
-                localStorage.setItem('kontenFilterCategory', 'all');
+                resetForm();
+                setShowForm(true);
               }}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filterCategory === 'all'
-                  ? 'bg-[#1E3A7D] text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-300'
-              }`}
+              className="flex items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
             >
-              Semua ({konten.length})
-            </button>
-            <button
-              onClick={() => {
-                setFilterCategory('kegiatan');
-                localStorage.setItem('kontenFilterCategory', 'kegiatan');
-              }}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filterCategory === 'kegiatan'
-                  ? 'bg-[#1E3A7D] text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-300'
-              }`}
-            >
-              Informasi Kegiatan ({konten.filter(k => k.category === 'kegiatan').length})
-            </button>
-            <button
-              onClick={() => {
-                setFilterCategory('ppid');
-                localStorage.setItem('kontenFilterCategory', 'ppid');
-              }}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filterCategory === 'ppid'
-                  ? 'bg-[#1E3A7D] text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-300'
-              }`}
-            >
-              PPID DPUPR ({konten.filter(k => k.category === 'ppid').length})
-            </button>
-            <button
-              onClick={() => {
-                setFilterCategory('profil');
-                localStorage.setItem('kontenFilterCategory', 'profil');
-              }}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filterCategory === 'profil'
-                  ? 'bg-[#1E3A7D] text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-300'
-              }`}
-            >
-              Profil DPUPR ({konten.filter(k => k.category === 'profil').length})
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Tambah Konten Baru</span>
+              <span className="sm:hidden">Tambah</span>
             </button>
           </div>
 
-          {/* Info Text */}
+          {/* Category Info - Hanya Informasi Kegiatan PUPR */}
           <div className="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
             <p className="text-sm text-blue-700">
-              <strong>Total halaman:</strong> {konten.length} | 
-              <strong> Kegiatan:</strong> {konten.filter(k => k.category === 'kegiatan').length} | 
-              <strong> PPID:</strong> {konten.filter(k => k.category === 'ppid').length} | 
-              <strong> Profil:</strong> {konten.filter(k => k.category === 'profil').length}
+              <strong>Manajemen Konten Informasi Kegiatan PUPR</strong>
+            </p>
+            <p className="text-xs text-blue-600 mt-1">
+              Halaman PPID dan Profil DPUPR menggunakan komponen JSX terpisah dan tidak dapat diedit melalui panel ini.
             </p>
           </div>
 
@@ -461,7 +303,7 @@ const ManajemenKonten = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {konten
-                    .filter(item => filterCategory === 'all' || item.category === filterCategory)
+                    .filter(item => item.category === 'kegiatan')
                     .map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
