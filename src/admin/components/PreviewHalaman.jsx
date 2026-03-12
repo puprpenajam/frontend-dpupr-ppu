@@ -25,11 +25,11 @@ const PreviewHalaman = ({ isOpen, halaman, onClose }) => {
           return null;
         }
         return (
-          <div key={block.id || index} className="mb-8">
+          <div key={block.id || index} className="mb-8 bg-gray-50 rounded-xl">
             <img
               src={block.content}
               alt={block.caption || `Content ${index + 1}`}
-              className="w-full h-auto rounded-xl shadow-lg object-cover max-h-[600px]"
+              className="w-full h-auto rounded-xl shadow-lg object-contain max-h-[600px]"
               onError={(e) => {
                 console.error('Image failed to load:', block.content?.substring(0, 50));
                 e.target.style.display = 'none';

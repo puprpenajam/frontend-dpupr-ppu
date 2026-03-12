@@ -139,11 +139,13 @@ const Dashboard = () => {
                   key={news.id}
                   className="flex items-center gap-3 sm:gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors"
                 >
-                  <img
-                    src={news.image}
-                    alt={news.title}
-                    className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg flex-shrink-0"
-                  />
+                  <div className="bg-gray-50 rounded-lg flex-shrink-0">
+                    <img
+                      src={news.image}
+                      alt={news.title}
+                      className="w-12 h-12 sm:w-16 sm:h-16 object-contain rounded-lg"
+                    />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm sm:text-base text-gray-800 line-clamp-1">{news.title}</h3>
                     <p className="text-xs sm:text-sm text-gray-600">{news.date}</p>

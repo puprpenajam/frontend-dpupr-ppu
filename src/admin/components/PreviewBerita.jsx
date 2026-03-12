@@ -33,11 +33,11 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
         {/* Modal Content */}
         <div className="p-6">
           {/* Featured Image */}
-          <div className="mb-6">
+          <div className="mb-6 bg-gray-50 rounded-xl">
             <img
               src={news.image}
               alt={news.title}
-              className="w-full h-80 object-cover rounded-xl"
+              className="w-full h-80 object-contain rounded-xl"
             />
           </div>
 
@@ -66,11 +66,11 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
                       />
                     ) : (
                       block.content && block.content.trim() !== '' && (
-                        <div className="my-6 rounded-xl overflow-hidden">
+                        <div className="my-6 rounded-xl overflow-hidden bg-gray-50">
                           <img
                             src={block.content}
                             alt={`${news.title} - gambar ${index + 1}`}
-                            className="w-full h-auto object-cover max-h-[600px]"
+                            className="w-full h-auto object-contain max-h-[600px]"
                           />
                           {block.caption && (
                             <p className="text-sm text-gray-600 italic mt-2 px-0 text-center">
@@ -96,12 +96,13 @@ const PreviewBerita = ({ isOpen, news, onClose }) => {
                 {news.images && news.images.length > 0 && (
                   <div className="mt-6 space-y-4">
                     {news.images.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`${news.title} - gambar ${index + 1}`}
-                        className="w-full h-auto object-cover rounded-xl"
-                      />
+                      <div key={index} className="bg-gray-50 rounded-xl">
+                        <img
+                          src={image}
+                          alt={`${news.title} - gambar ${index + 1}`}
+                          className="w-full h-auto object-contain rounded-xl"
+                        />
+                      </div>
                     ))}
                   </div>
                 )}

@@ -177,11 +177,11 @@ const ManajemenArsip = () => {
                       <div key={article.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
                         <div className="flex flex-col sm:flex-row">
                           {/* Thumbnail */}
-                          <div className="w-full sm:w-40 h-40 flex-shrink-0">
+                          <div className="w-full sm:w-40 h-40 flex-shrink-0 bg-gray-50">
                             <img
                               src={article.image}
                               alt={article.title}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           </div>
 
