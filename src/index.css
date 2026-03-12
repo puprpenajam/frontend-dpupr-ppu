@@ -23,6 +23,11 @@
   line-height: 1.7;
   font-size: 15px;
   color: #374151;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.rich-text-editor * {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor h2 {
@@ -32,6 +37,7 @@
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   line-height: 1.3;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor h3 {
@@ -41,12 +47,14 @@
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
   line-height: 1.3;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor p {
   margin-bottom: 1rem;
   color: #4B5563;
   line-height: 1.7;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor ul,
@@ -67,11 +75,13 @@
   margin-bottom: 0.5rem;
   color: #4B5563;
   line-height: 1.6;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor strong {
   font-weight: 700;
   color: #1F2937;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor em {
@@ -86,6 +96,7 @@
   color: #1E3A7D;
   text-decoration: underline;
   font-weight: 500;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rich-text-editor a:hover {

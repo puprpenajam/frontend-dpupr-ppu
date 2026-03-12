@@ -229,6 +229,12 @@ const TambahDanEditKonten = ({
     // Insert as plain text
     document.execCommand('insertText', false, text);
     
+    // Apply Poppins font
+    const editor = editorRefs.current[index];
+    if (editor) {
+      document.execCommand('fontName', false, 'Poppins');
+    }
+    
     const content = editorRefs.current[index].innerHTML;
     onUpdateContentBlock(index, 'content', content);
   };

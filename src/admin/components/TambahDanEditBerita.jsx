@@ -118,6 +118,25 @@ const TambahDanEditBerita = ({
     updateActiveFormats(index);
   };
 
+  const handleEditorPaste = (index, e) => {
+    e.preventDefault();
+    
+    // Get plain text from clipboard
+    const text = e.clipboardData.getData('text/plain');
+    
+    // Insert as plain text
+    document.execCommand('insertText', false, text);
+    
+    // Apply Poppins font
+    const editor = editorRefs.current[index];
+    if (editor) {
+      document.execCommand('fontName', false, 'Poppins');
+    }
+    
+    const content = editorRefs.current[index].innerHTML;
+    onUpdateContentBlock(index, content);
+  };
+
   const applyTextColor = (index, color) => {
     const editor = editorRefs.current[index];
     if (!editor) return;
@@ -698,6 +717,7 @@ const TambahDanEditBerita = ({
                           onUpdateContentBlock(index, e.target.innerHTML);
                           updateActiveFormats(index);
                         }}
+                        onPaste={(e) => handleEditorPaste(index, e)}
                         onMouseUp={() => updateActiveFormats(index)}
                         onKeyUp={() => updateActiveFormats(index)}
                         className="rich-text-editor w-full min-h-[200px] max-h-[400px] overflow-y-auto px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors bg-white"
