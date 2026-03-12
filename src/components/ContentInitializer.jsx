@@ -46,8 +46,7 @@ const ContentInitializer = () => {
           { id: 23, name: 'Landasan Hukum', slug: 'landasan-hukum', category: 'profil', description: 'Landasan Hukum DPUPR', isPublished: true, title: 'Landasan Hukum', contentBlocks: [] },
           { id: 24, name: 'Tupoksi', slug: 'tupoksi', category: 'profil', description: 'Tugas Pokok dan Fungsi DPUPR', isPublished: true, title: 'Tupoksi', contentBlocks: [] },
           { id: 25, name: 'Daftar Pejabat di DPUPR PPU', slug: 'daftar-pejabat', category: 'profil', description: 'Daftar Pejabat di DPUPR PPU', isPublished: true, title: 'Daftar Pejabat di DPUPR PPU', contentBlocks: [] },
-          { id: 26, name: 'Riwayat Kepala Dinas', slug: 'riwayat-kepala-dinas', category: 'profil', description: 'Riwayat Kepala Dinas PUPR', isPublished: true, title: 'Riwayat Kepala Dinas', contentBlocks: [] },
-          { id: 27, name: 'Informasi Kepala Dinas', slug: 'informasi-kepala-dinas', category: 'profil', description: 'Informasi lengkap tentang Kepala Dinas PUPR PPU', isPublished: true, title: 'Informasi Kepala Dinas', contentBlocks: [] }
+          { id: 26, name: 'Riwayat Kepala Dinas', slug: 'riwayat-kepala-dinas', category: 'profil', description: 'Riwayat Kepala Dinas PUPR', isPublished: true, title: 'Riwayat Kepala Dinas', contentBlocks: [] }
         ];
         
         localStorage.setItem('kontenPages', JSON.stringify(defaultPages));

@@ -106,7 +106,7 @@ export const ppidContentData = {
             </p>
             
             <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
-              <h3 class="text-xl font-bold text-dpupr-blue mb-4">Akses Formulir Permohonan</h3>
+              <h3 class="text-xl font-bold text-[#2C3E7D] mb-4">Akses Formulir Permohonan</h3>
               <p class="text-gray-700 mb-4">
                 Formulir permohonan informasi publik dapat diakses melalui portal PPID Kabupaten Penajam Paser Utara.
               </p>
@@ -114,7 +114,7 @@ export const ppidContentData = {
                 href="https://ppidppu.penajamkab.go.id/layanan/formulir_permohonan" 
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 bg-dpupr-blue hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                class="inline-flex items-center gap-2 bg-[#2C3E7D] hover:bg-[#1a2557] text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd" />
