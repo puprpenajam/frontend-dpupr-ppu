@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown } from 'lucide-react';
+import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown, Trash2, FileText } from 'lucide-react';
 
 const TambahDanEditBerita = ({
   isOpen,
@@ -104,6 +104,18 @@ const TambahDanEditBerita = ({
     if (url) {
       applyFormat(index, 'createLink', url);
     }
+  };
+
+  const clearFormatting = (index) => {
+    const editor = editorRefs.current[index];
+    if (!editor) return;
+
+    editor.focus();
+    document.execCommand('removeFormat', false, null);
+    document.execCommand('formatBlock', false, 'p');
+    
+    onUpdateContentBlock(index, editor.innerHTML);
+    updateActiveFormats(index);
   };
 
   const applyTextColor = (index, color) => {
@@ -387,84 +399,94 @@ const TambahDanEditBerita = ({
 
             <div className="space-y-4">
               {newNews.contentBlocks.map((block, index) => (
-                <div key={index} className="border-2 border-gray-200 rounded-lg p-4 relative">
+                <div key={index} className="border-2 border-gray-200 rounded-xl p-4 bg-gray-50">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-gray-600">
-                      {block.type === 'text' ? '📝 Blok Teks' : '🖼️ Blok Gambar'} #{index + 1}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {block.type === 'text' ? (
+                        <>
+                          <FileText className="w-5 h-5 text-[#1E3A7D]" />
+                          <span className="font-semibold text-gray-700 text-sm sm:text-base">Blok Teks #{index + 1}</span>
+                        </>
+                      ) : (
+                        <>
+                          <ImageIcon className="w-5 h-5 text-[#FDB913]" />
+                          <span className="font-semibold text-gray-700 text-sm sm:text-base">Blok Gambar #{index + 1}</span>
+                        </>
+                      )}
+                    </div>
                     <div className="flex items-center gap-1">
                       {/* Move Up Button */}
                       <button
                         type="button"
                         onClick={() => moveBlockUp(index)}
                         disabled={index === 0}
-                        className={`p-1 rounded transition-colors ${
+                        className={`p-1.5 rounded transition-colors ${
                           index === 0 
                             ? 'text-gray-300 cursor-not-allowed' 
                             : 'text-gray-600 hover:bg-gray-200 hover:text-gray-800'
                         }`}
                         title="Pindah ke atas"
                       >
-                        <ChevronUp className="w-5 h-5" />
+                        <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                       {/* Move Down Button */}
                       <button
                         type="button"
                         onClick={() => moveBlockDown(index)}
                         disabled={index === newNews.contentBlocks.length - 1}
-                        className={`p-1 rounded transition-colors ${
+                        className={`p-1.5 rounded transition-colors ${
                           index === newNews.contentBlocks.length - 1 
                             ? 'text-gray-300 cursor-not-allowed' 
                             : 'text-gray-600 hover:bg-gray-200 hover:text-gray-800'
                         }`}
                         title="Pindah ke bawah"
                       >
-                        <ChevronDown className="w-5 h-5" />
+                        <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                       {/* Delete Button */}
                       <button
                         type="button"
                         onClick={() => onRemoveContentBlock(index)}
-                        className="text-red-500 hover:bg-red-100 hover:text-red-700 p-1 rounded transition-colors ml-1"
-                        title="Hapus blok ini"
+                        className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition-colors ml-1"
+                        title="Hapus blok"
                       >
-                        <X className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                     </div>
                   </div>
 
                   {block.type === 'text' ? (
                     <div>
-                      {/* Toolbar */}
-                      <div className="flex flex-wrap gap-1 mb-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
-                        {/* Bold, Italic, Underline */}
+                      {/* Toolbar Formatting WYSIWYG */}
+                      <div className="flex flex-wrap gap-1 mb-3 p-2 bg-white border-2 border-gray-200 rounded-lg">
+                        {/* Text Formatting */}
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'bold')}
-                          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-                            activeFormats[index]?.bold ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
+                          className={`p-2 rounded transition-colors ${
+                            activeFormats[index]?.bold ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100 text-gray-700'
                           }`}
-                          title="Bold (Ctrl+B)"
+                          title="Tebal (Ctrl+B)"
                         >
                           <Bold className="w-4 h-4" />
                         </button>
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'italic')}
-                          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-                            activeFormats[index]?.italic ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
+                          className={`p-2 rounded transition-colors ${
+                            activeFormats[index]?.italic ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100 text-gray-700'
                           }`}
-                          title="Italic (Ctrl+I)"
+                          title="Miring (Ctrl+I)"
                         >
                           <Italic className="w-4 h-4" />
                         </button>
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'underline')}
-                          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-                            activeFormats[index]?.underline ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
+                          className={`p-2 rounded transition-colors ${
+                            activeFormats[index]?.underline ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100 text-gray-700'
                           }`}
-                          title="Underline (Ctrl+U)"
+                          title="Garis Bawah (Ctrl+U)"
                         >
                           <Underline className="w-4 h-4" />
                         </button>
@@ -475,195 +497,195 @@ const TambahDanEditBerita = ({
                         <button
                           type="button"
                           onClick={() => insertHeading(index, 'h2')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Heading 2"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Judul Besar (H2)"
                         >
-                          <Heading2 className="w-4 h-4" />
+                          <Heading2 className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => insertHeading(index, 'h3')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Heading 3"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Subjudul (H3)"
                         >
-                          <Heading3 className="w-4 h-4" />
+                          <Heading3 className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => insertHeading(index, 'p')}
-                          className="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-xs font-semibold text-gray-700"
-                          title="Paragraph"
+                          className="px-2 py-1 hover:bg-gray-100 rounded transition-colors text-xs font-semibold text-gray-700"
+                          title="Paragraf Normal"
                         >
                           P
                         </button>
-
+                        
                         <div className="w-px bg-gray-300 mx-1"></div>
-
+                        
                         {/* Lists */}
                         <button
                           type="button"
                           onClick={() => insertList(index, 'ul')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Bullet List"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Poin Bulat (Bullet)"
                         >
-                          <List className="w-4 h-4" />
+                          <List className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => insertList(index, 'ol')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Numbered List (1, 2, 3)"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Poin Angka (1, 2, 3)"
                         >
-                          <ListOrdered className="w-4 h-4" />
+                          <ListOrdered className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => insertList(index, 'ol-alpha')}
-                          className="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-xs font-bold text-gray-700"
-                          title="Alphabetical List (a, b, c)"
+                          className="px-2 py-1 hover:bg-gray-100 rounded transition-colors text-xs font-bold text-gray-700"
+                          title="Poin Huruf Kecil (a, b, c)"
                         >
                           abc
                         </button>
                         <button
                           type="button"
                           onClick={() => insertList(index, 'ol-alpha-upper')}
-                          className="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-xs font-bold text-gray-700"
-                          title="Alphabetical List (A, B, C)"
+                          className="px-2 py-1 hover:bg-gray-100 rounded transition-colors text-xs font-bold text-gray-700"
+                          title="Poin Huruf Besar (A, B, C)"
                         >
                           ABC
                         </button>
 
                         <div className="w-px bg-gray-300 mx-1"></div>
-
+                        
                         {/* Alignment */}
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'justifyLeft')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Align Left"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Kiri"
                         >
-                          <AlignLeft className="w-4 h-4" />
+                          <AlignLeft className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'justifyCenter')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Align Center"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Tengah"
                         >
-                          <AlignCenter className="w-4 h-4" />
+                          <AlignCenter className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'justifyRight')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Align Right"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Kanan"
                         >
-                          <AlignRight className="w-4 h-4" />
+                          <AlignRight className="w-4 h-4 text-gray-700" />
                         </button>
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'justifyFull')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Justify (Rata Kanan Kiri)"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Kanan Kiri (Justify)"
                         >
-                          <AlignJustify className="w-4 h-4" />
+                          <AlignJustify className="w-4 h-4 text-gray-700" />
                         </button>
-
+                        
                         <div className="w-px bg-gray-300 mx-1"></div>
-
-                        {/* Link */}
+                        
+                        {/* Link & Clear */}
                         <button
                           type="button"
                           onClick={() => insertLink(index)}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Insert Link"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Tambah Link"
                         >
-                          <LinkIcon className="w-4 h-4" />
+                          <LinkIcon className="w-4 h-4 text-gray-700" />
                         </button>
-
+                        
+                        <div className="w-px bg-gray-300 mx-1"></div>
+                        
                         {/* Color Picker */}
                         <div className="relative">
                           <button
                             type="button"
                             onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: !prev[index] }))}
-                            className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                            title="Text Color"
+                            className="p-2 hover:bg-gray-100 rounded transition-colors"
+                            title="Warna Teks"
                           >
-                            <Palette className="w-4 h-4" />
+                            <Palette className="w-4 h-4 text-gray-700" />
                           </button>
+                          
                           {showColorPicker[index] && (
-                            <div className="absolute top-full left-0 mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-3 z-50 w-64">
-                              <div className="flex justify-between items-center mb-2">
-                                <span className="text-xs font-semibold text-gray-600">Warna Teks</span>
-                                <button
-                                  type="button"
-                                  onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: false }))}
-                                  className="text-gray-400 hover:text-gray-600"
-                                >
-                                  <X className="w-3 h-3" />
-                                </button>
-                              </div>
+                            <div className="absolute top-full left-0 mt-2 p-3 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-50">
+                              <p className="text-xs font-semibold text-gray-700 mb-2">Pilih Warna Teks:</p>
                               <div className="grid grid-cols-6 gap-2 mb-3">
                                 {[
-                                  { color: '#000000', name: 'Hitam' },
-                                  { color: '#1E40AF', name: 'Biru' },
-                                  { color: '#DC2626', name: 'Merah' },
-                                  { color: '#16A34A', name: 'Hijau' },
-                                  { color: '#EA580C', name: 'Oranye' },
-                                  { color: '#9333EA', name: 'Ungu' },
-                                  { color: '#6B7280', name: 'Abu' },
-                                  { color: '#EC4899', name: 'Pink' },
-                                  { color: '#06B6D4', name: 'Cyan' },
-                                  { color: '#84CC16', name: 'Lime' },
-                                  { color: '#EAB308', name: 'Kuning' },
-                                  { color: '#8B5CF6', name: 'Violet' },
-                                ].map((item, idx) => (
+                                  { color: '#000000', label: 'Hitam' },
+                                  { color: '#1E3A7D', label: 'Biru' },
+                                  { color: '#DC2626', label: 'Merah' },
+                                  { color: '#059669', label: 'Hijau' },
+                                  { color: '#D97706', label: 'Orange' },
+                                  { color: '#7C3AED', label: 'Ungu' },
+                                  { color: '#4B5563', label: 'Abu' },
+                                  { color: '#EC4899', label: 'Pink' },
+                                  { color: '#0891B2', label: 'Cyan' },
+                                  { color: '#84CC16', label: 'Lime' },
+                                  { color: '#F59E0B', label: 'Kuning' },
+                                  { color: '#8B5CF6', label: 'Violet' },
+                                ].map(({ color, label }) => (
                                   <button
-                                    key={idx}
+                                    key={color}
                                     type="button"
-                                    onClick={() => applyTextColor(index, item.color)}
-                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-600 transition-all"
-                                    style={{ backgroundColor: item.color }}
-                                    title={item.name}
+                                    onClick={() => applyTextColor(index, color)}
+                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-500 transition-colors"
+                                    style={{ backgroundColor: color }}
+                                    title={label}
                                   />
                                 ))}
                               </div>
-                              <div className="text-xs font-semibold text-gray-600 mb-2">Highlight</div>
+                              <p className="text-xs font-semibold text-gray-700 mb-2">Highlight Background:</p>
                               <div className="grid grid-cols-6 gap-2">
                                 {[
-                                  { color: '#FEF08A', name: 'Kuning' },
-                                  { color: '#BFDBFE', name: 'Biru' },
-                                  { color: '#BBF7D0', name: 'Hijau' },
-                                  { color: '#FECACA', name: 'Merah' },
-                                  { color: '#FBCFE8', name: 'Pink' },
-                                  { color: '#C7D2FE', name: 'Indigo' },
-                                ].map((item, idx) => (
+                                  { color: '#FEF3C7', label: 'Kuning' },
+                                  { color: '#DBEAFE', label: 'Biru' },
+                                  { color: '#DCFCE7', label: 'Hijau' },
+                                  { color: '#FEE2E2', label: 'Merah' },
+                                  { color: '#FCE7F3', label: 'Pink' },
+                                  { color: '#E0E7FF', label: 'Indigo' },
+                                ].map(({ color, label }) => (
                                   <button
-                                    key={idx}
+                                    key={color}
                                     type="button"
-                                    onClick={() => applyBackgroundColor(index, item.color)}
-                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-600 transition-all"
-                                    style={{ backgroundColor: item.color }}
-                                    title={item.name}
+                                    onClick={() => applyBackgroundColor(index, color)}
+                                    className="w-8 h-8 rounded border-2 border-gray-300 hover:border-gray-500 transition-colors"
+                                    style={{ backgroundColor: color }}
+                                    title={label}
                                   />
                                 ))}
                               </div>
+                              <button
+                                type="button"
+                                onClick={() => setShowColorPicker(prev => ({ ...prev, [index]: false }))}
+                                className="w-full mt-3 px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xs font-semibold"
+                              >
+                                Tutup
+                              </button>
                             </div>
                           )}
                         </div>
-
-                        {/* Clear Formatting */}
+                        
                         <button
                           type="button"
-                          onClick={() => applyFormat(index, 'removeFormat')}
-                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
-                          title="Clear Formatting"
+                          onClick={() => clearFormatting(index)}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Hapus Format"
                         >
-                          <Eraser className="w-4 h-4" />
+                          <Eraser className="w-4 h-4 text-red-500" />
                         </button>
                       </div>
-
-                      {/* Editor */}
+                      
+                      {/* Rich Text Editor (ContentEditable) */}
                       <div
                         ref={(el) => {
                           if (el && !editorRefs.current[index]) {
@@ -678,15 +700,15 @@ const TambahDanEditBerita = ({
                         }}
                         onMouseUp={() => updateActiveFormats(index)}
                         onKeyUp={() => updateActiveFormats(index)}
-                        className="rich-text-editor w-full min-h-[200px] px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#1E3A7D] focus:outline-none"
-                        style={{ minHeight: '200px' }}
+                        className="rich-text-editor w-full min-h-[200px] max-h-[400px] overflow-y-auto px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors bg-white"
+                        suppressContentEditableWarning
                       />
                       <p className="text-xs text-gray-500 mt-2">
                         💡 Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
                       </p>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                    <div>
                       <input
                         type="file"
                         accept="image/*"
@@ -694,32 +716,28 @@ const TambahDanEditBerita = ({
                         className="hidden"
                         id={`content-image-${index}`}
                       />
-                      {block.content ? (
-                        <div className="relative">
-                          <img
-                            src={block.content}
-                            alt={`Content ${index}`}
-                            className="w-full h-64 object-contain rounded-lg mb-3 bg-gray-50"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => onUpdateContentBlock(index, '')}
-                            className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-lg hover:bg-red-600"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ) : (
-                        <div>
-                          <ImageIcon className="w-12 h-12 mx-auto text-gray-400 mb-2" />
-                          <p className="text-gray-600 text-sm mb-2">Belum ada gambar</p>
-                        </div>
-                      )}
                       <label
                         htmlFor={`content-image-${index}`}
-                        className="inline-block mt-2 px-4 py-2 bg-[#FDB913] text-[#1E3A7D] rounded-lg cursor-pointer hover:bg-[#E5A711] transition-colors text-sm"
+                        className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#1E3A7D] hover:bg-gray-100 transition-colors"
                       >
-                        {block.content ? 'Ganti Gambar' : 'Pilih Gambar'}
+                        {block.content ? (
+                          <div className="relative w-full h-full">
+                            <img
+                              src={block.content}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-full object-contain rounded-lg bg-gray-50"
+                            />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
+                              <span className="text-white font-semibold text-sm">Klik untuk ganti gambar</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center py-6">
+                            <ImageIcon className="w-12 h-12 text-gray-400 mb-3" />
+                            <p className="text-sm text-gray-600 font-semibold">Klik untuk upload gambar</p>
+                            <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF hingga 10MB</p>
+                          </div>
+                        )}
                       </label>
                       {block.content && (
                         <input
