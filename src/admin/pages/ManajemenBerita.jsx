@@ -294,12 +294,29 @@ const ManajemenBerita = () => {
 
         {/* Content */}
         <div className="p-4 sm:p-6">
+          {/* Header with title and add button */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Daftar Berita</h2>
+            <div className="flex items-center gap-3">
+              <span className="bg-[#1E3A7D] text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold">
+                Total: {newsData.length} Berita
+              </span>
+              <button
+                onClick={() => setShowForm(true)}
+                className="flex items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
+              >
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Buat Berita Baru</span>
+                <span className="sm:hidden">Tambah</span>
+              </button>
+            </div>
+          </div>
+
           <DaftarBerita 
             newsData={newsData}
             onPreview={handlePreview}
             onEdit={handleEdit}
             onDelete={handleDeleteClick}
-            onAddNew={() => setShowForm(true)}
           />
         </div>
       </div>
