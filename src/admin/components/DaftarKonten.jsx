@@ -17,15 +17,15 @@ const DaftarKonten = ({ konten, onEdit, onDelete, onTogglePublish, onPreview }) 
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
-      <table className="w-full">
+      <table className="w-full table-fixed">
         <thead className="bg-gray-50 border-b-2 border-gray-200">
           <tr>
-            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Nama Konten</th>
-            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Kategori</th>
-            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Slug</th>
-            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Deskripsi</th>
-            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700">Status</th>
-            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700">Aksi</th>
+            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '20%' }}>Nama Konten</th>
+            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '10%' }}>Kategori</th>
+            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '15%' }}>Slug</th>
+            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '25%' }}>Deskripsi</th>
+            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '12%' }}>Status</th>
+            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '18%' }}>Aksi</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">

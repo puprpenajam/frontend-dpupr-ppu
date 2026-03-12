@@ -60,10 +60,10 @@ const ManajemenKonten = () => {
   });
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [showMessage, setShowMessage] = useState(false);
-  const [message, setMessage] = useState('');
-  const [errors, setErrors] = useState({});
-  const [filterCategory, setFilterCategory] = useState('all');
+  const [filterCategory, setFilterCategory] = useState(() => {
+    const savedFilter = localStorage.getItem('kontenFilterCategory');
+    return savedFilter || 'all';
+  });
   
   // New states for preview and popups
   const [previewHalaman, setPreviewHalaman] = useState(null);
@@ -149,40 +149,7 @@ const ManajemenKonten = () => {
     setShowPreview(true);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.name || formData.name.trim() === '') {
-      newErrors.name = 'Nama konten tidak boleh kosong';
-    }
-    
-    if (!formData.slug || formData.slug.trim() === '') {
-      newErrors.slug = 'Slug tidak boleh kosong';
-    } else if (!/^[a-z0-9-]+$/.test(formData.slug)) {
-      newErrors.slug = 'Slug hanya boleh mengandung huruf kecil, angka, dan tanda strip';
-    }
-
-    if (!formData.category || formData.category.trim() === '') {
-      newErrors.category = 'Kategori harus dipilih';
-    }
-    
-    if (!formData.description || formData.description.trim() === '') {
-      newErrors.description = 'Deskripsi tidak boleh kosong';
-    }
-
-    if (!formData.title || formData.title.trim() === '') {
-      newErrors.title = 'Judul halaman tidak boleh kosong';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = () => {
-    if (!validateForm()) {
-      return;
-    }
-
     // Always reload from localStorage first to prevent data loss from other tabs/sessions
     const savedPages = localStorage.getItem('kontenPages');
     const currentKonten = savedPages ? JSON.parse(savedPages) : konten;
@@ -229,7 +196,6 @@ const ManajemenKonten = () => {
         });
         setEditingId(latestItem.id);
         setShowForm(true);
-        setErrors({});
         return;
       }
     }
@@ -245,7 +211,6 @@ const ManajemenKonten = () => {
     });
     setEditingId(item.id);
     setShowForm(true);
-    setErrors({});
   };
 
   const handleDelete = (id) => {
@@ -282,7 +247,6 @@ const ManajemenKonten = () => {
     setFormData({ name: '', slug: '', category: 'kegiatan', description: '', title: '', contentBlocks: [], isPublished: true });
     setEditingId(null);
     setShowForm(false);
-    setErrors({});
   };
 
   // Content Block handlers
@@ -383,18 +347,6 @@ const ManajemenKonten = () => {
 
         {/* Content */}
         <div className="p-4 sm:p-6">
-          {showMessage && (
-            <div className="mb-4 p-4 bg-green-50 border border-green-300 rounded-lg flex items-center gap-2">
-              <div className="flex-1 text-green-700">{message}</div>
-              <button
-                onClick={() => setShowMessage(false)}
-                className="text-green-700 hover:text-green-900"
-              >
-                ✕
-              </button>
-            </div>
-          )}
-
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Daftar Konten</h2>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
@@ -426,7 +378,10 @@ const ManajemenKonten = () => {
           {/* Category Filter */}
           <div className="flex gap-3 mb-6">
             <button
-              onClick={() => setFilterCategory('all')}
+              onClick={() => {
+                setFilterCategory('all');
+                localStorage.setItem('kontenFilterCategory', 'all');
+              }}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                 filterCategory === 'all'
                   ? 'bg-[#1E3A7D] text-white'
@@ -436,7 +391,10 @@ const ManajemenKonten = () => {
               Semua ({konten.length})
             </button>
             <button
-              onClick={() => setFilterCategory('kegiatan')}
+              onClick={() => {
+                setFilterCategory('kegiatan');
+                localStorage.setItem('kontenFilterCategory', 'kegiatan');
+              }}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                 filterCategory === 'kegiatan'
                   ? 'bg-[#1E3A7D] text-white'
@@ -446,7 +404,10 @@ const ManajemenKonten = () => {
               Informasi Kegiatan ({konten.filter(k => k.category === 'kegiatan').length})
             </button>
             <button
-              onClick={() => setFilterCategory('ppid')}
+              onClick={() => {
+                setFilterCategory('ppid');
+                localStorage.setItem('kontenFilterCategory', 'ppid');
+              }}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                 filterCategory === 'ppid'
                   ? 'bg-[#1E3A7D] text-white'
@@ -456,7 +417,10 @@ const ManajemenKonten = () => {
               PPID DPUPR ({konten.filter(k => k.category === 'ppid').length})
             </button>
             <button
-              onClick={() => setFilterCategory('profil')}
+              onClick={() => {
+                setFilterCategory('profil');
+                localStorage.setItem('kontenFilterCategory', 'profil');
+              }}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                 filterCategory === 'profil'
                   ? 'bg-[#1E3A7D] text-white'
@@ -484,15 +448,15 @@ const ManajemenKonten = () => {
             </div>
           ) : (
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <table className="w-full">
+              <table className="w-full table-fixed">
                 <thead className="bg-gray-50 border-b-2 border-gray-200">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Nama Konten</th>
-                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Kategori</th>
-                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Slug</th>
-                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Deskripsi</th>
-                    <th className="px-6 py-4 text-center text-sm font-bold text-gray-700">Status</th>
-                    <th className="px-6 py-4 text-center text-sm font-bold text-gray-700">Aksi</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '20%' }}>Nama Konten</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '10%' }}>Kategori</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '15%' }}>Slug</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700" style={{ width: '25%' }}>Deskripsi</th>
+                    <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '12%' }}>Status</th>
+                    <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '18%' }}>Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
