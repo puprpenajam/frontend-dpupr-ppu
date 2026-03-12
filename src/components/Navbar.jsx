@@ -5,6 +5,7 @@ import { ChevronDown } from 'lucide-react';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [openDesktopDropdown, setOpenDesktopDropdown] = useState(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -17,6 +18,10 @@ const Navbar = () => {
     setOpenSubmenu(openSubmenu === menu ? null : menu);
   };
 
+  const toggleDesktopDropdown = (menu) => {
+    setOpenDesktopDropdown(openDesktopDropdown === menu ? null : menu);
+  };
+
   return (
     <>
       {/* Background overlay for mobile menu */}
@@ -24,6 +29,14 @@ const Navbar = () => {
         <div 
           className="fixed top-[151px] sm:top-[185px] left-0 right-0 bottom-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
+        />
+      )}
+      
+      {/* Background overlay for desktop dropdown */}
+      {openDesktopDropdown && (
+        <div 
+          className="fixed inset-0 z-30 hidden lg:block"
+          onClick={() => setOpenDesktopDropdown(null)}
         />
       )}
       
@@ -42,11 +55,16 @@ const Navbar = () => {
             </li>
             
             {/* INFORMASI KEGIATAN PUPR */}
-            <li className="relative group">
-              <button className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap">
-                INFORMASI KEGIATAN PUPR <ChevronDown size={16} />
+            <li className="relative">
+              <button 
+                onClick={() => toggleDesktopDropdown('kegiatan')}
+                className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap"
+              >
+                INFORMASI KEGIATAN PUPR <ChevronDown size={16} className={`transition-transform duration-300 ${openDesktopDropdown === 'kegiatan' ? 'rotate-180' : ''}`} />
               </button>
-              <ul className="absolute left-0 top-full bg-white shadow-xl rounded-b-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 min-w-[320px] z-50">
+              <ul className={`absolute left-0 top-full bg-yellow-100 shadow-xl rounded-b-lg overflow-hidden transition-all duration-300 min-w-[320px] z-50 ${
+                openDesktopDropdown === 'kegiatan' ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}>
                 <li><Link to="/kegiatan/bagian-umum-sunram" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Bagian Umum & Bagian Sunram dan Keuangan</Link></li>
                 <li><Link to="/kegiatan/upt-lab-alat-berat" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">UPT-PU Lab dan Alat Berat</Link></li>
                 <li><Link to="/kegiatan/upt-penajam" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">UPT-PU Penajam</Link></li>
@@ -62,11 +80,16 @@ const Navbar = () => {
             </li>
 
             {/* PPID DPUPR */}
-            <li className="relative group">
-              <button className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap">
-                PPID DPUPR <ChevronDown size={16} />
+            <li className="relative">
+              <button 
+                onClick={() => toggleDesktopDropdown('ppid')}
+                className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap"
+              >
+                PPID DPUPR <ChevronDown size={16} className={`transition-transform duration-300 ${openDesktopDropdown === 'ppid' ? 'rotate-180' : ''}`} />
               </button>
-              <ul className="absolute left-0 top-full bg-white shadow-xl rounded-b-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 min-w-[360px] z-50">
+              <ul className={`absolute left-0 top-full bg-yellow-100 shadow-xl rounded-b-lg overflow-hidden transition-all duration-300 min-w-[360px] z-50 ${
+                openDesktopDropdown === 'ppid' ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}>
                 <li><Link to="/ppid/visi-misi-ppid" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Visi dan Misi PPID</Link></li>
                 <li><Link to="/ppid/maklumat-pelayanan" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Maklumat Pelayanan Informasi Publik</Link></li>
                 <li><Link to="/ppid/sop-pelayanan" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">SOP Pelayanan Publik</Link></li>
@@ -81,11 +104,16 @@ const Navbar = () => {
             </li>
 
             {/* PROFIL DPUPR */}
-            <li className="relative group">
-              <button className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap">
-                PROFIL DPUPR <ChevronDown size={16} />
+            <li className="relative">
+              <button 
+                onClick={() => toggleDesktopDropdown('profil')}
+                className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap"
+              >
+                PROFIL DPUPR <ChevronDown size={16} className={`transition-transform duration-300 ${openDesktopDropdown === 'profil' ? 'rotate-180' : ''}`} />
               </button>
-              <ul className="absolute left-0 top-full bg-white shadow-xl rounded-b-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 min-w-[280px] z-50">
+              <ul className={`absolute left-0 top-full bg-yellow-100 shadow-xl rounded-b-lg overflow-hidden transition-all duration-300 min-w-[280px] z-50 ${
+                openDesktopDropdown === 'profil' ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}>
                 <li><Link to="/profil/visi-misi-pupr" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Visi dan Misi PUPR</Link></li>
                 <li><Link to="/profil/landasan-hukum" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Landasan Hukum</Link></li>
                 <li><Link to="/profil/tupoksi" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Tupoksi</Link></li>
@@ -160,7 +188,7 @@ const Navbar = () => {
                 <ChevronDown size={16} className={`transform transition-transform duration-200 ${openSubmenu === 'kegiatan' ? 'rotate-180' : ''}`} />
               </button>
               <ul
-                className={`overflow-hidden transition-all duration-300 bg-white/50 ${
+                className={`overflow-hidden transition-all duration-300 bg-yellow-100 ${
                   openSubmenu === 'kegiatan' ? 'max-h-[500px]' : 'max-h-0'
                 }`}
               >
@@ -188,7 +216,7 @@ const Navbar = () => {
                 <ChevronDown size={16} className={`transform transition-transform duration-200 ${openSubmenu === 'ppid' ? 'rotate-180' : ''}`} />
               </button>
               <ul
-                className={`overflow-hidden transition-all duration-300 bg-white/50 ${
+                className={`overflow-hidden transition-all duration-300 bg-yellow-100 ${
                   openSubmenu === 'ppid' ? 'max-h-[600px]' : 'max-h-0'
                 }`}
               >
@@ -215,7 +243,7 @@ const Navbar = () => {
                 <ChevronDown size={16} className={`transform transition-transform duration-200 ${openSubmenu === 'profil' ? 'rotate-180' : ''}`} />
               </button>
               <ul
-                className={`overflow-hidden transition-all duration-300 bg-white/50 ${
+                className={`overflow-hidden transition-all duration-300 bg-yellow-100 ${
                   openSubmenu === 'profil' ? 'max-h-96' : 'max-h-0'
                 }`}
               >

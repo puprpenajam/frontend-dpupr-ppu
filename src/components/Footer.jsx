@@ -28,11 +28,11 @@ const Footer = () => {
           </div>
 
           {/* Social Media Section - Right */}
-          <div className="space-y-6 text-left md:text-right">
+          <div className="space-y-6 text-left">
             <h3 className="text-lg sm:text-xl font-semibold text-dpupr-yellow mb-4">
               Ikuti Kami
             </h3>
-            <div className="flex gap-4 md:justify-end">
+            <div className="flex gap-4">
               <a 
                 href="https://facebook.com" 
                 target="_blank" 

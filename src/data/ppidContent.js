@@ -114,12 +114,13 @@ export const ppidContentData = {
                 href="https://ppidppu.penajamkab.go.id/layanan/formulir_permohonan" 
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 bg-[#2C3E7D] hover:bg-[#1a2557] text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                class="inline-flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 font-bold px-6 py-4 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                style="color: #ffffff !important; text-decoration: none;"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffffff;" class="h-6 w-6" viewBox="0 0 20 20" fill="white">
                   <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd" />
                 </svg>
-                Buka Formulir Permohonan
+                <span style="color: #ffffff !important; font-size: 16px; font-weight: bold;">Buka Formulir Permohonan</span>
               </a>
             </div>
 
@@ -310,20 +311,20 @@ export const ppidContentData = {
             </div>
 
             <!-- Waktu Proses -->
-            <div class="mt-8 bg-gradient-to-r from-dpupr-blue to-blue-600 text-white rounded-xl p-6">
-              <h3 class="text-xl font-bold mb-4">⏰ Waktu Proses Permohonan</h3>
-              <ul class="space-y-2">
-                <li class="flex items-start gap-2">
-                  <span class="flex-shrink-0">•</span>
-                  <span>Permohonan informasi diproses maksimal <strong>10 hari kerja</strong> sejak permohonan diterima</span>
+            <div class="mt-8 bg-gradient-to-r from-dpupr-blue to-blue-600 rounded-xl p-6" style="color: white;">
+              <h3 class="text-xl font-bold mb-4" style="color: white;">⏰ Waktu Proses Permohonan</h3>
+              <ul class="space-y-2" style="color: white;">
+                <li class="flex items-start gap-2" style="color: white;">
+                  <span class="flex-shrink-0" style="color: white;">•</span>
+                  <span style="color: white;">Permohonan informasi diproses maksimal <strong style="color: white;">10 hari kerja</strong> sejak permohonan diterima</span>
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="flex-shrink-0">•</span>
-                  <span>Dapat diperpanjang maksimal <strong>7 hari kerja</strong> dengan pemberitahuan tertulis</span>
+                <li class="flex items-start gap-2" style="color: white;">
+                  <span class="flex-shrink-0" style="color: white;">•</span>
+                  <span style="color: white;">Dapat diperpanjang maksimal <strong style="color: white;">7 hari kerja</strong> dengan pemberitahuan tertulis</span>
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="flex-shrink-0">•</span>
-                  <span>Keberatan diproses maksimal <strong>30 hari kerja</strong></span>
+                <li class="flex items-start gap-2" style="color: white;">
+                  <span class="flex-shrink-0" style="color: white;">•</span>
+                  <span style="color: white;">Keberatan diproses maksimal <strong style="color: white;">30 hari kerja</strong></span>
                 </li>
               </ul>
             </div>

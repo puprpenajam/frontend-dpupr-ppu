@@ -108,7 +108,7 @@ const Dashboard = () => {
             <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Aksi Cepat</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <button
-                onClick={() => navigate('/admin-website-pupr-ppu/manajemen-berita')}
+                onClick={() => window.open('/admin-website-pupr-ppu/manajemen-berita', '_blank')}
                 className="bg-[#1E3A7D] hover:bg-[#152856] text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-colors text-left flex items-center gap-3"
               >
                 <Newspaper className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
@@ -118,7 +118,7 @@ const Dashboard = () => {
                 </div>
               </button>
               <button
-                onClick={() => navigate('/')}
+                onClick={() => window.open('/', '_blank')}
                 className="bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-colors text-left flex items-center gap-3"
               >
                 <Eye className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
