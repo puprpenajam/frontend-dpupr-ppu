@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Type, Image as ImageIcon, AlertCircle, Trash2, FileText, Bold, Italic, Underline, List, ListOrdered, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Eraser, Palette } from 'lucide-react';
+import { X, Type, Image as ImageIcon, AlertCircle, Trash2, FileText, Bold, Italic, Underline, List, ListOrdered, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown } from 'lucide-react';
 
 const TambahDanEditKonten = ({
   isOpen,
@@ -18,6 +18,22 @@ const TambahDanEditKonten = ({
   const [activeFormats, setActiveFormats] = useState({});
   const [showColorPicker, setShowColorPicker] = useState({});
   const [isInitialized, setIsInitialized] = useState({});
+
+  // Move block up
+  const moveBlockUp = (index) => {
+    if (index === 0) return; // Can't move first block up
+    const blocks = [...formData.contentBlocks];
+    [blocks[index - 1], blocks[index]] = [blocks[index], blocks[index - 1]];
+    setFormData({ ...formData, contentBlocks: blocks });
+  };
+
+  // Move block down
+  const moveBlockDown = (index) => {
+    if (index === formData.contentBlocks.length - 1) return; // Can't move last block down
+    const blocks = [...formData.contentBlocks];
+    [blocks[index], blocks[index + 1]] = [blocks[index + 1], blocks[index]];
+    setFormData({ ...formData, contentBlocks: blocks });
+  };
 
   // Initialize editors when content blocks change
   useEffect(() => {
@@ -400,14 +416,45 @@ const TambahDanEditKonten = ({
                         </>
                       )}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => onRemoveContentBlock(index)}
-                      className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
-                      title="Hapus blok"
-                    >
-                      <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      {/* Move Up Button */}
+                      <button
+                        type="button"
+                        onClick={() => moveBlockUp(index)}
+                        disabled={index === 0}
+                        className={`p-1.5 rounded transition-colors ${
+                          index === 0 
+                            ? 'text-gray-300 cursor-not-allowed' 
+                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-800'
+                        }`}
+                        title="Pindah ke atas"
+                      >
+                        <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                      {/* Move Down Button */}
+                      <button
+                        type="button"
+                        onClick={() => moveBlockDown(index)}
+                        disabled={index === formData.contentBlocks.length - 1}
+                        className={`p-1.5 rounded transition-colors ${
+                          index === formData.contentBlocks.length - 1 
+                            ? 'text-gray-300 cursor-not-allowed' 
+                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-800'
+                        }`}
+                        title="Pindah ke bawah"
+                      >
+                        <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                      {/* Delete Button */}
+                      <button
+                        type="button"
+                        onClick={() => onRemoveContentBlock(index)}
+                        className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition-colors ml-1"
+                        title="Hapus blok"
+                      >
+                        <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                    </div>
                   </div>
 
                   {block.type === 'text' ? (
@@ -536,6 +583,14 @@ const TambahDanEditKonten = ({
                           title="Rata Kanan"
                         >
                           <AlignRight className="w-4 h-4 text-gray-700" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyFull')}
+                          className="p-2 hover:bg-gray-100 rounded transition-colors"
+                          title="Rata Kanan Kiri (Justify)"
+                        >
+                          <AlignJustify className="w-4 h-4 text-gray-700" />
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
@@ -670,7 +725,7 @@ const TambahDanEditKonten = ({
                             <img
                               src={block.content}
                               alt={`Preview ${index + 1}`}
-                              className="w-full h-full object-contain rounded-lg"
+                              className="w-full h-full object-contain rounded-lg bg-gray-50"
                             />
                             <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
                               <span className="text-white font-semibold text-sm">Klik untuk ganti gambar</span>

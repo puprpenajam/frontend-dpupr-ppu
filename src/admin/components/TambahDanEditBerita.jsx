@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Eraser, Palette } from 'lucide-react';
+import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown } from 'lucide-react';
 
 const TambahDanEditBerita = ({
   isOpen,
@@ -21,6 +21,22 @@ const TambahDanEditBerita = ({
   const [activeFormats, setActiveFormats] = useState({});
   const [showColorPicker, setShowColorPicker] = useState({});
   const [isInitialized, setIsInitialized] = useState({});
+
+  // Move block up
+  const moveBlockUp = (index) => {
+    if (index === 0) return; // Can't move first block up
+    const blocks = [...newNews.contentBlocks];
+    [blocks[index - 1], blocks[index]] = [blocks[index], blocks[index - 1]];
+    setNewNews({ ...newNews, contentBlocks: blocks });
+  };
+
+  // Move block down
+  const moveBlockDown = (index) => {
+    if (index === newNews.contentBlocks.length - 1) return; // Can't move last block down
+    const blocks = [...newNews.contentBlocks];
+    [blocks[index], blocks[index + 1]] = [blocks[index + 1], blocks[index]];
+    setNewNews({ ...newNews, contentBlocks: blocks });
+  };
 
   // Initialize editors when contentBlocks change
   useEffect(() => {
@@ -376,14 +392,45 @@ const TambahDanEditBerita = ({
                     <span className="text-sm font-semibold text-gray-600">
                       {block.type === 'text' ? '📝 Blok Teks' : '🖼️ Blok Gambar'} #{index + 1}
                     </span>
-                    <button
-                      type="button"
-                      onClick={() => onRemoveContentBlock(index)}
-                      className="text-red-500 hover:text-red-700 p-1"
-                      title="Hapus blok ini"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      {/* Move Up Button */}
+                      <button
+                        type="button"
+                        onClick={() => moveBlockUp(index)}
+                        disabled={index === 0}
+                        className={`p-1 rounded transition-colors ${
+                          index === 0 
+                            ? 'text-gray-300 cursor-not-allowed' 
+                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-800'
+                        }`}
+                        title="Pindah ke atas"
+                      >
+                        <ChevronUp className="w-5 h-5" />
+                      </button>
+                      {/* Move Down Button */}
+                      <button
+                        type="button"
+                        onClick={() => moveBlockDown(index)}
+                        disabled={index === newNews.contentBlocks.length - 1}
+                        className={`p-1 rounded transition-colors ${
+                          index === newNews.contentBlocks.length - 1 
+                            ? 'text-gray-300 cursor-not-allowed' 
+                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-800'
+                        }`}
+                        title="Pindah ke bawah"
+                      >
+                        <ChevronDown className="w-5 h-5" />
+                      </button>
+                      {/* Delete Button */}
+                      <button
+                        type="button"
+                        onClick={() => onRemoveContentBlock(index)}
+                        className="text-red-500 hover:bg-red-100 hover:text-red-700 p-1 rounded transition-colors ml-1"
+                        title="Hapus blok ini"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
 
                   {block.type === 'text' ? (
@@ -512,6 +559,14 @@ const TambahDanEditBerita = ({
                           title="Align Right"
                         >
                           <AlignRight className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => applyFormat(index, 'justifyFull')}
+                          className="p-2 rounded hover:bg-gray-200 text-gray-700 transition-colors"
+                          title="Justify (Rata Kanan Kiri)"
+                        >
+                          <AlignJustify className="w-4 h-4" />
                         </button>
 
                         <div className="w-px bg-gray-300 mx-1"></div>
@@ -644,7 +699,7 @@ const TambahDanEditBerita = ({
                           <img
                             src={block.content}
                             alt={`Content ${index}`}
-                            className="w-full h-64 object-cover rounded-lg mb-3"
+                            className="w-full h-64 object-contain rounded-lg mb-3 bg-gray-50"
                           />
                           <button
                             type="button"

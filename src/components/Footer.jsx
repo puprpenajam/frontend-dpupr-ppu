@@ -18,7 +18,7 @@ const Footer = () => {
             <div className="space-y-3 pt-4">
               <p className="flex items-start gap-3 text-gray-300 text-sm sm:text-base">
                 <span className="text-lg mt-0.5">✉</span>
-                <span>dpuprpenajamkab@gmail.com</span>
+                <span>puprpenajamkab@gmail.com</span>
               </p>
               <p className="flex items-start gap-3 text-gray-300 text-sm sm:text-base">
                 <span className="text-lg mt-0.5">📍</span>

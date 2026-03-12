@@ -67,7 +67,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="adminpupr@gmail.com"
+              placeholder="puprpenajamkab@gmail.com"
               className="w-full px-4 py-3 rounded-xl border-2 border-[#FDB913]/30 focus:border-[#1E3A7D] focus:outline-none transition-colors"
               required
             />
@@ -85,7 +85,7 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="••••••••••"
+                placeholder=""
                 className="w-full px-4 py-3 rounded-xl border-2 border-[#FDB913]/30 focus:border-[#1E3A7D] focus:outline-none transition-colors pr-12"
                 required
               />
