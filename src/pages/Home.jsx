@@ -22,6 +22,24 @@ const Home = () => {
     return (tempDiv.textContent || tempDiv.innerText || '').replace(/\s+/g, ' ').trim();
   };
 
+  const getFirstMeaningfulTextBlock = (news) => {
+    const textBlocks = news.contentBlocks?.filter((block) => block.type === 'text') || [];
+    for (const block of textBlocks) {
+      const cleanText = stripHtmlTags(block.content || '');
+      if (cleanText) {
+        return cleanText;
+      }
+    }
+    return '';
+  };
+
+  const getNewsExcerptText = (news) => {
+    const excerptText = stripHtmlTags(news.excerpt || '');
+    const blockText = getFirstMeaningfulTextBlock(news);
+    const legacyText = stripHtmlTags(news.content || '');
+    return excerptText || blockText || legacyText;
+  };
+
   // Function to render excerpt with bold location
   const renderExcerptWithBoldLocation = (excerpt) => {
     const cleanExcerpt = stripHtmlTags(excerpt);
@@ -129,7 +147,7 @@ const Home = () => {
 
                         {/* Excerpt */}
                         <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                          {renderExcerptWithBoldLocation(news.excerpt || news.contentBlocks?.find((block) => block.type === 'text')?.content || news.content || '')}
+                          {renderExcerptWithBoldLocation(getNewsExcerptText(news))}
                         </p>
 
                         {/* Read More Link */}

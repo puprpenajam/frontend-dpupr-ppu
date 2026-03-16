@@ -8,13 +8,23 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
     return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
   };
 
-  const getNewsDescription = (news) => {
-    const primaryTextBlock = news.contentBlocks?.find(
-      (block) => block.type === 'text' && block.content?.trim() !== ''
-    );
+  const getFirstMeaningfulTextBlock = (news) => {
+    const textBlocks = news.contentBlocks?.filter((block) => block.type === 'text') || [];
+    for (const block of textBlocks) {
+      const cleanText = stripHtmlTags(block.content || '');
+      if (cleanText) {
+        return cleanText;
+      }
+    }
+    return '';
+  };
 
-    const rawText = news.excerpt || primaryTextBlock?.content || news.content || '';
-    return stripHtmlTags(rawText);
+  const getNewsDescription = (news) => {
+    const excerptText = stripHtmlTags(news.excerpt || '');
+    const blockText = getFirstMeaningfulTextBlock(news);
+    const legacyText = stripHtmlTags(news.content || '');
+
+    return excerptText || blockText || legacyText;
   };
 
   return (

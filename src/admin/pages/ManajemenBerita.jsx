@@ -47,6 +47,17 @@ const ManajemenBerita = () => {
     return (tempDiv.textContent || tempDiv.innerText || '').replace(/\s+/g, ' ').trim();
   };
 
+  const getFirstMeaningfulText = (blocks = []) => {
+    const textBlocks = blocks.filter((block) => block.type === 'text');
+    for (const block of textBlocks) {
+      const plainText = stripHtmlTags(block.content || '');
+      if (plainText) {
+        return plainText;
+      }
+    }
+    return '';
+  };
+
   // Save news to localStorage whenever it changes
   useEffect(() => {
     if (newsData.length > 0) {
@@ -159,9 +170,8 @@ const ManajemenBerita = () => {
     const savedNews = localStorage.getItem('newsData');
     const currentNewsData = savedNews ? JSON.parse(savedNews) : newsData;
 
-    // Get first text block for excerpt
-    const firstTextBlock = newNews.contentBlocks.find(block => block.type === 'text' && block.content.trim() !== '');
-    const plainExcerpt = firstTextBlock ? stripHtmlTags(firstTextBlock.content) : '';
+    // Get first meaningful text for excerpt
+    const plainExcerpt = getFirstMeaningfulText(newNews.contentBlocks);
     const excerpt = plainExcerpt.length > 150 ? `${plainExcerpt.substring(0, 150)}...` : plainExcerpt;
 
     // Format full content with location at the beginning
