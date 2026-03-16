@@ -41,6 +41,12 @@ const ManajemenBerita = () => {
 
   const kecamatanOptions = ['Penajam', 'Sepaku', 'Waru', 'Babulu'];
 
+  const stripHtmlTags = (html = '') => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return (tempDiv.textContent || tempDiv.innerText || '').replace(/\s+/g, ' ').trim();
+  };
+
   // Save news to localStorage whenever it changes
   useEffect(() => {
     if (newsData.length > 0) {
@@ -155,7 +161,8 @@ const ManajemenBerita = () => {
 
     // Get first text block for excerpt
     const firstTextBlock = newNews.contentBlocks.find(block => block.type === 'text' && block.content.trim() !== '');
-    const excerpt = firstTextBlock ? firstTextBlock.content.substring(0, 150) + '...' : '';
+    const plainExcerpt = firstTextBlock ? stripHtmlTags(firstTextBlock.content) : '';
+    const excerpt = plainExcerpt.length > 150 ? `${plainExcerpt.substring(0, 150)}...` : plainExcerpt;
 
     // Format full content with location at the beginning
     const textContent = newNews.contentBlocks

@@ -16,20 +16,28 @@ const Home = () => {
   
   const totalPages = Math.ceil(newsData.length / 4);
 
+  const stripHtmlTags = (html = '') => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return (tempDiv.textContent || tempDiv.innerText || '').replace(/\s+/g, ' ').trim();
+  };
+
   // Function to render excerpt with bold location
   const renderExcerptWithBoldLocation = (excerpt) => {
+    const cleanExcerpt = stripHtmlTags(excerpt);
+
     // Check if excerpt starts with uppercase location (e.g., "PENAJAM. content...")
-    const locationMatch = excerpt.match(/^([A-Z\s]+)\.\s/);
+    const locationMatch = cleanExcerpt.match(/^([A-Z\s]+)\.\s/);
     if (locationMatch) {
       const location = locationMatch[1];
-      const restOfText = excerpt.substring(locationMatch[0].length);
+      const restOfText = cleanExcerpt.substring(locationMatch[0].length);
       return (
         <>
           <strong className="font-bold">{location}.</strong> {restOfText}
         </>
       );
     }
-    return excerpt;
+    return cleanExcerpt;
   };
 
   return (
@@ -121,7 +129,7 @@ const Home = () => {
 
                         {/* Excerpt */}
                         <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                          {renderExcerptWithBoldLocation(news.excerpt)}
+                          {renderExcerptWithBoldLocation(news.excerpt || news.contentBlocks?.find((block) => block.type === 'text')?.content || news.content || '')}
                         </p>
 
                         {/* Read More Link */}

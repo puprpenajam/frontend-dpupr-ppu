@@ -2,10 +2,19 @@ import { Eye, Edit, Trash2, Calendar } from 'lucide-react';
 
 const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
   // Helper function to strip HTML tags from text
-  const stripHtmlTags = (html) => {
+  const stripHtmlTags = (html = '') => {
     const tmp = document.createElement('DIV');
     tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
+    return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+  };
+
+  const getNewsDescription = (news) => {
+    const primaryTextBlock = news.contentBlocks?.find(
+      (block) => block.type === 'text' && block.content?.trim() !== ''
+    );
+
+    const rawText = news.excerpt || primaryTextBlock?.content || news.content || '';
+    return stripHtmlTags(rawText);
   };
 
   return (
@@ -63,7 +72,7 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
                   {/* Deskripsi */}
                   <td className="px-6 py-4">
                     <p className="text-sm text-gray-600 line-clamp-3 max-w-md text-justify">
-                      {stripHtmlTags(news.excerpt)}
+                      {getNewsDescription(news) || '-'}
                     </p>
                   </td>
 
