@@ -17,10 +17,7 @@ const ManajemenLayananPublik = () => {
 
   const categories = useMemo(() => getLayananCategories(), []);
   const sekretariatCategory = useMemo(() => getSekretariatCategory(), []);
-  const menuCategories = useMemo(
-    () => [sekretariatCategory, ...categories, { value: 'lainnya', label: 'Form Lainnya' }],
-    [categories, sekretariatCategory]
-  );
+  const menuCategories = useMemo(() => [sekretariatCategory, ...categories], [categories, sekretariatCategory]);
 
   const loadData = () => {
     setRequests(getLayananRequests());
@@ -57,13 +54,7 @@ const ManajemenLayananPublik = () => {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
               {menuCategories.map((category) => {
-                const categoryValues = [sekretariatCategory.value, ...categories.map((item) => item.value)];
-                const totalPerCategory = requests.filter((item) => {
-                  if (category.value === 'lainnya') {
-                    return !categoryValues.includes(item.assignedCategory);
-                  }
-                  return item.assignedCategory === category.value;
-                }).length;
+                const totalPerCategory = requests.filter((item) => item.assignedCategory === category.value).length;
 
                 return (
                   <div key={category.value} className="rounded-lg border border-gray-200 bg-gray-50 p-3">

@@ -9,6 +9,7 @@ import Berita from './pages/Berita';
 import InformasiKepalaDinas from './pages/InformasiKepalaDinas';
 import DynamicPage from './pages/DynamicPage';
 import TataCaraLayananPublik from './pages/layanan/TataCaraLayananPublik';
+import TataCaraDetailForm from './pages/layanan/TataCaraDetailForm';
 import FormLayananPublik from './pages/layanan/FormLayananPublik';
 import FormCiptaKarya from './pages/layanan/FormCiptaKarya';
 import FormPSDA from './pages/layanan/FormPSDA';
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/ppid/:slug" element={<DynamicPage />} />
           <Route path="/profil/:slug" element={<DynamicPage />} />
           <Route path="/layanan-publik/tata-cara" element={<TataCaraLayananPublik />} />
+          <Route path="/layanan-publik/tata-cara/:slug" element={<TataCaraDetailForm />} />
           <Route path="/layanan-publik/form" element={<FormLayananPublik />} />
           <Route path="/layanan-publik/form-cipta-karya" element={<FormCiptaKarya />} />
           <Route path="/layanan-publik/form-psda" element={<FormPSDA />} />

@@ -1,4 +1,5 @@
 import Header from '../../components/Header';
+import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
@@ -11,6 +12,16 @@ const steps = [
   'Kirim formulir untuk diteruskan ke admin layanan publik DPUPR PPU.',
   'Pantau status permohonan melalui menu Tracking Layanan Publik pada daftar pengajuan yang tersedia.',
   'Apabila status diterima dengan catatan pengisian form bidang tertentu, silakan buka tautan form lanjutan yang diberikan.'
+];
+
+const guideMenus = [
+  { label: 'Tata Cara Isi Form Layanan Publik', to: '/layanan-publik/tata-cara/umum' },
+  { label: 'Tata Cara Isi Form PSDA', to: '/layanan-publik/tata-cara/form-psda' },
+  { label: 'Tata Cara Isi Form Cipta Karya', to: '/layanan-publik/tata-cara/form-cipta-karya' },
+  { label: 'Tata Cara Isi Form Bina Marga', to: '/layanan-publik/tata-cara/form-bina-marga' },
+  { label: 'Tata Cara Isi Form Tata Ruang', to: '/layanan-publik/tata-cara/form-tata-ruang' },
+  { label: 'Tata Cara Isi Form Bina Konstruksi', to: '/layanan-publik/tata-cara/form-bina-konstruksi' },
+  { label: 'Tata Cara Isi Form UPT PU Lab dan Alat Berat', to: '/layanan-publik/tata-cara/form-upt-lab-alat-berat' }
 ];
 
 const TataCaraLayananPublik = () => {
@@ -43,6 +54,23 @@ const TataCaraLayananPublik = () => {
                   </li>
                 ))}
               </ol>
+            </div>
+          </FadeIn>
+
+          <FadeIn>
+            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 border border-gray-200 mt-8">
+              <h2 className="text-2xl font-bold text-[#1E3A7D] mb-6">Menu Tata Cara Per Form</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {guideMenus.map((menu) => (
+                  <Link
+                    key={menu.to}
+                    to={menu.to}
+                    className="inline-flex items-center justify-center bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-3 rounded-lg text-sm font-semibold text-center"
+                  >
+                    {menu.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </FadeIn>
         </div>

@@ -55,6 +55,7 @@ const categoryLinks = {
 };
 
 const toPlainText = (input = '') => input.toString().toLowerCase().trim();
+const trimRecommendationLink = (text = '') => text.replace(/\s*Link form:\s*https?:\/\/\S+\s*$/i, '').trim();
 
 export const normalizePhoneForWhatsApp = (phone = '') => {
   const digits = phone.toString().replace(/\D/g, '');
@@ -102,7 +103,9 @@ const normalizeLegacyRequest = (request) => {
     ...request,
     buktiFileName: request.buktiFileName || request.suratFileName || '',
     buktiFileType: request.buktiFileType || request.suratFileType || '',
-    buktiFileData: request.buktiFileData || request.suratFileData || ''
+    buktiFileData: request.buktiFileData || request.suratFileData || '',
+    adminNote: trimRecommendationLink(request.adminNote || ''),
+    aiRecommendationText: trimRecommendationLink(request.aiRecommendationText || '')
   };
 
   if (request.assignedCategory !== 'layanan-umum') {
@@ -160,7 +163,7 @@ export const buildAIRecommendation = (category, detectedKeperluan) => {
 
   return {
     category: categoryInfo.value,
-    recommendationText: `${categoryInfo.recommendationTemplate} Link form: ${destinationLink}`,
+    recommendationText: categoryInfo.recommendationTemplate,
     destinationLink,
     aiSummary: `Deteksi awal AI: keperluan "${detectedKeperluan}" dipetakan ke ${categoryInfo.label}.`
   };

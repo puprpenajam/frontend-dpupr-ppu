@@ -45,10 +45,7 @@ const ManajemenLayananPublikDaftar = () => {
     adminNote: ''
   });
 
-  const menuCategories = useMemo(
-    () => [sekretariatCategory, ...categories, { value: 'lainnya', label: 'Form Lainnya' }],
-    [categories, sekretariatCategory]
-  );
+  const menuCategories = useMemo(() => [sekretariatCategory, ...categories], [categories, sekretariatCategory]);
 
   const selectedCategory = menuCategories.find((item) => item.value === kategori);
 
@@ -74,13 +71,7 @@ const ManajemenLayananPublikDaftar = () => {
     return null;
   }
 
-  const categoryValues = [sekretariatCategory.value, ...categories.map((item) => item.value)];
-  const categoryRequests = requests.filter((item) => {
-    if (kategori === 'lainnya') {
-      return !categoryValues.includes(item.assignedCategory);
-    }
-    return item.assignedCategory === kategori;
-  });
+  const categoryRequests = requests.filter((item) => item.assignedCategory === kategori);
 
   const selectedRequest = requests.find((item) => item.id === editingId) || null;
   const viewingRequest = requests.find((item) => item.id === viewingId) || null;
