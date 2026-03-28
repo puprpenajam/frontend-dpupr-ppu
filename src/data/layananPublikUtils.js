@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'layananPublikRequests';
+const SEKRETARIAT_MESSAGE = 'Permohonan Anda diterima dan akan dihubungi via WhatsApp';
 
 const sekretariatCategory = {
   value: 'sekretariat-umum',
@@ -99,13 +100,22 @@ const saveRequests = (requests) => {
 };
 
 const normalizeLegacyRequest = (request) => {
+  const normalizedAdminNote = trimRecommendationLink(request.adminNote || '').replace(
+    'Permohonan Anda diterima dan langsung diarahkan ke sekretariat/umum untuk proses tindak lanjut.',
+    SEKRETARIAT_MESSAGE
+  );
+  const normalizedAiRecommendationText = trimRecommendationLink(request.aiRecommendationText || '').replace(
+    'Permohonan Anda diterima dan langsung diarahkan ke sekretariat/umum untuk proses tindak lanjut.',
+    SEKRETARIAT_MESSAGE
+  );
+
   const migratedBase = {
     ...request,
     buktiFileName: request.buktiFileName || request.suratFileName || '',
     buktiFileType: request.buktiFileType || request.suratFileType || '',
     buktiFileData: request.buktiFileData || request.suratFileData || '',
-    adminNote: trimRecommendationLink(request.adminNote || ''),
-    aiRecommendationText: trimRecommendationLink(request.aiRecommendationText || '')
+    adminNote: normalizedAdminNote,
+    aiRecommendationText: normalizedAiRecommendationText
   };
 
   if (request.assignedCategory !== 'layanan-umum') {
@@ -121,10 +131,10 @@ const normalizeLegacyRequest = (request) => {
     ...migratedBase,
     assignedCategory: sekretariatCategory.value,
     assignedFormLink: '',
-    aiRecommendationText: 'Permohonan Anda diterima dan langsung diarahkan ke sekretariat/umum untuk proses tindak lanjut.',
+    aiRecommendationText: SEKRETARIAT_MESSAGE,
     adminNote:
       request.adminNote?.includes('layanan-umum')
-        ? 'Permohonan Anda diterima dan langsung diarahkan ke sekretariat/umum untuk proses tindak lanjut.'
+        ? SEKRETARIAT_MESSAGE
         : request.adminNote,
     aiSummary: updatedAiSummary
   };
@@ -155,7 +165,7 @@ export const buildAIRecommendation = (category, detectedKeperluan) => {
   if (isSekretariat) {
     return {
       category: sekretariatCategory.value,
-      recommendationText: 'Permohonan Anda diterima dan langsung diarahkan ke sekretariat/umum untuk proses tindak lanjut.',
+      recommendationText: SEKRETARIAT_MESSAGE,
       destinationLink: '',
       aiSummary: `Deteksi awal AI: keperluan "${detectedKeperluan}" langsung diarahkan ke sekretariat/umum.`
     };

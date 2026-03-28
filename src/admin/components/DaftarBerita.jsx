@@ -51,7 +51,7 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
             {newsData.length === 0 ? (
               <tr>
                 <td colSpan="4" className="px-6 py-8 text-center text-gray-500">
-                  Belum ada berita. <button onClick={onAddNew} className="text-[#1E3A7D] font-semibold hover:underline">Buat berita baru</button>
+                  Belum ada berita.
                 </td>
               </tr>
             ) : (
