@@ -131,6 +131,23 @@ const Navbar = () => {
                 INFORMASI KEPALA DINAS
               </Link>
             </li>
+
+            {/* LAYANAN PUBLIK */}
+            <li className="relative">
+              <button
+                onClick={() => toggleDesktopDropdown('layanan')}
+                className="flex items-center gap-1 px-5 py-4 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors duration-200 whitespace-nowrap"
+              >
+                LAYANAN PUBLIK <ChevronDown size={16} className={`transition-transform duration-300 ${openDesktopDropdown === 'layanan' ? 'rotate-180' : ''}`} />
+              </button>
+              <ul className={`absolute left-0 top-full bg-yellow-100 shadow-xl rounded-b-lg overflow-hidden transition-all duration-300 min-w-[300px] z-50 ${
+                openDesktopDropdown === 'layanan' ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}>
+                <li><Link to="/layanan-publik/tata-cara" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Tata Cara Isi Form Layanan Publik</Link></li>
+                <li><Link to="/layanan-publik/form" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Form Layanan Publik</Link></li>
+                <li><Link to="/layanan-publik/tracking" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Tracking Layanan Publik</Link></li>
+              </ul>
+            </li>
           </ul>
 
           {/* Mobile Menu Button */}
@@ -264,6 +281,26 @@ const Navbar = () => {
               >
                 INFORMASI KEPALA DINAS
               </Link>
+            </li>
+
+            {/* Mobile LAYANAN PUBLIK */}
+            <li>
+              <button
+                onClick={() => toggleSubmenu('layanan')}
+                className="w-full text-left px-4 py-3 text-dpupr-blue font-semibold text-sm hover:bg-dpupr-blue/10 transition-colors flex justify-between items-center"
+              >
+                LAYANAN PUBLIK
+                <ChevronDown size={16} className={`transform transition-transform duration-200 ${openSubmenu === 'layanan' ? 'rotate-180' : ''}`} />
+              </button>
+              <ul
+                className={`overflow-hidden transition-all duration-300 bg-yellow-100 ${
+                  openSubmenu === 'layanan' ? 'max-h-72' : 'max-h-0'
+                }`}
+              >
+                <li><Link to="/layanan-publik/tata-cara" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Tata Cara Isi Form Layanan Publik</Link></li>
+                <li><Link to="/layanan-publik/form" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Form Layanan Publik</Link></li>
+                <li><Link to="/layanan-publik/tracking" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Tracking Layanan Publik</Link></li>
+              </ul>
             </li>
           </ul>
         </div>

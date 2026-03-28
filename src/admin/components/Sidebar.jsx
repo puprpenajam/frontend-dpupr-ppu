@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Newspaper, LogOut, Archive, FileText, X, Menu } from 'lucide-react';
+import { LayoutDashboard, Newspaper, LogOut, Archive, ClipboardList, X, Menu } from 'lucide-react';
 import { useState } from 'react';
 
 const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
@@ -25,9 +25,9 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
       label: 'Manajemen Arsip'
     },
     {
-      path: '/admin-website-pupr-ppu/manajemen-konten',
-      icon: FileText,
-      label: 'Manajemen Konten'
+      path: '/admin-website-pupr-ppu/manajemen-layanan-publik',
+      icon: ClipboardList,
+      label: 'Manajemen Layanan Publik'
     }
   ];
 
