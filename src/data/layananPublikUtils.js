@@ -2,7 +2,7 @@ const STORAGE_KEY = 'layananPublikRequests';
 
 const sekretariatCategory = {
   value: 'sekretariat-umum',
-  label: 'Sekretariat/Umum'
+  label: 'Form Lainnya'
 };
 
 const categoryOptions = [
@@ -23,6 +23,24 @@ const categoryOptions = [
     label: 'Form Bina Marga',
     autoKeywords: ['jalan', 'jembatan', 'aspal', 'rusak jalan'],
     recommendationTemplate: 'Permohonan Anda diterima. Silakan isi Form Bina Marga melalui tautan berikut untuk proses verifikasi lanjutan.'
+  },
+  {
+    value: 'tata-ruang',
+    label: 'Form Tata Ruang',
+    autoKeywords: ['tata ruang', 'fungsi lahan', 'peruntukan lahan', 'persetujuan ruang', 'lahan'],
+    recommendationTemplate: 'Permohonan Anda diterima. Silakan isi Form Tata Ruang melalui tautan berikut untuk proses verifikasi tata ruang.'
+  },
+  {
+    value: 'bina-konstruksi',
+    label: 'Form Bina Konstruksi',
+    autoKeywords: ['jasa konstruksi', 'konstruksi', 'pengawasan konstruksi', 'konsultasi proyek', 'registrasi jasa'],
+    recommendationTemplate: 'Permohonan Anda diterima. Silakan isi Form Bina Konstruksi melalui tautan berikut untuk proses tindak lanjut.'
+  },
+  {
+    value: 'upt-lab-alat-berat',
+    label: 'Form UPT PU Lab dan Alat Berat',
+    autoKeywords: ['alat berat', 'uji material', 'pengujian material', 'laboratorium', 'sewa alat'],
+    recommendationTemplate: 'Permohonan Anda diterima. Silakan isi Form UPT PU Lab dan Alat Berat melalui tautan berikut untuk proses tindak lanjut.'
   }
 ];
 
@@ -30,7 +48,10 @@ const categoryLinks = {
   'sekretariat-umum': '',
   'cipta-karya': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-cipta-karya',
   psda: 'https://pupr-penajamkab.vercel.app/layanan-publik/form-psda',
-  'bina-marga': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-bina-marga'
+  'bina-marga': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-bina-marga',
+  'tata-ruang': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-tata-ruang',
+  'bina-konstruksi': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-bina-konstruksi',
+  'upt-lab-alat-berat': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-upt-lab-alat-berat'
 };
 
 const toPlainText = (input = '') => input.toString().toLowerCase().trim();
@@ -156,7 +177,7 @@ export const createLayananRequest = (payload) => {
     id: Date.now(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    status: 'proses',
+    status: 'diterima',
     nama: payload.nama.trim(),
     instansi: payload.instansi?.trim() || '-',
     alamat: payload.alamat.trim(),

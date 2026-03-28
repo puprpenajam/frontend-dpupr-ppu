@@ -135,14 +135,14 @@ const ManajemenLayananPublikDaftar = () => {
 
     const nextErrors = {};
     if (!editForm.status) {
-      nextErrors.status = 'Status wajib dipilih.';
+      nextErrors.status = 'Status permohonan wajib di isi.';
     }
     if (!editForm.assignedCategory) {
-      nextErrors.assignedCategory = 'Kategori form wajib dipilih.';
+      nextErrors.assignedCategory = 'Kategori form lanjutan wajib di isi.';
     }
     if (editForm.assignedCategory !== sekretariatCategory.value) {
       if (!editForm.assignedFormLink.trim()) {
-        nextErrors.assignedFormLink = 'Link form wajib diisi.';
+        nextErrors.assignedFormLink = 'Link form yang diberikan wajib di isi.';
       } else {
         try {
           new URL(editForm.assignedFormLink.trim());
@@ -152,7 +152,7 @@ const ManajemenLayananPublikDaftar = () => {
       }
     }
     if (!editForm.adminNote.trim()) {
-      nextErrors.adminNote = 'Keterangan untuk masyarakat wajib diisi.';
+      nextErrors.adminNote = 'Keterangan untuk masyarakat wajib di isi.';
     }
 
     if (Object.keys(nextErrors).length > 0) {
@@ -377,7 +377,7 @@ const ManajemenLayananPublikDaftar = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Status Permohonan</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Status Permohonan *</label>
                   <select
                     value={editForm.status}
                     onChange={(event) => {
@@ -394,7 +394,7 @@ const ManajemenLayananPublikDaftar = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Kategori Form Lanjutan</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Kategori Form Lanjutan *</label>
                   <select
                     value={editForm.assignedCategory}
                     onChange={(event) => {
@@ -416,7 +416,7 @@ const ManajemenLayananPublikDaftar = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Link Form yang Diberikan</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Link Form yang Diberikan {editForm.assignedCategory === sekretariatCategory.value ? '' : '*'}</label>
                 <input
                   type="url"
                   disabled={editForm.assignedCategory === sekretariatCategory.value}
@@ -432,7 +432,7 @@ const ManajemenLayananPublikDaftar = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Keterangan untuk Masyarakat</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Keterangan untuk Masyarakat *</label>
                 <textarea
                   rows={4}
                   value={editForm.adminNote}

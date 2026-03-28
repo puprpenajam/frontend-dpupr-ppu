@@ -10,7 +10,12 @@ import InformasiKepalaDinas from './pages/InformasiKepalaDinas';
 import DynamicPage from './pages/DynamicPage';
 import TataCaraLayananPublik from './pages/layanan/TataCaraLayananPublik';
 import FormLayananPublik from './pages/layanan/FormLayananPublik';
+import FormCiptaKarya from './pages/layanan/FormCiptaKarya';
 import FormPSDA from './pages/layanan/FormPSDA';
+import FormBinaMarga from './pages/layanan/FormBinaMarga';
+import FormTataRuang from './pages/layanan/FormTataRuang';
+import FormBinaKonstruksi from './pages/layanan/FormBinaKonstruksi';
+import FormUptLabAlatBerat from './pages/layanan/FormUptLabAlatBerat';
 import TrackingLayananPublik from './pages/layanan/TrackingLayananPublik';
 
 // Admin Pages
@@ -38,7 +43,12 @@ const App = () => {
           <Route path="/profil/:slug" element={<DynamicPage />} />
           <Route path="/layanan-publik/tata-cara" element={<TataCaraLayananPublik />} />
           <Route path="/layanan-publik/form" element={<FormLayananPublik />} />
+          <Route path="/layanan-publik/form-cipta-karya" element={<FormCiptaKarya />} />
           <Route path="/layanan-publik/form-psda" element={<FormPSDA />} />
+          <Route path="/layanan-publik/form-bina-marga" element={<FormBinaMarga />} />
+          <Route path="/layanan-publik/form-tata-ruang" element={<FormTataRuang />} />
+          <Route path="/layanan-publik/form-bina-konstruksi" element={<FormBinaKonstruksi />} />
+          <Route path="/layanan-publik/form-upt-lab-alat-berat" element={<FormUptLabAlatBerat />} />
           <Route path="/layanan-publik/tracking" element={<TrackingLayananPublik />} />
           
           {/* Admin Routes */}

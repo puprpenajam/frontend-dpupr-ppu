@@ -6,6 +6,7 @@ import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
 import {
   createLayananRequest,
+  getCategoryLabel,
   getWhatsAppLink,
   normalizePhoneForWhatsApp
 } from '../../data/layananPublikUtils';
@@ -31,6 +32,17 @@ const FormLayananPublik = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const whatsappPreviewLink = getWhatsAppLink(formData.nomorHp);
+  const getUnitName = (category) => {
+    if (!category) return 'tim terkait';
+    const label = getCategoryLabel(category).toLowerCase();
+    if (label.includes('psda')) return 'PSDA';
+    if (label.includes('bina marga')) return 'Bina Marga';
+    if (label.includes('cipta karya')) return 'Cipta Karya';
+    if (label.includes('tata ruang')) return 'Tata Ruang';
+    if (label.includes('bina konstruksi')) return 'Bina Konstruksi';
+    if (label.includes('upt')) return 'UPT PU Lab dan Alat Berat';
+    return 'Form Lainnya (Sekretariat/Umum)';
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -83,16 +95,16 @@ const FormLayananPublik = () => {
   const validateForm = () => {
     const nextErrors = {};
 
-    if (!formData.nama.trim()) nextErrors.nama = 'Nama wajib diisi.';
-    if (!formData.alamat.trim()) nextErrors.alamat = 'Alamat wajib diisi.';
-    if (!formData.keperluan.trim()) nextErrors.keperluan = 'Keperluan wajib diisi.';
+    if (!formData.nama.trim()) nextErrors.nama = 'Nama wajib di isi.';
+    if (!formData.alamat.trim()) nextErrors.alamat = 'Alamat wajib di isi.';
+    if (!formData.keperluan.trim()) nextErrors.keperluan = 'Keperluan wajib di isi.';
 
     const whatsappNumber = formData.nomorHp.trim();
     const sanitizedWhatsapp = whatsappNumber.replace(/\D/g, '');
     const normalizedWhatsapp = normalizePhoneForWhatsApp(whatsappNumber);
 
     if (!whatsappNumber) {
-      nextErrors.nomorHp = 'Nomor WhatsApp wajib diisi.';
+      nextErrors.nomorHp = 'Nomor WhatsApp wajib di isi.';
     } else if (!/^\d+$/.test(whatsappNumber)) {
       nextErrors.nomorHp = 'Nomor WhatsApp hanya boleh berisi angka.';
     } else if (sanitizedWhatsapp.length < 11 || sanitizedWhatsapp.length > 13) {
@@ -104,7 +116,7 @@ const FormLayananPublik = () => {
     }
 
     if (!formData.buktiFileData) {
-      nextErrors.buktiFileData = 'Silakan unggah bukti pendukung sebelum mengirim formulir.';
+      nextErrors.buktiFileData = 'Upload bukti wajib di isi.';
     }
 
     setErrors(nextErrors);
@@ -157,7 +169,7 @@ const FormLayananPublik = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nama</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nama *</label>
                   <input
                     type="text"
                     name="nama"
@@ -183,7 +195,7 @@ const FormLayananPublik = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Alamat</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Alamat *</label>
                 <textarea
                   rows={3}
                   name="alamat"
@@ -197,7 +209,7 @@ const FormLayananPublik = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nomor HP Aktif</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nomor HP Aktif *</label>
                   <input
                     type="tel"
                     name="nomorHp"
@@ -215,7 +227,7 @@ const FormLayananPublik = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Keperluan</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Keperluan *</label>
                   <input
                     type="text"
                     name="keperluan"
@@ -229,7 +241,7 @@ const FormLayananPublik = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Bukti (Dokumen / Foto)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Bukti (Dokumen / Foto) *</label>
                 <input
                   type="file"
                   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,image/*"
@@ -267,9 +279,9 @@ const FormLayananPublik = () => {
           {showSuccessPopup && (
             <div className="fixed inset-0 z-[70] bg-black/45 flex items-center justify-center p-4">
               <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200 p-6">
-                <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Permohonan Berhasil Dikirim</h3>
+                <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Permohonan Berhasil Di Isi</h3>
                 <p className="text-sm text-gray-700 mb-5">
-                  Data Anda sudah tersimpan. Lanjutkan ke halaman tracking untuk melihat status dan tindak lanjut admin.
+                  Form Anda sudah tersimpan dan akan di hubungi oleh {getUnitName(result?.assignedCategory)} lewat WhatsApp.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button

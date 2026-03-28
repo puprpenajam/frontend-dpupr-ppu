@@ -93,23 +93,23 @@ const FormPSDA = () => {
   const validateForm = () => {
     const nextErrors = {};
 
-    if (!formData.namaPelapor.trim()) nextErrors.namaPelapor = 'Nama Pelapor wajib diisi.';
+    if (!formData.namaPelapor.trim()) nextErrors.namaPelapor = 'Nama Pelapor wajib di isi.';
 
     if (!formData.nomorHp.trim()) {
-      nextErrors.nomorHp = 'Nomor HP wajib diisi.';
+      nextErrors.nomorHp = 'Nomor HP wajib di isi.';
     } else if (!/^\d+$/.test(formData.nomorHp.trim())) {
       nextErrors.nomorHp = 'Nomor HP hanya boleh berisi angka.';
     } else if (formData.nomorHp.trim().length < 11 || formData.nomorHp.trim().length > 13) {
       nextErrors.nomorHp = 'Nomor HP harus 11 sampai 13 angka.';
     }
 
-    if (!formData.alamatKejadian.trim()) nextErrors.alamatKejadian = 'Alamat lokasi kejadian wajib diisi.';
-    if (!formData.jenisPermasalahan) nextErrors.jenisPermasalahan = 'Jenis permasalahan wajib dipilih.';
+    if (!formData.alamatKejadian.trim()) nextErrors.alamatKejadian = 'Alamat lokasi kejadian wajib di isi.';
+    if (!formData.jenisPermasalahan) nextErrors.jenisPermasalahan = 'Jenis permasalahan wajib di isi.';
     if (formData.jenisPermasalahan === 'Lainnya' && !formData.jenisLainnya.trim()) {
       nextErrors.jenisLainnya = 'Mohon isi jenis permasalahan lainnya.';
     }
-    if (!formData.detailLokasi.trim()) nextErrors.detailLokasi = 'Detail lokasi wajib diisi.';
-    if (!formData.kronologi.trim()) nextErrors.kronologi = 'Kronologi/deskripsi masalah wajib diisi.';
+    if (!formData.detailLokasi.trim()) nextErrors.detailLokasi = 'Detail lokasi wajib di isi.';
+    if (!formData.kronologi.trim()) nextErrors.kronologi = 'Kronologi/deskripsi masalah wajib di isi.';
 
     if (formData.dampak.length === 0) {
       nextErrors.dampak = 'Minimal satu dampak harus dipilih.';
@@ -119,11 +119,11 @@ const FormPSDA = () => {
     }
 
     if (!formData.buktiFileData) {
-      nextErrors.buktiFileData = 'Upload bukti wajib dilakukan.';
+      nextErrors.buktiFileData = 'Upload bukti wajib di isi.';
     }
 
     if (!formData.titikLokasi.trim()) {
-      nextErrors.titikLokasi = 'Titik lokasi wajib diisi.';
+      nextErrors.titikLokasi = 'Titik lokasi wajib di isi.';
     } else {
       try {
         new URL(formData.titikLokasi.trim());
@@ -340,8 +340,8 @@ const FormPSDA = () => {
       {showSuccessPopup && (
         <div className="fixed inset-0 z-[70] bg-black/45 flex items-center justify-center p-4">
           <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Form PSDA Berhasil Dikirim</h3>
-            <p className="text-sm text-gray-700 mb-5">Laporan Anda telah diterima dan akan diverifikasi oleh tim terkait.</p>
+            <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Form PSDA Berhasil Di Isi</h3>
+            <p className="text-sm text-gray-700 mb-5">Form Anda sudah tersimpan dan akan di hubungi oleh PSDA lewat WhatsApp.</p>
             <button
               type="button"
               onClick={() => setShowSuccessPopup(false)}
