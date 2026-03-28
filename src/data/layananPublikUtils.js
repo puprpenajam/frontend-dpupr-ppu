@@ -180,7 +180,7 @@ export const createLayananRequest = (payload) => {
     id: Date.now(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    status: 'diterima',
+    status: 'proses',
     nama: payload.nama.trim(),
     instansi: payload.instansi?.trim() || '-',
     alamat: payload.alamat.trim(),

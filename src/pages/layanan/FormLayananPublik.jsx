@@ -6,7 +6,6 @@ import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
 import {
   createLayananRequest,
-  getCategoryLabel,
   getWhatsAppLink,
   normalizePhoneForWhatsApp
 } from '../../data/layananPublikUtils';
@@ -32,17 +31,6 @@ const FormLayananPublik = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const whatsappPreviewLink = getWhatsAppLink(formData.nomorHp);
-  const getUnitName = (category) => {
-    if (!category) return 'tim terkait';
-    const label = getCategoryLabel(category).toLowerCase();
-    if (label.includes('psda')) return 'PSDA';
-    if (label.includes('bina marga')) return 'Bina Marga';
-    if (label.includes('cipta karya')) return 'Cipta Karya';
-    if (label.includes('tata ruang')) return 'Tata Ruang';
-    if (label.includes('bina konstruksi')) return 'Bina Konstruksi';
-    if (label.includes('upt')) return 'UPT PU Lab dan Alat Berat';
-    return 'Form Lainnya (Sekretariat/Umum)';
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -281,7 +269,7 @@ const FormLayananPublik = () => {
               <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200 p-6">
                 <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Permohonan Berhasil Di Isi</h3>
                 <p className="text-sm text-gray-700 mb-5">
-                  Form Anda sudah tersimpan dan akan di hubungi oleh {getUnitName(result?.assignedCategory)} lewat WhatsApp.
+                  Form Anda sudah tersimpan. Silahkan cek tracking untuk melihat status terbaru.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button

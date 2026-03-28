@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
-import { getLayananRequests, getCategoryLabel } from '../../data/layananPublikUtils';
+import { getLayananRequests } from '../../data/layananPublikUtils';
 import BuktiPreviewModal from '../../components/BuktiPreviewModal';
 
 const statusClassMap = {
@@ -61,7 +61,6 @@ const TrackingLayananPublik = () => {
                       <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Instansi</th>
                       <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">WhatsApp</th>
                       <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Keperluan</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Kategori</th>
                       <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Status</th>
                       <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Bukti</th>
                       <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Keterangan</th>
@@ -84,7 +83,6 @@ const TrackingLayananPublik = () => {
                           )}
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700 min-w-[220px]">{item.keperluan}</td>
-                        <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">{getCategoryLabel(item.assignedCategory)}</td>
                         <td className="px-4 py-3 text-sm whitespace-nowrap">
                           <span className={`px-2.5 py-1 rounded-full border text-xs font-semibold ${statusClassMap[item.status] || statusClassMap.proses}`}>
                             {item.status.toUpperCase()}
