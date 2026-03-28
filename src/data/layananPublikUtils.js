@@ -28,9 +28,9 @@ const categoryOptions = [
 
 const categoryLinks = {
   'sekretariat-umum': '',
-  'cipta-karya': 'https://example.go.id/form/cipta-karya',
+  'cipta-karya': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-cipta-karya',
   psda: 'https://pupr-penajamkab.vercel.app/layanan-publik/form-psda',
-  'bina-marga': 'https://example.go.id/form/bina-marga'
+  'bina-marga': 'https://pupr-penajamkab.vercel.app/layanan-publik/form-bina-marga'
 };
 
 const toPlainText = (input = '') => input.toString().toLowerCase().trim();
