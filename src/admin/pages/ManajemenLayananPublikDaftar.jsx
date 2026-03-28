@@ -4,6 +4,8 @@ import { Eye, Edit, Trash2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
 import AdminHeader from '../components/AdminHeader';
+import PopupKonfirmasi from '../components/PopupKonfirmasi';
+import PopupBerhasil from '../components/PopupBerhasil';
 import BuktiPreviewModal from '../../components/BuktiPreviewModal';
 import {
   getLayananCategoryLinks,
@@ -27,6 +29,8 @@ const ManajemenLayananPublikDaftar = () => {
   const [editingId, setEditingId] = useState(null);
   const [viewingId, setViewingId] = useState(null);
   const [editErrors, setEditErrors] = useState({});
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [previewData, setPreviewData] = useState({
     isOpen: false,
     fileData: '',
@@ -97,11 +101,18 @@ const ManajemenLayananPublikDaftar = () => {
   };
 
   const handleDelete = (id) => {
-    const isConfirmed = window.confirm('Apakah Anda yakin ingin menghapus data layanan ini?');
-    if (!isConfirmed) {
+    const target = categoryRequests.find((item) => item.id === id) || null;
+    setDeleteTarget(target);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteTarget) {
       return;
     }
-    deleteLayananRequest(id);
+
+    deleteLayananRequest(deleteTarget.id);
+    setDeleteTarget(null);
+    setShowDeleteSuccess(true);
     loadData();
   };
 
@@ -464,6 +475,23 @@ const ManajemenLayananPublikDaftar = () => {
           </div>
         </div>
       )}
+
+      <PopupKonfirmasi
+        isOpen={Boolean(deleteTarget)}
+        title="Konfirmasi Hapus Data"
+        message={deleteTarget ? `Data layanan atas nama ${deleteTarget.nama} akan dihapus permanen. Lanjutkan?` : ''}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+        confirmText="Ya, Hapus"
+        cancelText="Batal"
+        isDangerous
+      />
+
+      <PopupBerhasil
+        isOpen={showDeleteSuccess}
+        message="Data layanan publik berhasil dihapus."
+        onClose={() => setShowDeleteSuccess(false)}
+      />
     </div>
   );
 };
