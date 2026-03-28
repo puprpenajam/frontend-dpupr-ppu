@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Eye, EyeOff, Shield, ArrowLeft } from 'lucide-react';
@@ -107,7 +107,7 @@ const Login = () => {
         </form>
         <div className="mt-6 bg-[#FDB913]/10 border-2 border-[#FDB913]/30 rounded-xl p-4">
           <p className="text-[#1E3A7D] text-xs text-center flex items-center justify-center gap-1">
-            ðŸ”’ Portal ini hanya untuk administrator sistem. Semua aktivitas login akan dicatat.
+             Portal ini hanya untuk administrator sistem. Semua aktivitas login akan dicatat.
           </p>
         </div>
 

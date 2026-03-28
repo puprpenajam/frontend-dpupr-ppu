@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown, Trash2, FileText } from 'lucide-react';
 import PopupInputLink from './PopupInputLink';
 
@@ -732,7 +732,7 @@ const TambahDanEditBerita = ({
                         suppressContentEditableWarning
                       />
                       <p className="text-xs text-gray-500 mt-2">
-                        ðŸ’¡ Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
+                         Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
                       </p>
                     </div>
                   ) : (

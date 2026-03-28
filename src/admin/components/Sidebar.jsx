@@ -1,4 +1,4 @@
-﻿import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Newspaper, LogOut, Archive, ClipboardList, X, Menu } from 'lucide-react';
 import { useState } from 'react';
@@ -111,7 +111,7 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
         </div>
         <div className="p-4 text-center">
           <p className="text-[#FDB913]/60 text-xs">
-            Â© 2026 DPUPR PPU
+            © 2026 DPUPR PPU
           </p>
         </div>
       </div>
