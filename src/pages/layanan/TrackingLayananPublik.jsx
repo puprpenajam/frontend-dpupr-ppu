@@ -12,6 +12,23 @@ const statusClassMap = {
   ditolak: 'bg-red-100 text-red-800 border-red-200'
 };
 
+const formatDateTimeId = (value) => {
+  const dateObj = new Date(value);
+  const tanggal = dateObj.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+  const jam = dateObj.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).replace(':', '.');
+
+  return { tanggal, jam };
+};
+
 const TrackingLayananPublik = () => {
   const requests = useMemo(() => getLayananRequests(), []);
   const [previewData, setPreviewData] = useState({
@@ -56,21 +73,26 @@ const TrackingLayananPublik = () => {
                 <table className="w-full min-w-[900px] lg:min-w-0 table-fixed">
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Tanggal</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Nama</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Instansi</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">WhatsApp</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Keperluan</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Status</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Bukti</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Keterangan</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-700">Link Form</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">TANGGAL</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">NAMA</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">INSTANSI</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">WHATSAPP</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">KEPERLUAN</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">STATUS</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">BUKTI</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">KETERANGAN</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-700">LINK FORM</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
-                    {requests.map((item) => (
+                    {requests.map((item) => {
+                      const waktu = formatDateTimeId(item.createdAt);
+                      return (
                       <tr key={item.id} className="hover:bg-gray-50 align-top">
-                        <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">{new Date(item.createdAt).toLocaleString('id-ID')}</td>
+                        <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
+                          <p>{waktu.tanggal}</p>
+                          <p className="text-xs text-gray-500 mt-0.5">JAM {waktu.jam}</p>
+                        </td>
                         <td className="px-4 py-3 text-sm font-semibold text-[#1E3A7D] whitespace-nowrap">{item.nama}</td>
                         <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">{item.instansi}</td>
                         <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
@@ -113,7 +135,7 @@ const TrackingLayananPublik = () => {
                           )}
                         </td>
                       </tr>
-                    ))}
+                    )})}
                   </tbody>
                 </table>
               </div>

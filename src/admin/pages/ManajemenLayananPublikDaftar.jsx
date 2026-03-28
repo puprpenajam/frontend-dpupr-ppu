@@ -20,6 +20,23 @@ import {
 
 const statusOptions = ['proses', 'diterima', 'ditolak'];
 
+const formatDateTimeId = (value) => {
+  const dateObj = new Date(value);
+  const tanggal = dateObj.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+  const jam = dateObj.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).replace(':', '.');
+
+  return { tanggal, jam };
+};
+
 const ManajemenLayananPublikDaftar = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -213,14 +230,14 @@ const ManajemenLayananPublikDaftar = () => {
             <table className="w-full min-w-[980px] lg:min-w-0 table-fixed">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">Tanggal</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">Nama</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">Keperluan</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">WhatsApp</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">Bukti</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-600">Keterangan</th>
-                  <th className="px-4 py-3 text-center text-xs font-bold text-gray-600">Aksi</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">TANGGAL</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">NAMA</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">KEPERLUAN</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">WHATSAPP</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">STATUS</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">BUKTI</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">KETERANGAN</th>
+                  <th className="px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600">AKSI</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -231,9 +248,14 @@ const ManajemenLayananPublikDaftar = () => {
                     </td>
                   </tr>
                 ) : (
-                  categoryRequests.map((item) => (
+                  categoryRequests.map((item) => {
+                    const waktu = formatDateTimeId(item.createdAt);
+                    return (
                     <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm font-semibold text-[#1E3A7D] break-words">{new Date(item.createdAt).toLocaleDateString('id-ID')}</td>
+                      <td className="px-4 py-3 text-sm font-semibold text-[#1E3A7D] break-words">
+                        <p>{waktu.tanggal}</p>
+                        <p className="text-xs text-gray-500 mt-0.5 font-normal">JAM {waktu.jam}</p>
+                      </td>
                       <td className="px-4 py-3 text-sm text-gray-700">{item.nama}</td>
                       <td className="px-4 py-3 text-sm text-gray-700"><p className="line-clamp-2">{item.keperluan}</p></td>
                       <td className="px-4 py-3 text-sm text-gray-700">
@@ -287,7 +309,7 @@ const ManajemenLayananPublikDaftar = () => {
                         </div>
                       </td>
                     </tr>
-                  ))
+                  )})
                 )}
               </tbody>
             </table>
@@ -309,7 +331,8 @@ const ManajemenLayananPublikDaftar = () => {
             </div>
 
             <div className="p-5 space-y-4 text-sm text-gray-700">
-              <p><strong>Tanggal:</strong> {new Date(viewingRequest.createdAt).toLocaleString('id-ID')}</p>
+              <p><strong>TANGGAL:</strong> {formatDateTimeId(viewingRequest.createdAt).tanggal}</p>
+              <p><strong>JAM:</strong> {formatDateTimeId(viewingRequest.createdAt).jam}</p>
               <p><strong>Nama:</strong> {viewingRequest.nama}</p>
               <p><strong>Instansi:</strong> {viewingRequest.instansi}</p>
               <p>
