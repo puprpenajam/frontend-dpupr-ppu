@@ -111,12 +111,6 @@ const TataCaraDetailForm = () => {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  to={guide.formLink}
-                  className="inline-flex items-center justify-center bg-[#1E3A7D] hover:bg-[#152856] text-white px-5 py-3 rounded-lg text-sm font-semibold"
-                >
-                  Buka Form Terkait
-                </Link>
-                <Link
                   to="/layanan-publik/tata-cara"
                   className="inline-flex items-center justify-center bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-3 rounded-lg text-sm font-semibold"
                 >
