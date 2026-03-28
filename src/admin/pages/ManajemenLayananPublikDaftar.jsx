@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Eye, Edit, Trash2 } from 'lucide-react';
+import { Eye, Edit, Trash2, CalendarDays, Clock3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
 import AdminHeader from '../components/AdminHeader';
@@ -32,7 +32,7 @@ const formatDateTimeId = (value) => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false
-  }).replace(':', '.');
+  });
 
   return { tanggal, jam };
 };
@@ -253,8 +253,14 @@ const ManajemenLayananPublikDaftar = () => {
                     return (
                     <tr key={item.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3 text-sm font-semibold text-[#1E3A7D] break-words">
-                        <p>{waktu.tanggal}</p>
-                        <p className="text-xs text-gray-500 mt-0.5 font-normal">JAM {waktu.jam}</p>
+                        <p className="flex items-center gap-1">
+                          <CalendarDays className="w-3.5 h-3.5" />
+                          <span>{waktu.tanggal}</span>
+                        </p>
+                        <p className="text-xs text-gray-500 mt-0.5 font-normal flex items-center gap-1">
+                          <Clock3 className="w-3.5 h-3.5" />
+                          <span>{waktu.jam}</span>
+                        </p>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">{item.nama}</td>
                       <td className="px-4 py-3 text-sm text-gray-700"><p className="line-clamp-2">{item.keperluan}</p></td>
@@ -331,8 +337,14 @@ const ManajemenLayananPublikDaftar = () => {
             </div>
 
             <div className="p-5 space-y-4 text-sm text-gray-700">
-              <p><strong>TANGGAL:</strong> {formatDateTimeId(viewingRequest.createdAt).tanggal}</p>
-              <p><strong>JAM:</strong> {formatDateTimeId(viewingRequest.createdAt).jam}</p>
+              <p className="flex items-center gap-2">
+                <CalendarDays className="w-4 h-4" />
+                <span>{formatDateTimeId(viewingRequest.createdAt).tanggal}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Clock3 className="w-4 h-4" />
+                <span>{formatDateTimeId(viewingRequest.createdAt).jam}</span>
+              </p>
               <p><strong>Nama:</strong> {viewingRequest.nama}</p>
               <p><strong>Instansi:</strong> {viewingRequest.instansi}</p>
               <p>

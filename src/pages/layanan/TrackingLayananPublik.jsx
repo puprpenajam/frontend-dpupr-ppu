@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { CalendarDays, Clock3 } from 'lucide-react';
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -24,7 +25,7 @@ const formatDateTimeId = (value) => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false
-  }).replace(':', '.');
+  });
 
   return { tanggal, jam };
 };
@@ -90,8 +91,14 @@ const TrackingLayananPublik = () => {
                       return (
                       <tr key={item.id} className="hover:bg-gray-50 align-top">
                         <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                          <p>{waktu.tanggal}</p>
-                          <p className="text-xs text-gray-500 mt-0.5">JAM {waktu.jam}</p>
+                          <p className="flex items-center gap-1">
+                            <CalendarDays className="w-3.5 h-3.5" />
+                            <span>{waktu.tanggal}</span>
+                          </p>
+                          <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                            <Clock3 className="w-3.5 h-3.5" />
+                            <span>{waktu.jam}</span>
+                          </p>
                         </td>
                         <td className="px-4 py-3 text-sm font-semibold text-[#1E3A7D] whitespace-nowrap">{item.nama}</td>
                         <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">{item.instansi}</td>
