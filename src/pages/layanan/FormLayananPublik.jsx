@@ -147,7 +147,7 @@ const FormLayananPublik = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             {result && !showSuccessPopup && (
-              <div className="mb-8 bg-green-50 border border-green-200 text-green-800 rounded-xl p-5">
+              <div className="mb-8 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl p-5">
                 <p className="font-semibold text-lg mb-1">Permohonan berhasil dikirim.</p>
                 <p>Data Anda telah diterima dan sedang menunggu verifikasi admin.</p>
                 <p className="text-sm mt-2">Silakan lihat perkembangan status pada menu Tracking Layanan Publik.</p>

@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { X, Calendar, Upload, MapPin, Type, Image as ImageIcon, AlertCircle, Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown, Trash2, FileText } from 'lucide-react';
+import PopupInputLink from './PopupInputLink';
 
 const TambahDanEditBerita = ({
   isOpen,
@@ -21,6 +22,11 @@ const TambahDanEditBerita = ({
   const [activeFormats, setActiveFormats] = useState({});
   const [showColorPicker, setShowColorPicker] = useState({});
   const [isInitialized, setIsInitialized] = useState({});
+  const savedSelectionRange = useRef(null);
+  const [showLinkPopup, setShowLinkPopup] = useState(false);
+  const [linkTargetIndex, setLinkTargetIndex] = useState(null);
+  const [linkValue, setLinkValue] = useState('');
+  const [linkError, setLinkError] = useState('');
 
   // Move block up
   const moveBlockUp = (index) => {
@@ -100,10 +106,46 @@ const TambahDanEditBerita = ({
   };
 
   const insertLink = (index) => {
-    const url = prompt('Masukkan URL link:');
-    if (url) {
-      applyFormat(index, 'createLink', url);
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelectionRange.current = selection.getRangeAt(0).cloneRange();
     }
+
+    setLinkTargetIndex(index);
+    setLinkValue('');
+    setLinkError('');
+    setShowLinkPopup(true);
+  };
+
+  const handleSubmitLink = () => {
+    if (linkTargetIndex === null) return;
+
+    let normalizedUrl = linkValue.trim();
+    if (!normalizedUrl) {
+      setLinkError('URL link wajib diisi');
+      return;
+    }
+
+    if (!/^https?:\/\//i.test(normalizedUrl)) {
+      normalizedUrl = `https://${normalizedUrl}`;
+    }
+
+    const editor = editorRefs.current[linkTargetIndex];
+    if (!editor) return;
+
+    editor.focus();
+    if (savedSelectionRange.current) {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(savedSelectionRange.current);
+    }
+
+    document.execCommand('createLink', false, normalizedUrl);
+    onUpdateContentBlock(linkTargetIndex, editor.innerHTML);
+    setShowLinkPopup(false);
+    setLinkTargetIndex(null);
+    setLinkValue('');
+    setLinkError('');
   };
 
   const clearFormatting = (index) => {
@@ -209,7 +251,6 @@ const TambahDanEditBerita = ({
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[85vh] overflow-hidden flex flex-col my-4">
-        {/* Modal Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between z-10">
           <h2 className="text-xl sm:text-2xl font-bold text-[#1E3A7D]">
             {editingId ? 'Edit Berita' : 'Buat Berita Baru'}
@@ -222,10 +263,7 @@ const TambahDanEditBerita = ({
             <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
           </button>
         </div>
-
-        {/* Modal Content */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-          {/* Error Summary */}
           {Object.keys(errors).length > 0 && (
             <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 flex gap-3">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -239,8 +277,6 @@ const TambahDanEditBerita = ({
               </div>
             </div>
           )}
-
-          {/* Upload Thumbnail */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Thumbnail Berita <span className="text-red-500">*</span>
@@ -294,8 +330,6 @@ const TambahDanEditBerita = ({
               Thumbnail akan ditampilkan sebagai gambar pertama di berita
             </p>
           </div>
-
-          {/* Date */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Tanggal Berita
@@ -311,8 +345,6 @@ const TambahDanEditBerita = ({
             </div>
             <p className="text-sm text-gray-500 mt-1">Format: {newNews.date}</p>
           </div>
-
-          {/* Title */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Judul Berita <span className="text-red-500">*</span>
@@ -335,8 +367,6 @@ const TambahDanEditBerita = ({
               </p>
             )}
           </div>
-
-          {/* Location/Kecamatan */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Lokasi/Kecamatan <span className="text-red-500">*</span>
@@ -374,8 +404,6 @@ const TambahDanEditBerita = ({
               Lokasi akan ditampilkan di awal konten: "{newNews.location.toUpperCase()}. Dalam rangka..."
             </p>
           </div>
-
-          {/* Content Blocks */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
@@ -434,7 +462,6 @@ const TambahDanEditBerita = ({
                       )}
                     </div>
                     <div className="flex items-center gap-1">
-                      {/* Move Up Button */}
                       <button
                         type="button"
                         onClick={() => moveBlockUp(index)}
@@ -448,7 +475,6 @@ const TambahDanEditBerita = ({
                       >
                         <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
-                      {/* Move Down Button */}
                       <button
                         type="button"
                         onClick={() => moveBlockDown(index)}
@@ -462,7 +488,6 @@ const TambahDanEditBerita = ({
                       >
                         <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
-                      {/* Delete Button */}
                       <button
                         type="button"
                         onClick={() => onRemoveContentBlock(index)}
@@ -476,9 +501,7 @@ const TambahDanEditBerita = ({
 
                   {block.type === 'text' ? (
                     <div>
-                      {/* Toolbar Formatting WYSIWYG */}
                       <div className="flex flex-wrap gap-1 mb-3 p-2 bg-white border-2 border-gray-200 rounded-lg">
-                        {/* Text Formatting */}
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'bold')}
@@ -511,8 +534,6 @@ const TambahDanEditBerita = ({
                         </button>
 
                         <div className="w-px bg-gray-300 mx-1"></div>
-
-                        {/* Headings */}
                         <button
                           type="button"
                           onClick={() => insertHeading(index, 'h2')}
@@ -539,8 +560,6 @@ const TambahDanEditBerita = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Lists */}
                         <button
                           type="button"
                           onClick={() => insertList(index, 'ul')}
@@ -575,8 +594,6 @@ const TambahDanEditBerita = ({
                         </button>
 
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Alignment */}
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'justifyLeft')}
@@ -611,8 +628,6 @@ const TambahDanEditBerita = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Link & Clear */}
                         <button
                           type="button"
                           onClick={() => insertLink(index)}
@@ -623,8 +638,6 @@ const TambahDanEditBerita = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Color Picker */}
                         <div className="relative">
                           <button
                             type="button"
@@ -643,13 +656,11 @@ const TambahDanEditBerita = ({
                                   { color: '#000000', label: 'Hitam' },
                                   { color: '#1E3A7D', label: 'Biru' },
                                   { color: '#DC2626', label: 'Merah' },
-                                  { color: '#059669', label: 'Hijau' },
                                   { color: '#D97706', label: 'Orange' },
                                   { color: '#7C3AED', label: 'Ungu' },
                                   { color: '#4B5563', label: 'Abu' },
                                   { color: '#EC4899', label: 'Pink' },
                                   { color: '#0891B2', label: 'Cyan' },
-                                  { color: '#84CC16', label: 'Lime' },
                                   { color: '#F59E0B', label: 'Kuning' },
                                   { color: '#8B5CF6', label: 'Violet' },
                                 ].map(({ color, label }) => (
@@ -668,7 +679,6 @@ const TambahDanEditBerita = ({
                                 {[
                                   { color: '#FEF3C7', label: 'Kuning' },
                                   { color: '#DBEAFE', label: 'Biru' },
-                                  { color: '#DCFCE7', label: 'Hijau' },
                                   { color: '#FEE2E2', label: 'Merah' },
                                   { color: '#FCE7F3', label: 'Pink' },
                                   { color: '#E0E7FF', label: 'Indigo' },
@@ -703,8 +713,6 @@ const TambahDanEditBerita = ({
                           <Eraser className="w-4 h-4 text-red-500" />
                         </button>
                       </div>
-                      
-                      {/* Rich Text Editor (ContentEditable) */}
                       <div
                         ref={(el) => {
                           if (el && !editorRefs.current[index]) {
@@ -724,7 +732,7 @@ const TambahDanEditBerita = ({
                         suppressContentEditableWarning
                       />
                       <p className="text-xs text-gray-500 mt-2">
-                        💡 Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
+                        ðŸ’¡ Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
                       </p>
                     </div>
                   ) : (
@@ -775,8 +783,6 @@ const TambahDanEditBerita = ({
             </div>
           </div>
         </div>
-
-        {/* Modal Footer */}
         <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6">
           <div className="flex gap-3">
             <button
@@ -794,8 +800,28 @@ const TambahDanEditBerita = ({
           </div>
         </div>
       </div>
+
+      <PopupInputLink
+        isOpen={showLinkPopup}
+        value={linkValue}
+        error={linkError}
+        onChange={(value) => {
+          setLinkValue(value);
+          if (linkError) {
+            setLinkError('');
+          }
+        }}
+        onCancel={() => {
+          setShowLinkPopup(false);
+          setLinkTargetIndex(null);
+          setLinkValue('');
+          setLinkError('');
+        }}
+        onSubmit={handleSubmitLink}
+      />
     </div>
   );
 };
 
 export default TambahDanEditBerita;
+

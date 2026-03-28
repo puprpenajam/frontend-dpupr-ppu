@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+﻿import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Newspaper, LogOut, Archive, ClipboardList, X, Menu } from 'lucide-react';
 import { useState } from 'react';
@@ -44,30 +44,24 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isMobileOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
-
-      {/* Sidebar */}
       <div className={`
         fixed lg:sticky top-0 left-0 h-screen
         w-64 bg-gradient-to-b from-[#1E3A7D] to-[#152856] 
         flex flex-col z-50 transition-transform duration-300
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Mobile Close Button */}
         <button
           onClick={() => setIsMobileOpen(false)}
           className="absolute top-4 right-4 lg:hidden text-white hover:text-[#FDB913]"
         >
           <X className="w-6 h-6" />
         </button>
-
-        {/* Logo & Title */}
         <div className="p-6 border-b border-[#FDB913]/30">
           <div className="flex items-center gap-3">
             <img 
@@ -81,8 +75,6 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
             </div>
           </div>
         </div>
-
-        {/* Menu Items */}
         <nav className="flex-1 p-4 overflow-y-auto">
           <ul className="space-y-2">
             {menuItems.map((item) => {
@@ -108,8 +100,6 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
             })}
           </ul>
         </nav>
-
-        {/* Logout */}
         <div className="p-4 border-t border-[#FDB913]/30">
           <button
             onClick={handleLogout}
@@ -119,11 +109,9 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
             <span>Logout</span>
           </button>
         </div>
-
-        {/* Footer */}
         <div className="p-4 text-center">
           <p className="text-[#FDB913]/60 text-xs">
-            © 2026 DPUPR PPU
+            Â© 2026 DPUPR PPU
           </p>
         </div>
       </div>
@@ -132,3 +120,4 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
 };
 
 export default Sidebar;
+

@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { X, Type, Image as ImageIcon, AlertCircle, Trash2, FileText, Bold, Italic, Underline, List, ListOrdered, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link as LinkIcon, Eraser, Palette, ChevronUp, ChevronDown } from 'lucide-react';
+import PopupInputLink from './PopupInputLink';
 
 const TambahDanEditKonten = ({
   isOpen,
@@ -18,6 +19,11 @@ const TambahDanEditKonten = ({
   const [activeFormats, setActiveFormats] = useState({});
   const [showColorPicker, setShowColorPicker] = useState({});
   const [isInitialized, setIsInitialized] = useState({});
+  const savedSelectionRange = useRef(null);
+  const [showLinkPopup, setShowLinkPopup] = useState(false);
+  const [linkTargetIndex, setLinkTargetIndex] = useState(null);
+  const [linkValue, setLinkValue] = useState('');
+  const [linkError, setLinkError] = useState('');
 
   // Move block up
   const moveBlockUp = (index) => {
@@ -155,14 +161,48 @@ const TambahDanEditKonten = ({
     const editor = editorRefs.current[index];
     if (!editor) return;
 
-    const url = prompt('Masukkan URL:');
-    if (url) {
-      editor.focus();
-      document.execCommand('createLink', false, url);
-      
-      const content = editor.innerHTML;
-      onUpdateContentBlock(index, 'content', content);
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelectionRange.current = selection.getRangeAt(0).cloneRange();
     }
+
+    setLinkTargetIndex(index);
+    setLinkValue('');
+    setLinkError('');
+    setShowLinkPopup(true);
+  };
+
+  const handleSubmitLink = () => {
+    if (linkTargetIndex === null) return;
+
+    let normalizedUrl = linkValue.trim();
+    if (!normalizedUrl) {
+      setLinkError('URL link wajib diisi');
+      return;
+    }
+
+    if (!/^https?:\/\//i.test(normalizedUrl)) {
+      normalizedUrl = `https://${normalizedUrl}`;
+    }
+
+    const editor = editorRefs.current[linkTargetIndex];
+    if (!editor) return;
+
+    editor.focus();
+    if (savedSelectionRange.current) {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(savedSelectionRange.current);
+    }
+
+    document.execCommand('createLink', false, normalizedUrl);
+
+    const content = editor.innerHTML;
+    onUpdateContentBlock(linkTargetIndex, 'content', content);
+    setShowLinkPopup(false);
+    setLinkTargetIndex(null);
+    setLinkValue('');
+    setLinkError('');
   };
 
   const clearFormatting = (index) => {
@@ -244,7 +284,6 @@ const TambahDanEditKonten = ({
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[85vh] overflow-hidden flex flex-col my-4">
-        {/* Modal Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between z-10">
           <h2 className="text-xl sm:text-2xl font-bold text-[#1E3A7D]">
             {editingId ? 'Edit Konten' : 'Buat Konten Baru'}
@@ -257,10 +296,7 @@ const TambahDanEditKonten = ({
             <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
           </button>
         </div>
-
-        {/* Modal Content */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-          {/* Error Summary */}
           {Object.keys(errors).length > 0 && (
             <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 flex gap-3">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -274,8 +310,6 @@ const TambahDanEditKonten = ({
               </div>
             </div>
           )}
-
-          {/* Nama Konten */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Nama Konten <span className="text-red-500">*</span>
@@ -290,8 +324,6 @@ const TambahDanEditKonten = ({
               } focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base`}
             />
           </div>
-
-          {/* Slug */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Slug (URL) <span className="text-red-500">*</span>
@@ -309,8 +341,6 @@ const TambahDanEditKonten = ({
               URL: /{formData.category}/{formData.slug}
             </p>
           </div>
-
-          {/* Kategori */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Kategori <span className="text-red-500">*</span>
@@ -327,8 +357,6 @@ const TambahDanEditKonten = ({
               <option value="profil">Profil DPUPR</option>
             </select>
           </div>
-
-          {/* Deskripsi */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Deskripsi
@@ -341,8 +369,6 @@ const TambahDanEditKonten = ({
               className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base"
             />
           </div>
-
-          {/* Judul Halaman */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Judul Halaman <span className="text-red-500">*</span>
@@ -357,8 +383,6 @@ const TambahDanEditKonten = ({
               } focus:border-[#1E3A7D] focus:outline-none transition-colors text-sm sm:text-base`}
             />
           </div>
-
-          {/* Status Published */}
           <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
             <input
               type="checkbox"
@@ -371,8 +395,6 @@ const TambahDanEditKonten = ({
               Publikasikan halaman ini (halaman akan muncul di website)
             </label>
           </div>
-
-          {/* Content Blocks */}
           <div>
             <div className="flex items-center justify-between mb-4">
               <label className="block text-sm font-semibold text-gray-700">
@@ -403,8 +425,6 @@ const TambahDanEditKonten = ({
                 {errors.content}
               </div>
             )}
-
-            {/* Content Blocks List */}
             <div className="space-y-4">
               {formData.contentBlocks && formData.contentBlocks.map((block, index) => (
                 <div key={index} className="border-2 border-gray-200 rounded-xl p-4 bg-gray-50">
@@ -423,7 +443,6 @@ const TambahDanEditKonten = ({
                       )}
                     </div>
                     <div className="flex items-center gap-1">
-                      {/* Move Up Button */}
                       <button
                         type="button"
                         onClick={() => moveBlockUp(index)}
@@ -437,7 +456,6 @@ const TambahDanEditKonten = ({
                       >
                         <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
-                      {/* Move Down Button */}
                       <button
                         type="button"
                         onClick={() => moveBlockDown(index)}
@@ -451,7 +469,6 @@ const TambahDanEditKonten = ({
                       >
                         <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
-                      {/* Delete Button */}
                       <button
                         type="button"
                         onClick={() => onRemoveContentBlock(index)}
@@ -465,9 +482,7 @@ const TambahDanEditKonten = ({
 
                   {block.type === 'text' ? (
                     <div>
-                      {/* Toolbar Formatting WYSIWYG */}
                       <div className="flex flex-wrap gap-1 mb-3 p-2 bg-white border-2 border-gray-200 rounded-lg">
-                        {/* Text Formatting */}
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'bold')}
@@ -500,8 +515,6 @@ const TambahDanEditKonten = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Headings */}
                         <button
                           type="button"
                           onClick={() => insertHeading(index, 'h2')}
@@ -528,8 +541,6 @@ const TambahDanEditKonten = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Lists */}
                         <button
                           type="button"
                           onClick={() => insertList(index, 'ul')}
@@ -564,8 +575,6 @@ const TambahDanEditKonten = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Alignment */}
                         <button
                           type="button"
                           onClick={() => applyFormat(index, 'justifyLeft')}
@@ -600,8 +609,6 @@ const TambahDanEditKonten = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Link & Clear */}
                         <button
                           type="button"
                           onClick={() => insertLink(index)}
@@ -612,8 +619,6 @@ const TambahDanEditKonten = ({
                         </button>
                         
                         <div className="w-px bg-gray-300 mx-1"></div>
-                        
-                        {/* Color Picker */}
                         <div className="relative">
                           <button
                             type="button"
@@ -632,13 +637,11 @@ const TambahDanEditKonten = ({
                                   { color: '#000000', label: 'Hitam' },
                                   { color: '#1E3A7D', label: 'Biru' },
                                   { color: '#DC2626', label: 'Merah' },
-                                  { color: '#059669', label: 'Hijau' },
                                   { color: '#D97706', label: 'Orange' },
                                   { color: '#7C3AED', label: 'Ungu' },
                                   { color: '#4B5563', label: 'Abu' },
                                   { color: '#EC4899', label: 'Pink' },
                                   { color: '#0891B2', label: 'Cyan' },
-                                  { color: '#84CC16', label: 'Lime' },
                                   { color: '#F59E0B', label: 'Kuning' },
                                   { color: '#8B5CF6', label: 'Violet' },
                                 ].map(({ color, label }) => (
@@ -657,7 +660,6 @@ const TambahDanEditKonten = ({
                                 {[
                                   { color: '#FEF3C7', label: 'Kuning' },
                                   { color: '#DBEAFE', label: 'Biru' },
-                                  { color: '#DCFCE7', label: 'Hijau' },
                                   { color: '#FEE2E2', label: 'Merah' },
                                   { color: '#FCE7F3', label: 'Pink' },
                                   { color: '#E0E7FF', label: 'Indigo' },
@@ -692,8 +694,6 @@ const TambahDanEditKonten = ({
                           <Eraser className="w-4 h-4 text-red-500" />
                         </button>
                       </div>
-                      
-                      {/* Rich Text Editor (ContentEditable) */}
                       <div
                         ref={(el) => {
                           if (el && !editorRefs.current[index]) {
@@ -710,7 +710,7 @@ const TambahDanEditKonten = ({
                         suppressContentEditableWarning
                       />
                       <p className="text-xs text-gray-500 mt-2">
-                        💡 Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
+                        ðŸ’¡ Pilih teks dan gunakan toolbar untuk format langsung - hasilnya sama seperti di website publik
                       </p>
                     </div>
                   ) : (
@@ -768,8 +768,6 @@ const TambahDanEditKonten = ({
             </div>
           </div>
         </div>
-
-        {/* Modal Footer */}
         <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
           <button
             onClick={onCancel}
@@ -785,8 +783,28 @@ const TambahDanEditKonten = ({
           </button>
         </div>
       </div>
+
+      <PopupInputLink
+        isOpen={showLinkPopup}
+        value={linkValue}
+        error={linkError}
+        onChange={(value) => {
+          setLinkValue(value);
+          if (linkError) {
+            setLinkError('');
+          }
+        }}
+        onCancel={() => {
+          setShowLinkPopup(false);
+          setLinkTargetIndex(null);
+          setLinkValue('');
+          setLinkError('');
+        }}
+        onSubmit={handleSubmitLink}
+      />
     </div>
   );
 };
 
 export default TambahDanEditKonten;
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
@@ -29,6 +29,7 @@ const ManajemenBerita = () => {
   const [konfirmasiData, setKonfirmasiData] = useState({ id: null, type: 'delete' });
   const [showBerhasil, setShowBerhasil] = useState(false);
   const [pesanBerhasil, setPesanBerhasil] = useState('');
+  const [popupType, setPopupType] = useState('success');
   
   const [newNews, setNewNews] = useState({
     thumbnail: null,
@@ -136,7 +137,9 @@ const ManajemenBerita = () => {
 
   const removeContentBlock = (index) => {
     if (newNews.contentBlocks.length === 1) {
-      alert('Minimal harus ada 1 konten');
+      setPesanBerhasil('Minimal harus ada 1 konten');
+      setPopupType('info');
+      setShowBerhasil(true);
       return;
     }
     const updatedBlocks = newNews.contentBlocks.filter((_, i) => i !== index);
@@ -206,10 +209,12 @@ const ManajemenBerita = () => {
       // Update existing news
       updatedNewsData = currentNewsData.map(news => news.id === editingId ? newsItem : news);
       setPesanBerhasil('Berita berhasil diupdate!');
+      setPopupType('success');
     } else {
       // Add new news
       updatedNewsData = [newsItem, ...currentNewsData];
       setPesanBerhasil('Berita berhasil ditambahkan!');
+      setPopupType('success');
     }
 
     setNewsData(updatedNewsData);
@@ -246,6 +251,7 @@ const ManajemenBerita = () => {
     localStorage.setItem('newsData', JSON.stringify(updatedNews));
     setShowKonfirmasi(false);
     setPesanBerhasil('Berita berhasil dihapus');
+    setPopupType('success');
     setShowBerhasil(true);
   };
 
@@ -302,16 +308,12 @@ const ManajemenBerita = () => {
       <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
       <div className="flex-1 min-w-0">
-        {/* Header */}
         <AdminHeader 
           title="Manajemen Berita" 
           subtitle="Kelola semua berita website DPUPR PPU"
           onMenuClick={() => setIsMobileMenuOpen(true)}
         />
-
-        {/* Content */}
         <div className="p-4 sm:p-6">
-          {/* Header with title and add button */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Daftar Berita</h2>
             <div className="flex items-center gap-3">
@@ -337,15 +339,11 @@ const ManajemenBerita = () => {
           />
         </div>
       </div>
-
-      {/* Preview Modal */}
       <PreviewBerita 
         isOpen={showPreview}
         news={previewNews}
         onClose={() => setShowPreview(false)}
       />
-
-      {/* Form Modal */}
       <TambahDanEditBerita
         isOpen={showForm}
         editingId={editingId}
@@ -361,8 +359,6 @@ const ManajemenBerita = () => {
         onContentImageUpload={handleContentImageUpload}
         kecamatanOptions={kecamatanOptions}
       />
-
-      {/* Confirmation Modal */}
       <PopupKonfirmasi
         isOpen={showKonfirmasi}
         title="Hapus Berita"
@@ -373,16 +369,15 @@ const ManajemenBerita = () => {
         cancelText="Batal"
         isDangerous={true}
       />
-
-      {/* Success Modal */}
       <PopupBerhasil
         isOpen={showBerhasil}
         message={pesanBerhasil}
         onClose={() => setShowBerhasil(false)}
-        type="success"
+        type={popupType}
       />
     </div>
   );
 };
 
 export default ManajemenBerita;
+

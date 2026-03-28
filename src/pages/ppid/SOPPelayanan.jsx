@@ -1,4 +1,4 @@
-import FadeIn from '../../components/FadeIn';
+﻿import FadeIn from '../../components/FadeIn';
 
 const SOPPelayanan = () => {
   return (
@@ -11,7 +11,7 @@ const SOPPelayanan = () => {
 
       <FadeIn delay={100}>
       <div className="bg-gradient-to-r from-dpupr-blue to-blue-600 rounded-xl p-6 mb-8" style={{ color: '#ffffff' }}>
-        <h3 className="text-xl font-bold mb-3" style={{ color: '#ffffff' }}>📊 Tentang SOP Pelayanan</h3>
+        <h3 className="text-xl font-bold mb-3" style={{ color: '#ffffff' }}>ðŸ“Š Tentang SOP Pelayanan</h3>
         <p className="leading-relaxed" style={{ color: '#ffffff' }}>
           Standar Operasional Prosedur (SOP) Pelayanan PPID adalah pedoman tertulis yang berisi tahapan-tahapan 
           pelayanan informasi publik yang harus dilaksanakan oleh petugas PPID untuk memberikan pelayanan yang 
@@ -35,10 +35,10 @@ const SOPPelayanan = () => {
                 <p className="text-sm text-gray-700 mb-2"><strong>Petugas:</strong> Admin PPID / Petugas Informasi</p>
                 <p className="text-sm text-gray-700 mb-2"><strong>Aktivitas:</strong></p>
                 <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                  <li>• Menerima formulir permohonan informasi dari pemohon</li>
-                  <li>• Memeriksa kelengkapan dokumen (KTP, formulir, dll)</li>
-                  <li>• Memberikan tanda terima permohonan</li>
-                  <li>• Mencatat dalam buku register permohonan</li>
+                  <li>â€¢ Menerima formulir permohonan informasi dari pemohon</li>
+                  <li>â€¢ Memeriksa kelengkapan dokumen (KTP, formulir, dll)</li>
+                  <li>â€¢ Memberikan tanda terima permohonan</li>
+                  <li>â€¢ Mencatat dalam buku register permohonan</li>
                 </ul>
                 <p className="text-sm text-gray-700 mt-2"><strong>Output:</strong> Tanda bukti penerimaan permohonan</p>
               </div>
@@ -46,19 +46,19 @@ const SOPPelayanan = () => {
           </div>
 
           {/* Step 2 */}
-          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-5 border-l-4 border-green-600">
+          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-5 border-l-4 border-blue-600">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+              <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
               <div className="flex-1">
-                <h4 className="font-bold text-green-800 mb-2">Verifikasi dan Penelitian</h4>
+                <h4 className="font-bold text-blue-800 mb-2">Verifikasi dan Penelitian</h4>
                 <p className="text-sm text-gray-700 mb-2"><strong>Waktu:</strong> Maksimal 1 hari kerja</p>
                 <p className="text-sm text-gray-700 mb-2"><strong>Petugas:</strong> Koordinator PPID</p>
                 <p className="text-sm text-gray-700 mb-2"><strong>Aktivitas:</strong></p>
                 <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                  <li>• Memverifikasi kelengkapan dan keabsahan dokumen</li>
-                  <li>• Meneliti substansi informasi yang diminta</li>
-                  <li>• Mengecek apakah informasi termasuk kategori dikecualikan atau tidak</li>
-                  <li>• Menentukan ketersediaan informasi</li>
+                  <li>â€¢ Memverifikasi kelengkapan dan keabsahan dokumen</li>
+                  <li>â€¢ Meneliti substansi informasi yang diminta</li>
+                  <li>â€¢ Mengecek apakah informasi termasuk kategori dikecualikan atau tidak</li>
+                  <li>â€¢ Menentukan ketersediaan informasi</li>
                 </ul>
                 <p className="text-sm text-gray-700 mt-2"><strong>Output:</strong> Hasil verifikasi (lengkap/tidak lengkap)</p>
               </div>
@@ -75,10 +75,10 @@ const SOPPelayanan = () => {
                 <p className="text-sm text-gray-700 mb-2"><strong>Petugas:</strong> Tim Teknis/Bidang Terkait</p>
                 <p className="text-sm text-gray-700 mb-2"><strong>Aktivitas:</strong></p>
                 <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                  <li>• Mengumpulkan data dan informasi yang diminta</li>
-                  <li>• Mengolah dan menyusun informasi</li>
-                  <li>• Melakukan pengaburan (jika diperlukan)</li>
-                  <li>• Menyiapkan dokumen sesuai format yang diminta</li>
+                  <li>â€¢ Mengumpulkan data dan informasi yang diminta</li>
+                  <li>â€¢ Mengolah dan menyusun informasi</li>
+                  <li>â€¢ Melakukan pengaburan (jika diperlukan)</li>
+                  <li>â€¢ Menyiapkan dokumen sesuai format yang diminta</li>
                 </ul>
                 <p className="text-sm text-gray-700 mt-2"><strong>Output:</strong> Dokumen informasi yang diminta</p>
               </div>
@@ -95,10 +95,10 @@ const SOPPelayanan = () => {
                 <p className="text-sm text-gray-700 mb-2"><strong>Petugas:</strong> Admin PPID</p>
                 <p className="text-sm text-gray-700 mb-2"><strong>Aktivitas:</strong></p>
                 <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                  <li>• Menghubungi pemohon untuk penyerahan informasi</li>
-                  <li>• Menyerahkan informasi sesuai pilihan pemohon (soft/hard copy)</li>
-                  <li>• Meminta tanda terima dari pemohon</li>
-                  <li>• Mencatat dalam buku register penyerahan</li>
+                  <li>â€¢ Menghubungi pemohon untuk penyerahan informasi</li>
+                  <li>â€¢ Menyerahkan informasi sesuai pilihan pemohon (soft/hard copy)</li>
+                  <li>â€¢ Meminta tanda terima dari pemohon</li>
+                  <li>â€¢ Mencatat dalam buku register penyerahan</li>
                 </ul>
                 <p className="text-sm text-gray-700 mt-2"><strong>Output:</strong> Informasi tersampaikan kepada pemohon</p>
               </div>
@@ -141,21 +141,21 @@ const SOPPelayanan = () => {
         <h3 className="text-xl font-bold text-dpupr-blue mb-4">C. SOP Dokumentasi dan Pelaporan</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-teal-50 rounded-lg p-5 border-l-4 border-teal-600">
-            <h4 className="font-bold text-teal-800 mb-3">📊 Dokumentasi</h4>
+            <h4 className="font-bold text-teal-800 mb-3">ðŸ“Š Dokumentasi</h4>
             <ul className="text-sm text-gray-700 space-y-2">
-              <li>• Setiap permohonan dicatat dalam buku register</li>
-              <li>• Dokumen disimpan teratur sesuai klasifikasi</li>
-              <li>• Backup digital dilakukan rutin</li>
-              <li>• Arsip dijaga kerahasiaan dan keamanannya</li>
+              <li>â€¢ Setiap permohonan dicatat dalam buku register</li>
+              <li>â€¢ Dokumen disimpan teratur sesuai klasifikasi</li>
+              <li>â€¢ Backup digital dilakukan rutin</li>
+              <li>â€¢ Arsip dijaga kerahasiaan dan keamanannya</li>
             </ul>
           </div>
           <div className="bg-indigo-50 rounded-lg p-5 border-l-4 border-indigo-600">
-            <h4 className="font-bold text-indigo-800 mb-3">📝 Pelaporan</h4>
+            <h4 className="font-bold text-indigo-800 mb-3">ðŸ“ Pelaporan</h4>
             <ul className="text-sm text-gray-700 space-y-2">
-              <li>• Laporan bulanan ke Atasan PPID</li>
-              <li>• Laporan triwulan ke Komisi Informasi</li>
-              <li>• Laporan tahunan dipublikasikan</li>
-              <li>• Evaluasi SOP dilakukan berkala</li>
+              <li>â€¢ Laporan bulanan ke Atasan PPID</li>
+              <li>â€¢ Laporan triwulan ke Komisi Informasi</li>
+              <li>â€¢ Laporan tahunan dipublikasikan</li>
+              <li>â€¢ Evaluasi SOP dilakukan berkala</li>
             </ul>
           </div>
         </div>
@@ -165,7 +165,7 @@ const SOPPelayanan = () => {
       {/* Prinsip Pelayanan */}
       <FadeIn delay={500}>
       <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border-l-4 border-yellow-500 mb-8">
-        <h3 className="text-lg font-bold text-yellow-800 mb-3">⭐ Prinsip Pelayanan PPID</h3>
+        <h3 className="text-lg font-bold text-yellow-800 mb-3">â­ Prinsip Pelayanan PPID</h3>
         <div className="grid md:grid-cols-3 gap-4">
           <div>
             <p className="font-semibold text-yellow-700 mb-1">Cepat & Tepat Waktu</p>
@@ -198,7 +198,7 @@ const SOPPelayanan = () => {
       {/* Standar Waktu */}
       <FadeIn delay={600}>
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-gray-800 mb-4">⏱️ Standar Waktu Pelayanan</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-4">â±ï¸ Standar Waktu Pelayanan</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-dpupr-blue text-white">
@@ -239,3 +239,4 @@ const SOPPelayanan = () => {
 };
 
 export default SOPPelayanan;
+

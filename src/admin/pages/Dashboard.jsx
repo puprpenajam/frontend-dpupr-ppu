@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
@@ -50,7 +50,7 @@ const Dashboard = () => {
       icon: TrendingUp,
       label: 'Berita Bulan Ini',
       value: newsData.filter(news => news.date.includes('Maret 2026')).length,
-      color: 'bg-green-500'
+      color: 'bg-blue-500'
     },
     {
       icon: Eye,
@@ -71,16 +71,12 @@ const Dashboard = () => {
       <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
       <div className="flex-1 min-w-0">
-        {/* Header */}
         <AdminHeader 
           title="Dashboard Administrator" 
           subtitle="Selamat datang di panel admin DPUPR PPU"
           onMenuClick={() => setIsMobileMenuOpen(true)}
         />
-
-        {/* Content */}
         <div className="p-4 sm:p-6">
-          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
@@ -102,8 +98,6 @@ const Dashboard = () => {
               );
             })}
           </div>
-
-          {/* Quick Actions */}
           <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
             <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Aksi Cepat</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -129,8 +123,6 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
-
-          {/* Recent News */}
           <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mt-4 sm:mt-6">
             <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Berita Terbaru</h2>
             <div className="space-y-3">
@@ -159,3 +151,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

@@ -1,4 +1,4 @@
-import { useAuth } from '../context/AuthContext';
+﻿import { useAuth } from '../context/AuthContext';
 import { User, Menu } from 'lucide-react';
 
 const AdminHeader = ({ title, subtitle, onMenuClick }) => {
@@ -7,7 +7,6 @@ const AdminHeader = ({ title, subtitle, onMenuClick }) => {
   return (
     <div className="bg-white shadow-md p-4 sm:p-6 sticky top-0 z-30">
       <div className="flex items-center justify-between gap-4">
-        {/* Mobile Menu Button + Title */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <button
             onClick={onMenuClick}
@@ -24,8 +23,6 @@ const AdminHeader = ({ title, subtitle, onMenuClick }) => {
             )}
           </div>
         </div>
-        
-        {/* User Info - Responsive */}
         <div className="hidden sm:flex items-center gap-3 bg-[#FDB913]/10 px-4 py-2 rounded-lg border border-[#FDB913]/30 flex-shrink-0">
           <div className="w-10 h-10 bg-[#FDB913] rounded-full flex items-center justify-center">
             <User className="w-6 h-6 text-[#1E3A7D]" />
@@ -35,8 +32,6 @@ const AdminHeader = ({ title, subtitle, onMenuClick }) => {
             <p className="text-xs text-[#FDB913]">{user?.email}</p>
           </div>
         </div>
-
-        {/* Mobile User Icon Only */}
         <div className="sm:hidden w-10 h-10 bg-[#FDB913] rounded-full flex items-center justify-center flex-shrink-0">
           <User className="w-5 h-5 text-[#1E3A7D]" />
         </div>
@@ -46,3 +41,4 @@ const AdminHeader = ({ title, subtitle, onMenuClick }) => {
 };
 
 export default AdminHeader;
+

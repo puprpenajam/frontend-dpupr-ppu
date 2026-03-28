@@ -11,7 +11,7 @@ const PopupBerhasil = ({ isOpen, message, onClose, type = 'success' }) => {
 
   if (!isOpen) return null;
 
-  const bgColor = type === 'success' ? 'bg-green-500' : 'bg-blue-500';
+  const bgColor = type === 'success' ? 'bg-[#1E3A7D]' : 'bg-blue-500';
   const title = type === 'success' ? 'Berhasil!' : 'Informasi';
 
   return (

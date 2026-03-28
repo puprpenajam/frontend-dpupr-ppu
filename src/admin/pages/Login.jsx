@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Eye, EyeOff, Shield, ArrowLeft } from 'lucide-react';
@@ -35,7 +35,6 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1E3A7D] via-[#2C3E7D] to-[#1E3A7D] flex items-center justify-center p-4">
       <div className="bg-gray-50 rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-[#1E3A7D] text-white px-6 py-2 rounded-full mb-6">
             <Shield className="w-5 h-5" />
@@ -53,10 +52,7 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-[#1E3A7D] mb-2">Admin Portal</h1>
           <p className="text-gray-600">Dashboard Administrator DPUPR</p>
         </div>
-
-        {/* Form */}
         <form onSubmit={handleSubmit}>
-          {/* Email Input */}
           <div className="mb-6">
             <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
               Email Admin
@@ -72,8 +68,6 @@ const Login = () => {
               required
             />
           </div>
-
-          {/* Password Input */}
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
               Password Admin
@@ -98,15 +92,11 @@ const Login = () => {
               </button>
             </div>
           </div>
-
-          {/* Error Message */}
           {error && (
             <div className="mb-6 bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
               {error}
             </div>
           )}
-
-          {/* Login Button */}
           <button
             type="submit"
             className="w-full bg-[#1E3A7D] hover:bg-[#152856] text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
@@ -115,11 +105,9 @@ const Login = () => {
             Login Admin
           </button>
         </form>
-
-        {/* Info */}
         <div className="mt-6 bg-[#FDB913]/10 border-2 border-[#FDB913]/30 rounded-xl p-4">
           <p className="text-[#1E3A7D] text-xs text-center flex items-center justify-center gap-1">
-            🔒 Portal ini hanya untuk administrator sistem. Semua aktivitas login akan dicatat.
+            ðŸ”’ Portal ini hanya untuk administrator sistem. Semua aktivitas login akan dicatat.
           </p>
         </div>
 
@@ -130,3 +118,4 @@ const Login = () => {
 };
 
 export default Login;
+

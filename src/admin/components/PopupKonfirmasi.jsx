@@ -1,4 +1,4 @@
-import { AlertCircle, X } from 'lucide-react';
+﻿import { AlertCircle, X } from 'lucide-react';
 
 const PopupKonfirmasi = ({ isOpen, title, message, onConfirm, onCancel, confirmText = 'Hapus', cancelText = 'Batal', isDangerous = true }) => {
   if (!isOpen) return null;
@@ -8,7 +8,6 @@ const PopupKonfirmasi = ({ isOpen, title, message, onConfirm, onCancel, confirmT
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden animate-scaleIn">
-        {/* Header */}
         <div className="bg-gray-50 border-b border-gray-200 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <AlertCircle className="w-6 h-6 text-yellow-500 flex-shrink-0" />
@@ -21,13 +20,9 @@ const PopupKonfirmasi = ({ isOpen, title, message, onConfirm, onCancel, confirmT
             <X className="w-5 h-5 text-gray-600" />
           </button>
         </div>
-
-        {/* Content */}
         <div className="p-6">
           <p className="text-gray-700">{message}</p>
         </div>
-
-        {/* Footer */}
         <div className="bg-gray-50 border-t border-gray-200 p-6 flex gap-3">
           <button
             onClick={onCancel}
@@ -48,3 +43,4 @@ const PopupKonfirmasi = ({ isOpen, title, message, onConfirm, onCancel, confirmT
 };
 
 export default PopupKonfirmasi;
+

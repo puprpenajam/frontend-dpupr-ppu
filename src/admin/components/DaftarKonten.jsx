@@ -4,8 +4,8 @@ const DaftarKonten = ({ konten, onEdit, onDelete, onTogglePublish, onPreview }) 
   const getCategoryBadge = (category) => {
     const badges = {
       kegiatan: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Kegiatan' },
-      ppid: { bg: 'bg-green-100', text: 'text-green-700', label: 'PPID' },
-      profil: { bg: 'bg-purple-100', text: 'text-purple-700', label: 'Profil' }
+      ppid: { bg: 'bg-amber-100', text: 'text-amber-700', label: 'PPID' },
+      profil: { bg: 'bg-slate-200', text: 'text-slate-700', label: 'Profil' }
     };
     const badge = badges[category] || badges.kegiatan;
     return (
@@ -50,7 +50,7 @@ const DaftarKonten = ({ konten, onEdit, onDelete, onTogglePublish, onPreview }) 
                   onClick={() => onTogglePublish(item.id)}
                   className={`flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg font-semibold transition-colors ${
                     item.isPublished
-                      ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                      ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                   title={item.isPublished ? 'Publikasikan' : 'Sembunyikan'}
@@ -72,7 +72,7 @@ const DaftarKonten = ({ konten, onEdit, onDelete, onTogglePublish, onPreview }) 
                 <div className="flex items-center justify-center gap-2">
                   <button
                     onClick={() => onPreview(item)}
-                    className="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+                    className="p-2 bg-[#1E3A7D] hover:bg-[#152856] text-white rounded-lg transition-colors"
                     title="Preview"
                   >
                     <SearchIcon className="w-4 h-4" />

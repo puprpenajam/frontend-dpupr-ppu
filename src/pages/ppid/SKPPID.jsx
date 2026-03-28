@@ -1,4 +1,4 @@
-import FadeIn from '../../components/FadeIn';
+﻿import FadeIn from '../../components/FadeIn';
 
 const SKPPID = () => {
   return (
@@ -8,7 +8,7 @@ const SKPPID = () => {
       
       {/* Introduction */}
       <div className="bg-gradient-to-r from-dpupr-blue to-blue-600 rounded-xl p-6 mb-8" style={{ color: '#ffffff' }}>
-        <h3 className="text-xl font-bold mb-3" style={{ color: '#ffffff' }}>📜 Tentang SK PPID</h3>
+        <h3 className="text-xl font-bold mb-3" style={{ color: '#ffffff' }}>ðŸ“œ Tentang SK PPID</h3>
         <p className="leading-relaxed" style={{ color: '#ffffff' }}>
           Surat Keputusan (SK) PPID adalah dokumen resmi yang menjadi dasar hukum pembentukan dan pengoperasian 
           Pejabat Pengelola Informasi dan Dokumentasi (PPID) di lingkungan Dinas Pekerjaan Umum dan Penataan Ruang 
@@ -37,10 +37,10 @@ const SKPPID = () => {
                 <div className="bg-white/70 rounded-lg p-3 mt-3">
                   <p className="text-sm font-semibold text-gray-800 mb-1">Tugas dan Wewenang:</p>
                   <ul className="text-sm text-gray-700 space-y-1">
-                    <li>• Mengkoordinasikan penyimpanan, pendokumentasian, penyediaan, dan pelayanan informasi publik</li>
-                    <li>• Memutuskan informasi yang dikecualikan sesuai peraturan perundang-undangan</li>
-                    <li>• Memutuskan pengajuan keberatan dari pemohon informasi</li>
-                    <li>• Melakukan pengujian konsekuensi atas informasi yang dikecualikan</li>
+                    <li>â€¢ Mengkoordinasikan penyimpanan, pendokumentasian, penyediaan, dan pelayanan informasi publik</li>
+                    <li>â€¢ Memutuskan informasi yang dikecualikan sesuai peraturan perundang-undangan</li>
+                    <li>â€¢ Memutuskan pengajuan keberatan dari pemohon informasi</li>
+                    <li>â€¢ Melakukan pengujian konsekuensi atas informasi yang dikecualikan</li>
                   </ul>
                 </div>
               </div>
@@ -48,24 +48,24 @@ const SKPPID = () => {
           </div>
 
           {/* PPID Pelaksana */}
-          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-green-600">
+          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-blue-600">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
-                <svg className="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
                 </svg>
               </div>
               <div className="flex-1">
-                <h4 className="text-lg font-bold text-green-800 mb-2">PPID Pelaksana</h4>
+                <h4 className="text-lg font-bold text-blue-800 mb-2">PPID Pelaksana</h4>
                 <p className="text-sm text-gray-700 mb-2">Sekretaris Dinas / Pejabat yang ditunjuk</p>
                 <div className="bg-white/70 rounded-lg p-3 mt-3">
                   <p className="text-sm font-semibold text-gray-800 mb-1">Tugas dan Fungsi:</p>
                   <ul className="text-sm text-gray-700 space-y-1">
-                    <li>• Mengoordinasikan pengelolaan dan pelayanan informasi publik</li>
-                    <li>• Menghimpun, mengolah, dan mengklasifikasi informasi publik</li>
-                    <li>• Menyediakan dan memberikan informasi publik kepada pemohon</li>
-                    <li>• Melakukan verifikasi dan pengujian informasi yang akan diberikan</li>
-                    <li>• Membuat dan menyampaikan laporan pelaksanaan layanan informasi</li>
+                    <li>â€¢ Mengoordinasikan pengelolaan dan pelayanan informasi publik</li>
+                    <li>â€¢ Menghimpun, mengolah, dan mengklasifikasi informasi publik</li>
+                    <li>â€¢ Menyediakan dan memberikan informasi publik kepada pemohon</li>
+                    <li>â€¢ Melakukan verifikasi dan pengujian informasi yang akan diberikan</li>
+                    <li>â€¢ Membuat dan menyampaikan laporan pelaksanaan layanan informasi</li>
                   </ul>
                 </div>
               </div>
@@ -86,10 +86,10 @@ const SKPPID = () => {
                 <div className="bg-white/70 rounded-lg p-3 mt-3">
                   <p className="text-sm font-semibold text-gray-800 mb-1">Tugas:</p>
                   <ul className="text-sm text-gray-700 space-y-1">
-                    <li>• Membantu PPID Pelaksana dalam pengumpulan dan penyiapan informasi</li>
-                    <li>• Menyediakan data dan dokumen dari bidang masing-masing</li>
-                    <li>• Melakukan verifikasi teknis atas informasi yang akan diberikan</li>
-                    <li>• Membantu dalam proses pengujian informasi yang dikecualikan</li>
+                    <li>â€¢ Membantu PPID Pelaksana dalam pengumpulan dan penyiapan informasi</li>
+                    <li>â€¢ Menyediakan data dan dokumen dari bidang masing-masing</li>
+                    <li>â€¢ Melakukan verifikasi teknis atas informasi yang akan diberikan</li>
+                    <li>â€¢ Membantu dalam proses pengujian informasi yang dikecualikan</li>
                   </ul>
                 </div>
               </div>
@@ -106,35 +106,35 @@ const SKPPID = () => {
         <div className="bg-gray-50 rounded-xl p-6">
           <ul className="space-y-3 text-gray-700">
             <li className="flex items-start gap-3">
-              <span className="text-dpupr-blue font-bold text-xl">•</span>
+              <span className="text-dpupr-blue font-bold text-xl">â€¢</span>
               <div>
                 <p className="font-semibold">Undang-Undang Nomor 14 Tahun 2008</p>
                 <p className="text-sm">Tentang Keterbukaan Informasi Publik</p>
               </div>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-dpupr-blue font-bold text-xl">•</span>
+              <span className="text-dpupr-blue font-bold text-xl">â€¢</span>
               <div>
                 <p className="font-semibold">Peraturan Pemerintah Nomor 61 Tahun 2010</p>
                 <p className="text-sm">Tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</p>
               </div>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-dpupr-blue font-bold text-xl">•</span>
+              <span className="text-dpupr-blue font-bold text-xl">â€¢</span>
               <div>
                 <p className="font-semibold">Peraturan Komisi Informasi Nomor 1 Tahun 2021</p>
                 <p className="text-sm">Tentang Standar Layanan Informasi Publik</p>
               </div>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-dpupr-blue font-bold text-xl">•</span>
+              <span className="text-dpupr-blue font-bold text-xl">â€¢</span>
               <div>
                 <p className="font-semibold">Peraturan Menteri Dalam Negeri</p>
                 <p className="text-sm">Tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Dalam Negeri dan Pemerintah Daerah</p>
               </div>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-dpupr-blue font-bold text-xl">•</span>
+              <span className="text-dpupr-blue font-bold text-xl">â€¢</span>
               <div>
                 <p className="font-semibold">Peraturan Bupati Penajam Paser Utara</p>
                 <p className="text-sm">Tentang Pelaksanaan Keterbukaan Informasi Publik di Lingkungan Pemerintah Kabupaten Penajam Paser Utara</p>
@@ -151,27 +151,27 @@ const SKPPID = () => {
         <h3 className="text-xl font-bold text-dpupr-blue mb-4">Ruang Lingkup Informasi PPID DPUPR</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-600">
-            <h4 className="font-bold text-blue-800 mb-3">✅ Informasi yang Wajib Disediakan:</h4>
+            <h4 className="font-bold text-blue-800 mb-3">âœ… Informasi yang Wajib Disediakan:</h4>
             <ul className="text-sm text-gray-700 space-y-2">
-              <li>• Profil dan struktur organisasi DPUPR</li>
-              <li>• Program dan kegiatan infrastruktur</li>
-              <li>• Laporan keuangan dan kinerja</li>
-              <li>• Prosedur perizinan (IMB, SLF, dll)</li>
-              <li>• Rencana tata ruang wilayah</li>
-              <li>• Data proyek pembangunan</li>
-              <li>• Informasi pengadaan barang/jasa</li>
-              <li>• Peraturan dan kebijakan DPUPR</li>
+              <li>â€¢ Profil dan struktur organisasi DPUPR</li>
+              <li>â€¢ Program dan kegiatan infrastruktur</li>
+              <li>â€¢ Laporan keuangan dan kinerja</li>
+              <li>â€¢ Prosedur perizinan (IMB, SLF, dll)</li>
+              <li>â€¢ Rencana tata ruang wilayah</li>
+              <li>â€¢ Data proyek pembangunan</li>
+              <li>â€¢ Informasi pengadaan barang/jasa</li>
+              <li>â€¢ Peraturan dan kebijakan DPUPR</li>
             </ul>
           </div>
           <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-600">
-            <h4 className="font-bold text-red-800 mb-3">⛔ Informasi yang Dikecualikan:</h4>
+            <h4 className="font-bold text-red-800 mb-3">â›” Informasi yang Dikecualikan:</h4>
             <ul className="text-sm text-gray-700 space-y-2">
-              <li>• Informasi yang dapat mengganggu proses penegakan hukum</li>
-              <li>• Informasi yang berkaitan dengan hak kekayaan intelektual</li>
-              <li>• Informasi yang dapat merugikan ketahanan ekonomi nasional</li>
-              <li>• Informasi yang dapat membahayakan keamanan negara</li>
-              <li>• Data pribadi yang bersifat rahasia</li>
-              <li>• Memorandum atau surat yang bersifat rahasia</li>
+              <li>â€¢ Informasi yang dapat mengganggu proses penegakan hukum</li>
+              <li>â€¢ Informasi yang berkaitan dengan hak kekayaan intelektual</li>
+              <li>â€¢ Informasi yang dapat merugikan ketahanan ekonomi nasional</li>
+              <li>â€¢ Informasi yang dapat membahayakan keamanan negara</li>
+              <li>â€¢ Data pribadi yang bersifat rahasia</li>
+              <li>â€¢ Memorandum atau surat yang bersifat rahasia</li>
             </ul>
           </div>
         </div>
@@ -181,44 +181,44 @@ const SKPPID = () => {
       {/* Hak dan Kewajiban */}
       <FadeIn delay={400}>
       <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-green-600">
-          <h3 className="text-lg font-bold text-green-800 mb-3">✅ Hak Pemohon Informasi</h3>
+        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-blue-600">
+          <h3 className="text-lg font-bold text-blue-800 mb-3">âœ… Hak Pemohon Informasi</h3>
           <ul className="space-y-2 text-sm text-gray-700">
             <li className="flex items-start gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-blue-600 font-bold">âœ“</span>
               <span>Mengajukan permohonan informasi publik</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-blue-600 font-bold">âœ“</span>
               <span>Mendapatkan informasi sesuai permintaan</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-blue-600 font-bold">âœ“</span>
               <span>Mengajukan keberatan atas penolakan</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-blue-600 font-bold">âœ“</span>
               <span>Mengajukan gugatan ke pengadilan</span>
             </li>
           </ul>
         </div>
         <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border-l-4 border-orange-600">
-          <h3 className="text-lg font-bold text-orange-800 mb-3">📜 Kewajiban PPID</h3>
+          <h3 className="text-lg font-bold text-orange-800 mb-3">ðŸ“œ Kewajiban PPID</h3>
           <ul className="space-y-2 text-sm text-gray-700">
             <li className="flex items-start gap-2">
-              <span className="text-orange-600 font-bold">•</span>
+              <span className="text-orange-600 font-bold">â€¢</span>
               <span>Menyediakan dan memberikan informasi publik</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-600 font-bold">•</span>
+              <span className="text-orange-600 font-bold">â€¢</span>
               <span>Memberikan layanan yang cepat, tepat, dan akurat</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-600 font-bold">•</span>
+              <span className="text-orange-600 font-bold">â€¢</span>
               <span>Melindungi informasi yang dikecualikan</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-600 font-bold">•</span>
+              <span className="text-orange-600 font-bold">â€¢</span>
               <span>Membuat laporan layanan informasi</span>
             </li>
           </ul>
@@ -229,7 +229,7 @@ const SKPPID = () => {
       {/* Download SK */}
       <FadeIn delay={500}>
       <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border-l-4 border-yellow-500">
-        <h3 className="text-lg font-bold text-yellow-800 mb-3">📥 Unduh Dokumen SK PPID</h3>
+        <h3 className="text-lg font-bold text-yellow-800 mb-3">ðŸ“¥ Unduh Dokumen SK PPID</h3>
         <p className="text-sm text-gray-700 mb-4">
           Untuk melihat Surat Keputusan pembentukan PPID DPUPR Kabupaten Penajam Paser Utara secara lengkap, 
           silakan unduh dokumen resmi berikut:
@@ -248,3 +248,4 @@ const SKPPID = () => {
 };
 
 export default SKPPID;
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
@@ -36,6 +36,7 @@ const ManajemenKonten = () => {
   const [konfirmasiData, setKonfirmasiData] = useState({ id: null, type: 'delete' });
   const [showBerhasil, setShowBerhasil] = useState(false);
   const [pesanBerhasil, setPesanBerhasil] = useState('');
+  const [popupType, setPopupType] = useState('success');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -95,6 +96,7 @@ const ManajemenKonten = () => {
       setKonten(updatedKonten);
       localStorage.setItem('kontenPages', JSON.stringify(updatedKonten));
       setPesanBerhasil('Konten berhasil diupdate!');
+      setPopupType('success');
     } else {
       // Add new
       const newKonten = {
@@ -105,6 +107,7 @@ const ManajemenKonten = () => {
       setKonten(updatedKonten);
       localStorage.setItem('kontenPages', JSON.stringify(updatedKonten));
       setPesanBerhasil('Konten berhasil ditambahkan!');
+      setPopupType('success');
     }
 
     setShowBerhasil(true);
@@ -161,6 +164,7 @@ const ManajemenKonten = () => {
     localStorage.setItem('kontenPages', JSON.stringify(updatedKonten));
     setShowKonfirmasi(false);
     setPesanBerhasil('Konten berhasil dihapus!');
+    setPopupType('success');
     setShowBerhasil(true);
   };
 
@@ -214,7 +218,9 @@ const ManajemenKonten = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        alert('Ukuran gambar maksimal 10MB');
+        setPesanBerhasil('Ukuran gambar maksimal 10MB');
+        setPopupType('info');
+        setShowBerhasil(true);
         return;
       }
 
@@ -235,14 +241,11 @@ const ManajemenKonten = () => {
       <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
       <div className="flex-1 min-w-0">
-        {/* Header */}
         <AdminHeader 
           title="Manajemen Konten" 
           subtitle="Kelola halaman dan menu utama website"
           onMenuClick={() => setIsMobileMenuOpen(true)}
         />
-
-        {/* Content */}
         <div className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Daftar Konten</h2>
@@ -258,8 +261,6 @@ const ManajemenKonten = () => {
               <span className="sm:hidden">Tambah</span>
             </button>
           </div>
-
-          {/* Category Info - Hanya Informasi Kegiatan PUPR */}
           <div className="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
             <p className="text-sm text-blue-700">
               <strong>Manajemen Konten Informasi Kegiatan PUPR</strong>
@@ -298,8 +299,8 @@ const ManajemenKonten = () => {
                       <td className="px-6 py-4">
                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                           item.category === 'kegiatan' ? 'bg-blue-100 text-blue-700' :
-                          item.category === 'ppid' ? 'bg-green-100 text-green-700' :
-                          'bg-purple-100 text-purple-700'
+                          item.category === 'ppid' ? 'bg-amber-100 text-amber-700' :
+                          'bg-slate-200 text-slate-700'
                         }`}>
                           {item.category === 'kegiatan' ? 'Kegiatan' :
                            item.category === 'ppid' ? 'PPID' : 'Profil'}
@@ -318,7 +319,7 @@ const ManajemenKonten = () => {
                           onClick={() => handleTogglePublish(item.id)}
                           className={`flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg font-semibold transition-colors ${
                             item.isPublished
-                              ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                              ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
                               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                           }`}
                           title={item.isPublished ? 'Publikasikan' : 'Sembunyikan'}
@@ -340,7 +341,7 @@ const ManajemenKonten = () => {
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => handlePreview(item)}
-                            className="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+                            className="p-2 bg-[#1E3A7D] hover:bg-[#152856] text-white rounded-lg transition-colors"
                             title="Preview"
                           >
                             <Eye className="w-4 h-4" />
@@ -369,8 +370,6 @@ const ManajemenKonten = () => {
           )}
         </div>
       </div>
-
-      {/* Form Modal with TambahDanEditKonten Component */}
       <TambahDanEditKonten 
         isOpen={showForm}
         editingId={editingId}
@@ -383,22 +382,17 @@ const ManajemenKonten = () => {
         onRemoveContentBlock={handleRemoveContentBlock}
         onContentImageUpload={handleContentImageUpload}
       />
-
-      {/* Preview Modal */}
       <PreviewHalaman 
         isOpen={showPreview}
         halaman={previewHalaman}
         onClose={() => setShowPreview(false)}
       />
-
-      {/* Popup Berhasil */}
       <PopupBerhasil 
         isOpen={showBerhasil}
         message={pesanBerhasil}
         onClose={() => setShowBerhasil(false)}
+        type={popupType}
       />
-
-      {/* Popup Konfirmasi */}
       <PopupKonfirmasi 
         isOpen={showKonfirmasi}
         message="Apakah Anda yakin ingin menghapus konten ini?"
@@ -410,3 +404,4 @@ const ManajemenKonten = () => {
 };
 
 export default ManajemenKonten;
+

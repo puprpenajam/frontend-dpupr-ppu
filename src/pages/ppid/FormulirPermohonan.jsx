@@ -1,4 +1,4 @@
-import FadeIn from '../../components/FadeIn';
+﻿import FadeIn from '../../components/FadeIn';
 
 const FormulirPermohonan = () => {
   return (
@@ -20,42 +20,42 @@ const FormulirPermohonan = () => {
         <h3 className="text-xl font-bold text-dpupr-blue mb-4">Jenis Informasi yang Dapat Diminta</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-600">
-            <h4 className="font-bold text-blue-800 mb-2">📁 Informasi Berkala</h4>
+            <h4 className="font-bold text-blue-800 mb-2">ðŸ“ Informasi Berkala</h4>
             <p className="text-sm text-gray-700">Informasi yang wajib disediakan dan diumumkan secara berkala (minimal 6 bulan sekali)</p>
             <ul className="mt-2 text-sm text-gray-700 space-y-1">
-              <li>• Profil Badan Publik</li>
-              <li>• Ringkasan informasi tentang program/kegiatan</li>
-              <li>• Ringkasan laporan keuangan</li>
-              <li>• Ringkasan laporan akses informasi publik</li>
+              <li>â€¢ Profil Badan Publik</li>
+              <li>â€¢ Ringkasan informasi tentang program/kegiatan</li>
+              <li>â€¢ Ringkasan laporan keuangan</li>
+              <li>â€¢ Ringkasan laporan akses informasi publik</li>
             </ul>
           </div>
-          <div className="bg-green-50 rounded-lg p-5 border-l-4 border-green-600">
-            <h4 className="font-bold text-green-800 mb-2">⚡ Informasi Serta Merta</h4>
+          <div className="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-600">
+            <h4 className="font-bold text-blue-800 mb-2">âš¡ Informasi Serta Merta</h4>
             <p className="text-sm text-gray-700">Informasi yang dapat mengancam hajat hidup orang banyak dan ketertiban umum</p>
             <ul className="mt-2 text-sm text-gray-700 space-y-1">
-              <li>• Informasi bencana alam</li>
-              <li>• Informasi kerusakan infrastruktur</li>
-              <li>• Informasi gangguan utilitas publik</li>
-              <li>• Informasi darurat lainnya</li>
+              <li>â€¢ Informasi bencana alam</li>
+              <li>â€¢ Informasi kerusakan infrastruktur</li>
+              <li>â€¢ Informasi gangguan utilitas publik</li>
+              <li>â€¢ Informasi darurat lainnya</li>
             </ul>
           </div>
           <div className="bg-purple-50 rounded-lg p-5 border-l-4 border-purple-600">
-            <h4 className="font-bold text-purple-800 mb-2">📋 Informasi Setiap Saat</h4>
+            <h4 className="font-bold text-purple-800 mb-2">ðŸ“‹ Informasi Setiap Saat</h4>
             <p className="text-sm text-gray-700">Informasi yang wajib tersedia setiap saat dan dapat diakses oleh publik</p>
             <ul className="mt-2 text-sm text-gray-700 space-y-1">
-              <li>• Daftar informasi publik</li>
-              <li>• Hasil keputusan dan pertimbangan</li>
-              <li>• Seluruh kebijakan yang ada</li>
-              <li>• Rencana kerja proyek</li>
+              <li>â€¢ Daftar informasi publik</li>
+              <li>â€¢ Hasil keputusan dan pertimbangan</li>
+              <li>â€¢ Seluruh kebijakan yang ada</li>
+              <li>â€¢ Rencana kerja proyek</li>
             </ul>
           </div>
           <div className="bg-orange-50 rounded-lg p-5 border-l-4 border-orange-600">
-            <h4 className="font-bold text-orange-800 mb-2">📨 Informasi Sesuai Permintaan</h4>
+            <h4 className="font-bold text-orange-800 mb-2">ðŸ“¨ Informasi Sesuai Permintaan</h4>
             <p className="text-sm text-gray-700">Informasi yang tidak termasuk kategori di atas dan diminta secara khusus</p>
             <ul className="mt-2 text-sm text-gray-700 space-y-1">
-              <li>• Data statistik tertentu</li>
-              <li>• Dokumen proyek spesifik</li>
-              <li>• Informasi lain yang tidak dikecualikan</li>
+              <li>â€¢ Data statistik tertentu</li>
+              <li>â€¢ Dokumen proyek spesifik</li>
+              <li>â€¢ Informasi lain yang tidak dikecualikan</li>
             </ul>
           </div>
         </div>
@@ -77,45 +77,45 @@ const FormulirPermohonan = () => {
               </h4>
               <ul className="space-y-2 text-sm text-gray-700">
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Fotokopi KTP/SIM/Paspor yang masih berlaku</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Mengisi formulir permohonan dengan lengkap dan jelas</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Menyebutkan tujuan penggunaan informasi</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Alamat email/nomor telepon yang aktif</span>
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd"/>
                 </svg>
                 Untuk Lembaga/Badan Hukum:
               </h4>
               <ul className="space-y-2 text-sm text-gray-700">
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Surat kuasa bermaterai dari lembaga/badan hukum</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Fotokopi akta pendirian lembaga</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Fotokopi KTP pengurus yang berwenang</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold mt-1">✓</span>
+                  <span className="text-blue-600 font-bold mt-1">âœ“</span>
                   <span>Mengisi formulir permohonan dengan cap lembaga</span>
                 </li>
               </ul>
@@ -148,30 +148,30 @@ const FormulirPermohonan = () => {
 
       <FadeIn delay={400}>
       <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 mb-8">
-        <h3 className="text-lg font-bold text-yellow-800 mb-3">⚠️ Informasi Penting:</h3>
+        <h3 className="text-lg font-bold text-yellow-800 mb-3">âš ï¸ Informasi Penting:</h3>
         <ul className="space-y-2 text-gray-700">
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span>Formulir harus diisi dengan lengkap, jelas, dan benar (data yang tidak lengkap akan dikembalikan)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span>Lampirkan dokumen identitas yang masih berlaku (KTP/SIM/Paspor)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span>Permohonan akan diproses maksimal 10 hari kerja (dapat diperpanjang 7 hari kerja dengan pemberitahuan)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span>Anda akan mendapatkan tanda bukti penerimaan permohonan sebagai tanda registrasi</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span>Informasi yang dikecualikan sesuai UU KIP tidak dapat diberikan</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span>Pemohon berhak mengajukan keberatan jika tidak puas dengan layanan yang diberikan</span>
           </li>
         </ul>
@@ -187,8 +187,8 @@ const FormulirPermohonan = () => {
             <div className="text-3xl font-bold text-blue-600 mb-2">1</div>
             <p className="text-sm font-semibold text-gray-800">Buka Link Formulir</p>
           </div>
-          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 text-center border-t-4 border-green-600">
-            <div className="text-3xl font-bold text-green-600 mb-2">2</div>
+          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 text-center border-t-4 border-blue-600">
+            <div className="text-3xl font-bold text-blue-600 mb-2">2</div>
             <p className="text-sm font-semibold text-gray-800">Isi Data Diri Lengkap</p>
           </div>
           <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 text-center border-t-4 border-purple-600">
@@ -206,7 +206,7 @@ const FormulirPermohonan = () => {
       {/* Tips Pengajuan Efektif */}
       <FadeIn delay={600}>
       <div className="bg-gradient-to-r from-teal-50 to-teal-100 rounded-xl p-6 border-l-4 border-teal-600 mb-8">
-        <h3 className="text-lg font-bold text-teal-800 mb-3">💡 Tips Pengajuan Efektif</h3>
+        <h3 className="text-lg font-bold text-teal-800 mb-3">ðŸ’¡ Tips Pengajuan Efektif</h3>
         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
           <div>
             <p className="font-semibold text-teal-700 mb-2">Detail dan Spesifik:</p>
@@ -231,18 +231,18 @@ const FormulirPermohonan = () => {
       {/* Dasar Hukum */}
       <FadeIn delay={700}>
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-6 mb-8">
-        <h3 className="text-lg font-bold text-gray-800 mb-3">📜 Dasar Hukum</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-3">ðŸ“œ Dasar Hukum</h3>
         <ul className="space-y-2 text-sm text-gray-700">
           <li className="flex items-start gap-2">
-            <span className="text-dpupr-blue font-bold">•</span>
+            <span className="text-dpupr-blue font-bold">â€¢</span>
             <span><strong>UU No. 14 Tahun 2008</strong> tentang Keterbukaan Informasi Publik</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-dpupr-blue font-bold">•</span>
+            <span className="text-dpupr-blue font-bold">â€¢</span>
             <span><strong>Peraturan Komisi Informasi No. 1 Tahun 2021</strong> tentang Standar Layanan Informasi Publik</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-dpupr-blue font-bold">•</span>
+            <span className="text-dpupr-blue font-bold">â€¢</span>
             <span><strong>Peraturan Pemerintah No. 61 Tahun 2010</strong> tentang Pelaksanaan UU KIP</span>
           </li>
         </ul>
@@ -253,3 +253,4 @@ const FormulirPermohonan = () => {
 };
 
 export default FormulirPermohonan;
+

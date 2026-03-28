@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
@@ -94,14 +94,11 @@ const ManajemenArsip = () => {
       <Sidebar isMobileOpen={isMobileMenuOpen} setIsMobileOpen={setIsMobileMenuOpen} />
       
       <div className="flex-1 min-w-0">
-        {/* Header */}
         <AdminHeader 
           title="Manajemen Arsip Berita" 
           subtitle="Lihat berita berdasarkan bulan dan tahun"
           onMenuClick={() => setIsMobileMenuOpen(true)}
         />
-
-        {/* Content */}
         <div className="p-4 sm:p-6">
           {selectedMonth === null ? (
             // Month List View
@@ -176,7 +173,6 @@ const ManajemenArsip = () => {
                     {articles.map((article) => (
                       <div key={article.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
                         <div className="flex flex-col sm:flex-row">
-                          {/* Thumbnail */}
                           <div className="w-full sm:w-40 h-40 flex-shrink-0">
                             <img
                               src={article.image}
@@ -184,8 +180,6 @@ const ManajemenArsip = () => {
                               className="w-full h-full object-cover"
                             />
                           </div>
-
-                          {/* Content */}
                           <div className="flex-1 p-4 sm:p-6">
                             <div className="flex items-center gap-2 text-gray-500 mb-2 text-xs sm:text-sm">
                               <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -216,3 +210,4 @@ const ManajemenArsip = () => {
 };
 
 export default ManajemenArsip;
+

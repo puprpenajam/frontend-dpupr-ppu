@@ -1,4 +1,4 @@
-import FadeIn from '../../components/FadeIn';
+﻿import FadeIn from '../../components/FadeIn';
 
 const KanalPengaduan = () => {
   return (
@@ -11,7 +11,7 @@ const KanalPengaduan = () => {
 
       <FadeIn delay={100}>
       <div className="bg-gradient-to-r from-dpupr-blue to-blue-600 rounded-xl p-6 mb-8" style={{ color: '#ffffff' }}>
-        <h3 className="text-xl font-bold mb-3" style={{ color: '#ffffff' }}>📢 Tentang Layanan Pengaduan</h3>
+        <h3 className="text-xl font-bold mb-3" style={{ color: '#ffffff' }}>ðŸ“¢ Tentang Layanan Pengaduan</h3>
         <p className="leading-relaxed mb-3" style={{ color: '#ffffff' }}>
           Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Penajam Paser Utara menyediakan berbagai kanal pengaduan 
           untuk menerima aspirasi, keluhan, dan laporan masyarakat terkait pelayanan publik, infrastruktur, dan tata ruang.
@@ -25,7 +25,7 @@ const KanalPengaduan = () => {
 
       {/* LAPOR.GO.ID - Featured */}
       <FadeIn delay={200}>
-      <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 mb-8 border-2 border-green-500 shadow-lg">
+      <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 mb-8 border-2 border-blue-500 shadow-lg">
         <div className="flex items-start gap-6">
           <div className="flex-shrink-0">
             <div className="w-20 h-20 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center shadow-xl">
@@ -35,33 +35,33 @@ const KanalPengaduan = () => {
             </div>
           </div>
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-green-800 mb-3">LAPOR! - Layanan Aspirasi dan Pengaduan Online Rakyat</h3>
+            <h3 className="text-2xl font-bold text-blue-800 mb-3">LAPOR! - Layanan Aspirasi dan Pengaduan Online Rakyat</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
               LAPOR! adalah sistem pengaduan pelayanan publik nasional berbasis website dan aplikasi mobile yang dikelola 
               oleh Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi (KemenPAN-RB). Platform ini memungkinkan 
               masyarakat untuk menyampaikan pengaduan secara online dengan mudah, cepat, dan transparan.
             </p>
-            <div className="bg-white rounded-lg p-4 mb-4 border border-green-200">
-              <h4 className="font-bold text-green-700 mb-2">Keunggulan LAPOR.GO.ID:</h4>
+            <div className="bg-white rounded-lg p-4 mb-4 border border-blue-200">
+              <h4 className="font-bold text-blue-700 mb-2">Keunggulan LAPOR.GO.ID:</h4>
               <ul className="space-y-1 text-gray-700">
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">✓</span>
+                  <span className="text-blue-600 font-bold">âœ“</span>
                   <span>Terintegrasi dengan sistem pemerintahan nasional</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">✓</span>
+                  <span className="text-blue-600 font-bold">âœ“</span>
                   <span>Tracking status pengaduan secara real-time</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">✓</span>
+                  <span className="text-blue-600 font-bold">âœ“</span>
                   <span>Dapat diakses melalui website dan aplikasi mobile (Android/iOS)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">✓</span>
+                  <span className="text-blue-600 font-bold">âœ“</span>
                   <span>Respon cepat dari instansi terkait</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">✓</span>
+                  <span className="text-blue-600 font-bold">âœ“</span>
                   <span>Transparan dan dapat dipantau publik</span>
                 </li>
               </ul>
@@ -106,17 +106,17 @@ const KanalPengaduan = () => {
           </div>
 
           {/* Telepon */}
-          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-green-600">
+          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-blue-600">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
               <div className="flex-1">
-                <h4 className="font-bold text-green-800 mb-2">Telepon / WhatsApp</h4>
+                <h4 className="font-bold text-blue-800 mb-2">Telepon / WhatsApp</h4>
                 <p className="text-gray-700 text-sm mb-2">Hubungi hotline pelayanan DPUPR PPU</p>
-                <p className="text-green-700 font-semibold">(0542) 123456</p>
+                <p className="text-blue-700 font-semibold">(0542) 123456</p>
               </div>
             </div>
           </div>
@@ -162,27 +162,27 @@ const KanalPengaduan = () => {
         <h3 className="text-xl font-bold text-dpupr-blue mb-4">Jenis Pengaduan yang Dapat Disampaikan</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
-            <h4 className="font-bold text-blue-800 mb-2">🏗️ Infrastruktur Jalan</h4>
+            <h4 className="font-bold text-blue-800 mb-2">ðŸ—ï¸ Infrastruktur Jalan</h4>
             <p className="text-gray-700 text-sm">Jalan rusak, lubang, kerusakan jembatan, drainase bermasalah</p>
           </div>
-          <div className="bg-green-50 rounded-lg p-4 border-l-4 border-green-500">
-            <h4 className="font-bold text-green-800 mb-2">💧 Sumber Daya Air</h4>
+          <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
+            <h4 className="font-bold text-blue-800 mb-2">ðŸ’§ Sumber Daya Air</h4>
             <p className="text-gray-700 text-sm">Banjir, irigasi rusak, tanggul jebol, sungai tersumbat</p>
           </div>
           <div className="bg-purple-50 rounded-lg p-4 border-l-4 border-purple-500">
-            <h4 className="font-bold text-purple-800 mb-2">🏘️ Tata Ruang</h4>
+            <h4 className="font-bold text-purple-800 mb-2">ðŸ˜ï¸ Tata Ruang</h4>
             <p className="text-gray-700 text-sm">Pelanggaran IMB, bangunan ilegal, pelanggaran RTRW</p>
           </div>
           <div className="bg-yellow-50 rounded-lg p-4 border-l-4 border-yellow-500">
-            <h4 className="font-bold text-yellow-800 mb-2">🏢 Bangunan Gedung</h4>
+            <h4 className="font-bold text-yellow-800 mb-2">ðŸ¢ Bangunan Gedung</h4>
             <p className="text-gray-700 text-sm">Perizinan bangunan, gedung rusak, fasilitas publik</p>
           </div>
           <div className="bg-red-50 rounded-lg p-4 border-l-4 border-red-500">
-            <h4 className="font-bold text-red-800 mb-2">⚠️ Darurat</h4>
+            <h4 className="font-bold text-red-800 mb-2">âš ï¸ Darurat</h4>
             <p className="text-gray-700 text-sm">Keadaan darurat infrastruktur yang mengancam keselamatan</p>
           </div>
           <div className="bg-indigo-50 rounded-lg p-4 border-l-4 border-indigo-500">
-            <h4 className="font-bold text-indigo-800 mb-2">📋 Pelayanan Publik</h4>
+            <h4 className="font-bold text-indigo-800 mb-2">ðŸ“‹ Pelayanan Publik</h4>
             <p className="text-gray-700 text-sm">Keluhan terkait layanan administrasi dan perizinan</p>
           </div>
         </div>
@@ -231,26 +231,26 @@ const KanalPengaduan = () => {
       {/* Tips Pengaduan Efektif */}
       <FadeIn delay={600}>
       <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border-l-4 border-yellow-500">
-        <h3 className="text-lg font-bold text-yellow-800 mb-3">💡 Tips Pengaduan Efektif</h3>
+        <h3 className="text-lg font-bold text-yellow-800 mb-3">ðŸ’¡ Tips Pengaduan Efektif</h3>
         <ul className="space-y-2 text-gray-700">
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span><strong>Jelas dan Spesifik:</strong> Jelaskan masalah dengan detail, sertakan lokasi yang tepat (alamat/koordinat)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span><strong>Sertakan Bukti:</strong> Lampirkan foto, video, atau dokumen pendukung lainnya</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span><strong>Data Diri Lengkap:</strong> Cantumkan nama, nomor kontak yang dapat dihubungi untuk koordinasi</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span><strong>Gunakan Bahasa Sopan:</strong> Sampaikan dengan bahasa yang baik dan santun</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-yellow-600 font-bold">•</span>
+            <span className="text-yellow-600 font-bold">â€¢</span>
             <span><strong>Follow Up:</strong> Pantau perkembangan pengaduan Anda melalui kanal yang dipilih</span>
           </li>
         </ul>
@@ -261,3 +261,4 @@ const KanalPengaduan = () => {
 };
 
 export default KanalPengaduan;
+

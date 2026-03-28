@@ -1,4 +1,4 @@
-import { Eye, Edit, Trash2, Calendar } from 'lucide-react';
+﻿import { Eye, Edit, Trash2, Calendar } from 'lucide-react';
 
 const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
   // Helper function to strip HTML tags from text
@@ -57,7 +57,6 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
             ) : (
               newsData.map((news) => (
                 <tr key={news.id} className="hover:bg-gray-50 transition-colors">
-                  {/* Thumbnail */}
                   <td className="px-6 py-4">
                     <img
                       src={news.image}
@@ -65,8 +64,6 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
                       className="w-24 h-20 object-cover rounded-lg shadow-sm"
                     />
                   </td>
-
-                  {/* Judul */}
                   <td className="px-6 py-4">
                     <div className="max-w-xs">
                       <h3 className="font-semibold text-gray-800 mb-1 line-clamp-2">
@@ -78,18 +75,13 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
                       </p>
                     </div>
                   </td>
-
-                  {/* Deskripsi */}
                   <td className="px-6 py-4">
                     <p className="text-sm text-gray-600 line-clamp-3 max-w-md text-justify">
                       {getNewsDescription(news) || '-'}
                     </p>
                   </td>
-
-                  {/* Aksi */}
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
-                      {/* Preview Button */}
                       <button
                         onClick={() => onPreview(news)}
                         className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
@@ -97,8 +89,6 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
                       >
                         <Eye className="w-4 h-4" />
                       </button>
-
-                      {/* Edit Button */}
                       <button
                         onClick={() => onEdit(news)}
                         className="p-2 bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] rounded-lg transition-colors"
@@ -106,8 +96,6 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
                       >
                         <Edit className="w-4 h-4" />
                       </button>
-
-                      {/* Delete Button */}
                       <button
                         onClick={() => onDelete(news.id)}
                         className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
@@ -128,3 +116,4 @@ const DaftarBerita = ({ newsData, onPreview, onEdit, onDelete }) => {
 };
 
 export default DaftarBerita;
+
