@@ -27,6 +27,23 @@ const initialForm = {
   titikLokasi: ''
 };
 
+const isWhatsAppNumber = (value = '') => {
+  const digits = value.replace(/\D/g, '');
+  return /^(08|62)\d{9,11}$/.test(digits);
+};
+
+const isGoogleMapsUrl = (value = '') => {
+  try {
+    const parsed = new URL(value);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname.toLowerCase();
+
+    return host.includes('maps.google.') || host === 'maps.app.goo.gl' || (host.includes('google.') && path.startsWith('/maps')) || (host === 'goo.gl' && path.startsWith('/maps'));
+  } catch {
+    return false;
+  }
+};
+
 const FormPSDA = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -101,6 +118,8 @@ const FormPSDA = () => {
       nextErrors.nomorHp = 'Nomor HP hanya boleh berisi angka.';
     } else if (formData.nomorHp.trim().length < 11 || formData.nomorHp.trim().length > 13) {
       nextErrors.nomorHp = 'Nomor HP harus 11 sampai 13 angka.';
+    } else if (!isWhatsAppNumber(formData.nomorHp.trim())) {
+      nextErrors.nomorHp = 'Nomor WhatsApp aktif tidak valid. Gunakan awalan 08 atau 62.';
     }
 
     if (!formData.alamatKejadian.trim()) nextErrors.alamatKejadian = 'Alamat lokasi kejadian wajib di isi.';
@@ -122,14 +141,8 @@ const FormPSDA = () => {
       nextErrors.buktiFileData = 'Upload bukti wajib di isi.';
     }
 
-    if (!formData.titikLokasi.trim()) {
-      nextErrors.titikLokasi = 'Titik lokasi wajib di isi.';
-    } else {
-      try {
-        new URL(formData.titikLokasi.trim());
-      } catch {
-        nextErrors.titikLokasi = 'Titik lokasi harus berupa link Google Maps/pin yang valid.';
-      }
+    if (formData.titikLokasi.trim() && !isGoogleMapsUrl(formData.titikLokasi.trim())) {
+      nextErrors.titikLokasi = 'Titik lokasi harus berupa link Google Maps yang valid.';
     }
 
     setErrors(nextErrors);
@@ -314,7 +327,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Titik Lokasi (Google Maps / pin lokasi) *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Titik Lokasi (Google Maps / pin lokasi) (opsional)</label>
                 <input
                   type="url"
                   name="titikLokasi"

@@ -21,6 +21,23 @@ const initialForm = {
   titikLokasi: ''
 };
 
+const isWhatsAppNumber = (value = '') => {
+  const digits = value.replace(/\D/g, '');
+  return /^(08|62)\d{9,11}$/.test(digits);
+};
+
+const isGoogleMapsUrl = (value = '') => {
+  try {
+    const parsed = new URL(value);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname.toLowerCase();
+
+    return host.includes('maps.google.') || host === 'maps.app.goo.gl' || (host.includes('google.') && path.startsWith('/maps')) || (host === 'goo.gl' && path.startsWith('/maps'));
+  } catch {
+    return false;
+  }
+};
+
 const FormCiptaKarya = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -71,6 +88,8 @@ const FormCiptaKarya = () => {
       nextErrors.nomorHp = 'Nomor HP hanya boleh berisi angka.';
     } else if (formData.nomorHp.trim().length < 11 || formData.nomorHp.trim().length > 13) {
       nextErrors.nomorHp = 'Nomor HP harus 11 sampai 13 angka.';
+    } else if (!isWhatsAppNumber(formData.nomorHp.trim())) {
+      nextErrors.nomorHp = 'Nomor WhatsApp aktif tidak valid. Gunakan awalan 08 atau 62.';
     }
 
     if (!formData.alamat.trim()) nextErrors.alamat = 'Alamat wajib di isi.';
@@ -92,14 +111,8 @@ const FormCiptaKarya = () => {
       nextErrors.luasBangunan = 'Luas bangunan harus berupa angka (contoh: 120 atau 120.5).';
     }
 
-    if (!formData.titikLokasi.trim()) {
-      nextErrors.titikLokasi = 'Titik lokasi (Google Maps) wajib di isi.';
-    } else {
-      try {
-        new URL(formData.titikLokasi.trim());
-      } catch {
-        nextErrors.titikLokasi = 'Link Google Maps tidak valid.';
-      }
+    if (formData.titikLokasi.trim() && !isGoogleMapsUrl(formData.titikLokasi.trim())) {
+      nextErrors.titikLokasi = 'Titik lokasi harus berupa link Google Maps yang valid.';
     }
 
     setErrors(nextErrors);
@@ -220,7 +233,7 @@ const FormCiptaKarya = () => {
                   {errors.luasBangunan && <p className="text-red-600 text-xs mt-1">{errors.luasBangunan}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi (Google Maps) *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi (Google Maps) (opsional)</label>
                   <input type="url" name="titikLokasi" value={formData.titikLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="https://maps.google.com/..." />
                   {errors.titikLokasi && <p className="text-red-600 text-xs mt-1">{errors.titikLokasi}</p>}
                 </div>

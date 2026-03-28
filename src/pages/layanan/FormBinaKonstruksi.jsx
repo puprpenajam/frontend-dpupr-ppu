@@ -18,6 +18,11 @@ const initialForm = {
   dokumenFileData: ''
 };
 
+const isWhatsAppNumber = (value = '') => {
+  const digits = value.replace(/\D/g, '');
+  return /^(08|62)\d{9,11}$/.test(digits);
+};
+
 const FormBinaKonstruksi = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -69,6 +74,8 @@ const FormBinaKonstruksi = () => {
       nextErrors.nomorHp = 'Nomor HP hanya boleh berisi angka.';
     } else if (formData.nomorHp.trim().length < 11 || formData.nomorHp.trim().length > 13) {
       nextErrors.nomorHp = 'Nomor HP harus 11 sampai 13 angka.';
+    } else if (!isWhatsAppNumber(formData.nomorHp.trim())) {
+      nextErrors.nomorHp = 'Nomor WhatsApp aktif tidak valid. Gunakan awalan 08 atau 62.';
     }
 
     if (!formData.alamat.trim()) nextErrors.alamat = 'Alamat wajib di isi.';

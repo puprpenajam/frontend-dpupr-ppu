@@ -27,6 +27,23 @@ const initialForm = {
   titikLokasi: ''
 };
 
+const isWhatsAppNumber = (value = '') => {
+  const digits = value.replace(/\D/g, '');
+  return /^(08|62)\d{9,11}$/.test(digits);
+};
+
+const isGoogleMapsUrl = (value = '') => {
+  try {
+    const parsed = new URL(value);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname.toLowerCase();
+
+    return host.includes('maps.google.') || host === 'maps.app.goo.gl' || (host.includes('google.') && path.startsWith('/maps')) || (host === 'goo.gl' && path.startsWith('/maps'));
+  } catch {
+    return false;
+  }
+};
+
 const FormBinaMarga = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -85,6 +102,8 @@ const FormBinaMarga = () => {
       nextErrors.nomorHp = 'Nomor HP hanya boleh berisi angka.';
     } else if (formData.nomorHp.trim().length < 11 || formData.nomorHp.trim().length > 13) {
       nextErrors.nomorHp = 'Nomor HP harus 11 sampai 13 angka.';
+    } else if (!isWhatsAppNumber(formData.nomorHp.trim())) {
+      nextErrors.nomorHp = 'Nomor WhatsApp aktif tidak valid. Gunakan awalan 08 atau 62.';
     }
 
     if (!formData.lokasiJalanJembatan.trim()) nextErrors.lokasiJalanJembatan = 'Lokasi jalan/jembatan wajib di isi.';
@@ -97,14 +116,8 @@ const FormBinaMarga = () => {
     if (formData.dampak.includes('Lainnya') && !formData.dampakLainnya.trim()) nextErrors.dampakLainnya = 'Isi dampak lainnya.';
     if (!formData.fotoFileData) nextErrors.fotoFileData = 'Upload foto wajib di isi.';
 
-    if (!formData.titikLokasi.trim()) {
-      nextErrors.titikLokasi = 'Titik lokasi wajib di isi.';
-    } else {
-      try {
-        new URL(formData.titikLokasi.trim());
-      } catch {
-        nextErrors.titikLokasi = 'Link Google Maps tidak valid.';
-      }
+    if (formData.titikLokasi.trim() && !isGoogleMapsUrl(formData.titikLokasi.trim())) {
+      nextErrors.titikLokasi = 'Titik lokasi harus berupa link Google Maps yang valid.';
     }
 
     setErrors(nextErrors);
@@ -231,7 +244,7 @@ const FormBinaMarga = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi (Google Maps) *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi (Google Maps) (opsional)</label>
                 <input type="url" name="titikLokasi" value={formData.titikLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="https://maps.google.com/..." />
                 {errors.titikLokasi && <p className="text-red-600 text-xs mt-1">{errors.titikLokasi}</p>}
               </div>
