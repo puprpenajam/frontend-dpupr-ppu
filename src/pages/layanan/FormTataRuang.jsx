@@ -119,27 +119,27 @@ const FormTataRuang = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon / Penanggung Jawab *</label>
                   <input type="text" name="namaPemohon" value={formData.namaPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.namaPemohon && <p className="text-red-600 text-xs mt-1">{errors.namaPemohon}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
                   <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Alamat Pemohon *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Alamat Pemohon / Lokasi Usaha *</label>
                 <textarea rows={3} name="alamatPemohon" value={formData.alamatPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.alamatPemohon && <p className="text-red-600 text-xs mt-1">{errors.alamatPemohon}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Layanan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Layanan Tata Ruang *</label>
                 <select name="jenisLayanan" value={formData.jenisLayanan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
-                  <option value="">Pilih jenis layanan</option>
+                  <option value="">Pilih jenis layanan tata ruang</option>
                   <option value="Permohonan Kesesuaian Kegiatan Pemanfaatan Ruang (KKPR)">Permohonan Kesesuaian Kegiatan Pemanfaatan Ruang (KKPR)</option>
                   <option value="Permintaan Informasi Tata Ruang">Permintaan Informasi Tata Ruang</option>
                   <option value="Pengaduan Pelanggaran Tata Ruang">Pengaduan Pelanggaran Tata Ruang</option>
@@ -156,7 +156,7 @@ const FormTataRuang = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">5. Lokasi Objek *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">5. Lokasi Objek / Rencana Kegiatan *</label>
                   <input type="text" name="lokasiObjek" value={formData.lokasiObjek} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.lokasiObjek && <p className="text-red-600 text-xs mt-1">{errors.lokasiObjek}</p>}
                 </div>
@@ -168,7 +168,7 @@ const FormTataRuang = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Upload Dokumen Pendukung *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Upload Dokumen Pendukung Tata Ruang *</label>
                 <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white" />
                 {formData.dokumenFileName && <p className="text-sm text-gray-600 mt-2">File terpilih: {formData.dokumenFileName}</p>}
                 {errors.dokumenFileData && <p className="text-red-600 text-xs mt-1">{errors.dokumenFileData}</p>}

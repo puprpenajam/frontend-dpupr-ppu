@@ -157,27 +157,27 @@ const FormBinaMarga = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pelapor *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pelapor / Penanggung Jawab *</label>
                   <input type="text" name="namaPelapor" value={formData.namaPelapor} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.namaPelapor && <p className="text-red-600 text-xs mt-1">{errors.namaPelapor}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP (WhatsApp aktif) *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
                   <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Lokasi Jalan/Jembatan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Nama Ruas Jalan / Jembatan *</label>
                 <input type="text" name="lokasiJalanJembatan" value={formData.lokasiJalanJembatan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.lokasiJalanJembatan && <p className="text-red-600 text-xs mt-1">{errors.lokasiJalanJembatan}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Permasalahan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Kerusakan / Permasalahan Jalan *</label>
                 <select name="jenisPermasalahan" value={formData.jenisPermasalahan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
-                  <option value="">Pilih jenis permasalahan</option>
+                  <option value="">Pilih jenis kerusakan</option>
                   <option value="Jalan rusak">Jalan rusak</option>
                   <option value="Jalan berlubang">Jalan berlubang</option>
                   <option value="Jembatan rusak">Jembatan rusak</option>
@@ -195,12 +195,12 @@ const FormBinaMarga = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi *</label>
-                  <textarea rows={3} name="detailLokasi" value={formData.detailLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="nama jalan, RT/RW, desa" />
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi Jalan / Lingkungan *</label>
+                  <textarea rows={3} name="detailLokasi" value={formData.detailLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="nama jalan, RT/RW, desa, kelurahan" />
                   {errors.detailLokasi && <p className="text-red-600 text-xs mt-1">{errors.detailLokasi}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">6. Tingkat Kerusakan *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">6. Tingkat Kerusakan Jalan / Jembatan *</label>
                   <select name="tingkatKerusakan" value={formData.tingkatKerusakan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
                     <option value="">Pilih tingkat kerusakan</option>
                     <option value="Ringan">Ringan</option>
@@ -212,13 +212,13 @@ const FormBinaMarga = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Kronologi / Deskripsi *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Kronologi / Deskripsi Kerusakan *</label>
                 <textarea rows={4} name="kronologi" value={formData.kronologi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.kronologi && <p className="text-red-600 text-xs mt-1">{errors.kronologi}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Dampak yang terjadi *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Dampak yang Terjadi *</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {dampakOptions.map((item) => (
                     <label key={item} className="flex items-center gap-2 text-sm text-gray-700">
@@ -237,14 +237,14 @@ const FormBinaMarga = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Upload Foto *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Upload Foto Kondisi Jalan / Jembatan *</label>
                 <input type="file" accept="image/*" onChange={handleFileChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white" />
                 {formData.fotoFileName && <p className="text-sm text-gray-600 mt-2">File terpilih: {formData.fotoFileName}</p>}
                 {errors.fotoFileData && <p className="text-red-600 text-xs mt-1">{errors.fotoFileData}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi (Google Maps) (opsional)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi Google Maps (opsional)</label>
                 <input type="url" name="titikLokasi" value={formData.titikLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="https://maps.google.com/..." />
                 {errors.titikLokasi && <p className="text-red-600 text-xs mt-1">{errors.titikLokasi}</p>}
               </div>

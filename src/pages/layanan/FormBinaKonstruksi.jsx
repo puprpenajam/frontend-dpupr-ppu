@@ -122,12 +122,12 @@ const FormBinaKonstruksi = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon / Penanggung Jawab *</label>
                   <input type="text" name="namaPemohon" value={formData.namaPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.namaPemohon && <p className="text-red-600 text-xs mt-1">{errors.namaPemohon}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nama Badan Usaha *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nama Badan Usaha / Konsultan *</label>
                   <input type="text" name="namaBadanUsaha" value={formData.namaBadanUsaha} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.namaBadanUsaha && <p className="text-red-600 text-xs mt-1">{errors.namaBadanUsaha}</p>}
                 </div>
@@ -135,21 +135,21 @@ const FormBinaKonstruksi = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">3. Nomor HP / WhatsApp *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">3. Nomor HP / WhatsApp Aktif *</label>
                   <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">4. Alamat *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">4. Alamat Badan Usaha *</label>
                   <input type="text" name="alamat" value={formData.alamat} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.alamat && <p className="text-red-600 text-xs mt-1">{errors.alamat}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Jenis Layanan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Jenis Layanan Pembinaan Jasa Konstruksi *</label>
                 <select name="jenisLayanan" value={formData.jenisLayanan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
-                  <option value="">Pilih jenis layanan</option>
+                  <option value="">Pilih jenis layanan pembinaan</option>
                   <option value="Permohonan informasi jasa konstruksi">Permohonan informasi jasa konstruksi</option>
                   <option value="Pengaduan jasa konstruksi">Pengaduan jasa konstruksi</option>
                   <option value="Konsultasi pembinaan tenaga kerja konstruksi">Konsultasi pembinaan tenaga kerja konstruksi</option>
@@ -166,12 +166,12 @@ const FormBinaKonstruksi = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">6. Nomor SBU/SKK *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">6. Nomor SBU / SKK *</label>
                   <input type="text" name="nomorSBU" value={formData.nomorSBU} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.nomorSBU && <p className="text-red-600 text-xs mt-1">{errors.nomorSBU}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">7. Upload Dokumen *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">7. Upload Dokumen Persyaratan *</label>
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white" />
                   {formData.dokumenFileName && <p className="text-sm text-gray-600 mt-2">File terpilih: {formData.dokumenFileName}</p>}
                   {errors.dokumenFileData && <p className="text-red-600 text-xs mt-1">{errors.dokumenFileData}</p>}
@@ -179,7 +179,7 @@ const FormBinaKonstruksi = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Deskripsi Permohonan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Deskripsi Permohonan / Kebutuhan *</label>
                 <textarea rows={4} name="deskripsiPermohonan" value={formData.deskripsiPermohonan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.deskripsiPermohonan && <p className="text-red-600 text-xs mt-1">{errors.deskripsiPermohonan}</p>}
               </div>

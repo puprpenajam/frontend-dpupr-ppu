@@ -188,7 +188,7 @@ const FormPSDA = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pelapor *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pelapor / Penanggung Jawab *</label>
                   <input
                     type="text"
                     name="namaPelapor"
@@ -201,7 +201,7 @@ const FormPSDA = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP (WhatsApp aktif) *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
                   <input
                     type="tel"
                     name="nomorHp"
@@ -215,7 +215,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Alamat Lokasi Kejadian *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Lokasi Kejadian / Titik Permasalahan *</label>
                 <textarea
                   rows={3}
                   name="alamatKejadian"
@@ -228,14 +228,14 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Permasalahan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Permasalahan Sumber Air / Drainase *</label>
                 <select
                   name="jenisPermasalahan"
                   value={formData.jenisPermasalahan}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5"
                 >
-                  <option value="">Pilih jenis permasalahan</option>
+                  <option value="">Pilih jenis permasalahan PSDA</option>
                   <option value="Banjir">Banjir</option>
                   <option value="Tidak ada drainase">Tidak ada drainase</option>
                   <option value="Drainase rusak">Drainase rusak</option>
@@ -259,7 +259,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi Sungai / Drainase *</label>
                 <textarea
                   rows={2}
                   name="detailLokasi"
@@ -272,7 +272,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">6. Kronologi / Deskripsi Masalah *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">6. Kronologi Kejadian *</label>
                 <textarea
                   rows={4}
                   name="kronologi"
@@ -315,7 +315,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Upload Bukti * (foto/video banjir atau lokasi)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Upload Bukti Foto / Video *</label>
                 <input
                   type="file"
                   accept="image/*,video/*"
@@ -327,7 +327,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Titik Lokasi (Google Maps / pin lokasi) (opsional)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Titik Lokasi Google Maps (opsional)</label>
                 <input
                   type="url"
                   name="titikLokasi"

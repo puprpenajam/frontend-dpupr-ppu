@@ -153,27 +153,27 @@ const FormCiptaKarya = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon / Penanggung Jawab *</label>
                   <input type="text" name="namaPemohon" value={formData.namaPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.namaPemohon && <p className="text-red-600 text-xs mt-1">{errors.namaPemohon}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
                   <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Alamat *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Alamat Pemohon / Lokasi Permohonan *</label>
                 <textarea rows={3} name="alamat" value={formData.alamat} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.alamat && <p className="text-red-600 text-xs mt-1">{errors.alamat}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Permohonan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Permohonan Cipta Karya *</label>
                 <select name="jenisPermohonan" value={formData.jenisPermohonan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
-                  <option value="">Pilih jenis permohonan</option>
+                  <option value="">Pilih jenis permohonan Cipta Karya</option>
                   <option value="Pembangunan gedung">Pembangunan gedung</option>
                   <option value="Renovasi bangunan">Renovasi bangunan</option>
                   <option value="Air minum / sanitasi">Air minum / sanitasi</option>
@@ -190,7 +190,7 @@ const FormCiptaKarya = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi / Rencana Bangunan *</label>
                 <input type="text" name="detailLokasi" value={formData.detailLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.detailLokasi && <p className="text-red-600 text-xs mt-1">{errors.detailLokasi}</p>}
               </div>
@@ -213,13 +213,13 @@ const FormCiptaKarya = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Deskripsi Kebutuhan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Deskripsi Kebutuhan / Permohonan *</label>
                 <textarea rows={4} name="deskripsiKebutuhan" value={formData.deskripsiKebutuhan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.deskripsiKebutuhan && <p className="text-red-600 text-xs mt-1">{errors.deskripsiKebutuhan}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Upload Dokumen *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Upload Dokumen Persyaratan *</label>
                 <p className="text-xs text-gray-500 mb-2">Surat permohonan, gambar, dan dokumen pendukung lainnya.</p>
                 <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={handleFileChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white" />
                 {formData.dokumenFileName && <p className="text-sm text-gray-600 mt-2">File terpilih: {formData.dokumenFileName}</p>}
@@ -228,12 +228,12 @@ const FormCiptaKarya = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">9. Luas Bangunan (opsional)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">9. Luas Bangunan / Rencana (opsional)</label>
                   <input type="text" name="luasBangunan" value={formData.luasBangunan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Contoh: 120 atau 120.5" />
                   {errors.luasBangunan && <p className="text-red-600 text-xs mt-1">{errors.luasBangunan}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi (Google Maps) (opsional)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi Google Maps (opsional)</label>
                   <input type="url" name="titikLokasi" value={formData.titikLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="https://maps.google.com/..." />
                   {errors.titikLokasi && <p className="text-red-600 text-xs mt-1">{errors.titikLokasi}</p>}
                 </div>

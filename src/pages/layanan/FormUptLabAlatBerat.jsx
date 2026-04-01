@@ -120,12 +120,12 @@ const FormUptLabAlatBerat = () => {
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon / Penanggung Jawab *</label>
                   <input type="text" name="namaPemohon" value={formData.namaPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.namaPemohon && <p className="text-red-600 text-xs mt-1">{errors.namaPemohon}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Instansi/Perusahaan *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Instansi / Perusahaan *</label>
                   <input type="text" name="instansiPerusahaan" value={formData.instansiPerusahaan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.instansiPerusahaan && <p className="text-red-600 text-xs mt-1">{errors.instansiPerusahaan}</p>}
                 </div>
@@ -133,21 +133,21 @@ const FormUptLabAlatBerat = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">3. Nomor HP / WhatsApp *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">3. Nomor HP / WhatsApp Aktif *</label>
                   <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">4. Alamat *</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">4. Alamat Pemohon / Lokasi Kegiatan *</label>
                   <input type="text" name="alamat" value={formData.alamat} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                   {errors.alamat && <p className="text-red-600 text-xs mt-1">{errors.alamat}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Jenis Layanan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Jenis Layanan UPT *</label>
                 <select name="jenisLayanan" value={formData.jenisLayanan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
-                  <option value="">Pilih jenis layanan</option>
+                  <option value="">Pilih jenis layanan UPT</option>
                   <option value="Uji material konstruksi">Uji material konstruksi</option>
                   <option value="Peminjaman alat berat">Peminjaman alat berat</option>
                   <option value="Permintaan tenaga teknis UPT">Permintaan tenaga teknis UPT</option>
@@ -163,7 +163,7 @@ const FormUptLabAlatBerat = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">6. Rincian Permohonan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">6. Rincian Permohonan / Kebutuhan *</label>
                 <textarea rows={4} name="rincianPermohonan" value={formData.rincianPermohonan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.rincianPermohonan && <p className="text-red-600 text-xs mt-1">{errors.rincianPermohonan}</p>}
               </div>
