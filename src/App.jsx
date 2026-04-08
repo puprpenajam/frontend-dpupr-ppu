@@ -17,15 +17,19 @@ import FormBinaMarga from './pages/layanan/FormBinaMarga';
 import FormTataRuang from './pages/layanan/FormTataRuang';
 import FormBinaKonstruksi from './pages/layanan/FormBinaKonstruksi';
 import FormUptLabAlatBerat from './pages/layanan/FormUptLabAlatBerat';
+import FormBagianUmumSunramKeuangan from './pages/layanan/FormBagianUmumSunramKeuangan';
 import TrackingLayananPublik from './pages/layanan/TrackingLayananPublik';
+import TrackingPengaduan from './pages/layanan/TrackingPengaduan';
 
 // Admin Pages
 import Login from './admin/pages/Login';
 import Dashboard from './admin/pages/Dashboard';
 import ManajemenBerita from './admin/pages/ManajemenBerita';
 import ManajemenArsip from './admin/pages/ManajemenArsip';
-import ManajemenLayananPublik from './admin/pages/ManajemenLayananPublik';
 import ManajemenLayananPublikDaftar from './admin/pages/ManajemenLayananPublikDaftar';
+import ManajemenPengaduan from './admin/pages/ManajemenPengaduan';
+import ManajemenPengaduanDaftar from './admin/pages/ManajemenPengaduanDaftar';
+import ManajemenEksporDanBackup from './admin/pages/ManajemenEksporDanBackup';
 
 const App = () => {
   return (
@@ -51,15 +55,20 @@ const App = () => {
           <Route path="/layanan-publik/form-tata-ruang" element={<FormTataRuang />} />
           <Route path="/layanan-publik/form-bina-konstruksi" element={<FormBinaKonstruksi />} />
           <Route path="/layanan-publik/form-upt-lab-alat-berat" element={<FormUptLabAlatBerat />} />
+          <Route path="/layanan-publik/form-bagian-umum-sunram-keuangan" element={<FormBagianUmumSunramKeuangan />} />
           <Route path="/layanan-publik/tracking" element={<TrackingLayananPublik />} />
+          <Route path="/layanan-publik/tracking-pengaduan" element={<TrackingPengaduan />} />
           
           {/* Admin Routes */}
           <Route path="/admin-website-pupr-ppu" element={<Login />} />
           <Route path="/admin-website-pupr-ppu/dashboard" element={<Dashboard />} />
           <Route path="/admin-website-pupr-ppu/manajemen-berita" element={<ManajemenBerita />} />
           <Route path="/admin-website-pupr-ppu/manajemen-arsip" element={<ManajemenArsip />} />
-          <Route path="/admin-website-pupr-ppu/manajemen-layanan-publik" element={<ManajemenLayananPublik />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-layanan-publik" element={<ManajemenLayananPublikDaftar />} />
           <Route path="/admin-website-pupr-ppu/manajemen-layanan-publik/:kategori" element={<ManajemenLayananPublikDaftar />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-pengaduan" element={<ManajemenPengaduan />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-pengaduan/:kategori" element={<ManajemenPengaduanDaftar />} />
+          <Route path="/admin-website-pupr-ppu/ekspor-dan-backup" element={<ManajemenEksporDanBackup />} />
         </Routes>
       </Router>
     </AuthProvider>

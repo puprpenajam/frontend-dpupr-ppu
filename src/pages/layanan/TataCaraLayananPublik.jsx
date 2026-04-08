@@ -16,6 +16,7 @@ const steps = [
 
 const guideMenus = [
   { label: 'Tata Cara Isi Form Layanan Publik', to: '/layanan-publik/tata-cara/umum' },
+  { label: 'Tata Cara Isi Form Bagian Umum, Sunram, dan Keuangan', to: '/layanan-publik/tata-cara/form-bagian-umum-sunram-keuangan' },
   { label: 'Tata Cara Isi Form PSDA', to: '/layanan-publik/tata-cara/form-psda' },
   { label: 'Tata Cara Isi Form Cipta Karya', to: '/layanan-publik/tata-cara/form-cipta-karya' },
   { label: 'Tata Cara Isi Form Bina Marga', to: '/layanan-publik/tata-cara/form-bina-marga' },

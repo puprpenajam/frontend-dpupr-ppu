@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
+import { generateTicketCode, saveFormDataWithTicket } from '../../data/ticketCodeUtils';
 
 const initialForm = {
   namaPemohon: '',
@@ -26,6 +27,7 @@ const FormTataRuang = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [ticketCode, setTicketCode] = useState('');
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -91,12 +93,10 @@ const FormTataRuang = () => {
     if (!validateForm()) return;
 
     const key = 'formTataRuangReports';
-    const existing = JSON.parse(localStorage.getItem(key) || '[]');
-    localStorage.setItem(
-      key,
-      JSON.stringify([{ id: Date.now(), createdAt: new Date().toISOString(), ...formData }, ...existing])
-    );
+    const code = generateTicketCode(key, 'TR');
+    saveFormDataWithTicket(key, formData, code);
 
+    setTicketCode(code);
     setFormData(initialForm);
     setShowSuccessPopup(true);
   };
@@ -117,27 +117,26 @@ const FormTataRuang = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pemohon / Penanggung Jawab *</label>
-                  <input type="text" name="namaPemohon" value={formData.namaPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
-                  {errors.namaPemohon && <p className="text-red-600 text-xs mt-1">{errors.namaPemohon}</p>}
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
-                  <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
-                  {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">1. NAMA PEMOHON / PENANGGUNG JAWAB *</label>
+                <input type="text" name="namaPemohon" value={formData.namaPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
+                {errors.namaPemohon && <p className="text-red-600 text-xs mt-1">{errors.namaPemohon}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Alamat Pemohon / Lokasi Usaha *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">2. NOMOR HP / WHATSAPP AKTIF *</label>
+                <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
+                {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. ALAMAT PEMOHON / LOKASI USAHA *</label>
                 <textarea rows={3} name="alamatPemohon" value={formData.alamatPemohon} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.alamatPemohon && <p className="text-red-600 text-xs mt-1">{errors.alamatPemohon}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Layanan Tata Ruang *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. JENIS LAYANAN TATA RUANG *</label>
                 <select name="jenisLayanan" value={formData.jenisLayanan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
                   <option value="">Pilih jenis layanan tata ruang</option>
                   <option value="Permohonan Kesesuaian Kegiatan Pemanfaatan Ruang (KKPR)">Permohonan Kesesuaian Kegiatan Pemanfaatan Ruang (KKPR)</option>
@@ -154,28 +153,27 @@ const FormTataRuang = () => {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">5. Lokasi Objek / Rencana Kegiatan *</label>
-                  <input type="text" name="lokasiObjek" value={formData.lokasiObjek} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
-                  {errors.lokasiObjek && <p className="text-red-600 text-xs mt-1">{errors.lokasiObjek}</p>}
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">6. Tujuan Pemanfaatan Ruang *</label>
-                  <input type="text" name="tujuanPemanfaatanRuang" value={formData.tujuanPemanfaatanRuang} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
-                  {errors.tujuanPemanfaatanRuang && <p className="text-red-600 text-xs mt-1">{errors.tujuanPemanfaatanRuang}</p>}
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. LOKASI OBJEK / RENCANA KEGIATAN *</label>
+                <input type="text" name="lokasiObjek" value={formData.lokasiObjek} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
+                {errors.lokasiObjek && <p className="text-red-600 text-xs mt-1">{errors.lokasiObjek}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Upload Dokumen Pendukung Tata Ruang *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">6. TUJUAN PEMANFAATAN RUANG *</label>
+                <input type="text" name="tujuanPemanfaatanRuang" value={formData.tujuanPemanfaatanRuang} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
+                {errors.tujuanPemanfaatanRuang && <p className="text-red-600 text-xs mt-1">{errors.tujuanPemanfaatanRuang}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">7. UPLOAD DOKUMEN PENDUKUNG TATA RUANG *</label>
                 <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white" />
                 {formData.dokumenFileName && <p className="text-sm text-gray-600 mt-2">File terpilih: {formData.dokumenFileName}</p>}
                 {errors.dokumenFileData && <p className="text-red-600 text-xs mt-1">{errors.dokumenFileData}</p>}
               </div>
 
               <button type="submit" className="w-full sm:w-auto bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-bold px-8 py-3 rounded-lg transition-colors">
-                Kirim Form Tata Ruang
+                KIRIM FORM TATA RUANG
               </button>
             </form>
           </FadeIn>
@@ -185,9 +183,13 @@ const FormTataRuang = () => {
       {showSuccessPopup && (
         <div className="fixed inset-0 z-[70] bg-black/45 flex items-center justify-center p-4">
           <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Form Tata Ruang Berhasil Di Isi</h3>
-            <p className="text-sm text-gray-700 mb-5">Form Anda sudah tersimpan dan akan di hubungi oleh Tata Ruang lewat WhatsApp.</p>
-            <button type="button" onClick={() => setShowSuccessPopup(false)} className="w-full bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2.5 rounded-lg text-sm font-semibold">Tutup</button>
+            <h3 className="text-xl font-bold text-[#1E3A7D] mb-4">✓ FORM BERHASIL DIKIRIM</h3>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <p className="text-xs text-gray-600 uppercase mb-1">Kode Tiket Pengaduan Anda:</p>
+              <p className="text-2xl font-bold text-blue-600">{ticketCode}</p>
+              <p className="text-xs text-gray-600 mt-2">Simpan kode ini untuk melacak status pengaduan Anda</p>
+            </div>
+            <button type="button" onClick={() => setShowSuccessPopup(false)} className="w-full bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2.5 rounded-lg text-sm font-semibold">TUTUP</button>
           </div>
         </div>
       )}

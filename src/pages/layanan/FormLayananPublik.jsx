@@ -155,35 +155,33 @@ const FormLayananPublik = () => {
             )}
 
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nama *</label>
-                  <input
-                    type="text"
-                    name="nama"
-                    value={formData.nama}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
-                    placeholder="Masukkan nama lengkap"
-                  />
-                  {errors.nama && <p className="text-red-600 text-xs mt-1">{errors.nama}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Instansi (Opsional)</label>
-                  <input
-                    type="text"
-                    name="instansi"
-                    value={formData.instansi}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
-                    placeholder="Contoh: PT/OPD/Komunitas"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">NAMA *</label>
+                <input
+                  type="text"
+                  name="nama"
+                  value={formData.nama}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
+                  placeholder="Masukkan nama lengkap"
+                />
+                {errors.nama && <p className="text-red-600 text-xs mt-1">{errors.nama}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Alamat *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">INSTANSI (OPSIONAL)</label>
+                <input
+                  type="text"
+                  name="instansi"
+                  value={formData.instansi}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
+                  placeholder="Contoh: PT/OPD/Komunitas"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">ALAMAT *</label>
                 <textarea
                   rows={3}
                   name="alamat"
@@ -195,41 +193,39 @@ const FormLayananPublik = () => {
                 {errors.alamat && <p className="text-red-600 text-xs mt-1">{errors.alamat}</p>}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nomor HP Aktif *</label>
-                  <input
-                    type="tel"
-                    name="nomorHp"
-                    value={formData.nomorHp}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
-                    placeholder="Contoh: 0812xxxxxxxx"
-                  />
-                  {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
-                  {!errors.nomorHp && whatsappPreviewLink && (
-                    <p className="text-xs mt-1 text-blue-700 break-all">
-                      Link WhatsApp: <a href={whatsappPreviewLink} target="_blank" rel="noreferrer" className="underline">{whatsappPreviewLink}</a>
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Keperluan *</label>
-                  <input
-                    type="text"
-                    name="keperluan"
-                    value={formData.keperluan}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
-                    placeholder="Contoh: wawancara dengan kepala dinas"
-                  />
-                  {errors.keperluan && <p className="text-red-600 text-xs mt-1">{errors.keperluan}</p>}
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">NOMOR HP AKTIF *</label>
+                <input
+                  type="tel"
+                  name="nomorHp"
+                  value={formData.nomorHp}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
+                  placeholder="Contoh: 0812xxxxxxxx"
+                />
+                {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
+                {!errors.nomorHp && whatsappPreviewLink && (
+                  <p className="text-xs mt-1 text-blue-700 break-all">
+                    Link WhatsApp: <a href={whatsappPreviewLink} target="_blank" rel="noreferrer" className="underline">{whatsappPreviewLink}</a>
+                  </p>
+                )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Bukti (Dokumen / Foto) *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">KEPERLUAN *</label>
+                <input
+                  type="text"
+                  name="keperluan"
+                  value={formData.keperluan}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A7D]/50"
+                  placeholder="Contoh: wawancara dengan kepala dinas"
+                />
+                {errors.keperluan && <p className="text-red-600 text-xs mt-1">{errors.keperluan}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">UPLOAD BUKTI (DOKUMEN / FOTO) *</label>
                 <input
                   type="file"
                   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,image/*"
@@ -243,7 +239,7 @@ const FormLayananPublik = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Tambahan</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">DESKRIPSI TAMBAHAN</label>
                 <textarea
                   rows={4}
                   name="deskripsiTambahan"

@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
+import { generateTicketCode, saveFormDataWithTicket } from '../../data/ticketCodeUtils';
 
 const dampakOptions = [
   'Mengganggu transportasi',
@@ -48,6 +49,7 @@ const FormBinaMarga = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [ticketCode, setTicketCode] = useState('');
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -129,12 +131,10 @@ const FormBinaMarga = () => {
     if (!validateForm()) return;
 
     const key = 'formBinaMargaReports';
-    const existing = JSON.parse(localStorage.getItem(key) || '[]');
-    localStorage.setItem(
-      key,
-      JSON.stringify([{ id: Date.now(), createdAt: new Date().toISOString(), ...formData }, ...existing])
-    );
+    const code = generateTicketCode(key, 'BM');
+    saveFormDataWithTicket(key, formData, code);
 
+    setTicketCode(code);
     setFormData(initialForm);
     setShowSuccessPopup(true);
   };
@@ -155,27 +155,26 @@ const FormBinaMarga = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pelapor / Penanggung Jawab *</label>
-                  <input type="text" name="namaPelapor" value={formData.namaPelapor} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
-                  {errors.namaPelapor && <p className="text-red-600 text-xs mt-1">{errors.namaPelapor}</p>}
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
-                  <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
-                  {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">1. NAMA PELAPOR / PENANGGUNG JAWAB *</label>
+                <input type="text" name="namaPelapor" value={formData.namaPelapor} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
+                {errors.namaPelapor && <p className="text-red-600 text-xs mt-1">{errors.namaPelapor}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Nama Ruas Jalan / Jembatan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">2. NOMOR HP / WHATSAPP AKTIF *</label>
+                <input type="tel" name="nomorHp" value={formData.nomorHp} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
+                {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. NAMA RUAS JALAN / JEMBATAN *</label>
                 <input type="text" name="lokasiJalanJembatan" value={formData.lokasiJalanJembatan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.lokasiJalanJembatan && <p className="text-red-600 text-xs mt-1">{errors.lokasiJalanJembatan}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Kerusakan / Permasalahan Jalan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. JENIS KERUSAKAN / PERMASALAHAN JALAN *</label>
                 <select name="jenisPermasalahan" value={formData.jenisPermasalahan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
                   <option value="">Pilih jenis kerusakan</option>
                   <option value="Jalan rusak">Jalan rusak</option>
@@ -193,32 +192,31 @@ const FormBinaMarga = () => {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi Jalan / Lingkungan *</label>
-                  <textarea rows={3} name="detailLokasi" value={formData.detailLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="nama jalan, RT/RW, desa, kelurahan" />
-                  {errors.detailLokasi && <p className="text-red-600 text-xs mt-1">{errors.detailLokasi}</p>}
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">6. Tingkat Kerusakan Jalan / Jembatan *</label>
-                  <select name="tingkatKerusakan" value={formData.tingkatKerusakan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
-                    <option value="">Pilih tingkat kerusakan</option>
-                    <option value="Ringan">Ringan</option>
-                    <option value="Sedang">Sedang</option>
-                    <option value="Parah">Parah</option>
-                  </select>
-                  {errors.tingkatKerusakan && <p className="text-red-600 text-xs mt-1">{errors.tingkatKerusakan}</p>}
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. DETAIL LOKASI JALAN / LINGKUNGAN *</label>
+                <textarea rows={3} name="detailLokasi" value={formData.detailLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="nama jalan, RT/RW, desa, kelurahan" />
+                {errors.detailLokasi && <p className="text-red-600 text-xs mt-1">{errors.detailLokasi}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Kronologi / Deskripsi Kerusakan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">6. TINGKAT KERUSAKAN JALAN / JEMBATAN *</label>
+                <select name="tingkatKerusakan" value={formData.tingkatKerusakan} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5">
+                  <option value="">Pilih tingkat kerusakan</option>
+                  <option value="Ringan">Ringan</option>
+                  <option value="Sedang">Sedang</option>
+                  <option value="Parah">Parah</option>
+                </select>
+                {errors.tingkatKerusakan && <p className="text-red-600 text-xs mt-1">{errors.tingkatKerusakan}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">7. KRONOLOGI / DESKRIPSI KERUSAKAN *</label>
                 <textarea rows={4} name="kronologi" value={formData.kronologi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" />
                 {errors.kronologi && <p className="text-red-600 text-xs mt-1">{errors.kronologi}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Dampak yang Terjadi *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">8. DAMPAK YANG TERJADI *</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {dampakOptions.map((item) => (
                     <label key={item} className="flex items-center gap-2 text-sm text-gray-700">
@@ -237,20 +235,20 @@ const FormBinaMarga = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Upload Foto Kondisi Jalan / Jembatan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">9. UPLOAD FOTO KONDISI JALAN / JEMBATAN *</label>
                 <input type="file" accept="image/*" onChange={handleFileChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white" />
                 {formData.fotoFileName && <p className="text-sm text-gray-600 mt-2">File terpilih: {formData.fotoFileName}</p>}
                 {errors.fotoFileData && <p className="text-red-600 text-xs mt-1">{errors.fotoFileData}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">10. Titik Lokasi Google Maps (opsional)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">10. TITIK LOKASI GOOGLE MAPS (OPSIONAL)</label>
                 <input type="url" name="titikLokasi" value={formData.titikLokasi} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="https://maps.google.com/..." />
                 {errors.titikLokasi && <p className="text-red-600 text-xs mt-1">{errors.titikLokasi}</p>}
               </div>
 
               <button type="submit" className="w-full sm:w-auto bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-bold px-8 py-3 rounded-lg transition-colors">
-                Kirim Form Bina Marga
+                KIRIM FORM BINA MARGA
               </button>
             </form>
           </FadeIn>
@@ -260,9 +258,14 @@ const FormBinaMarga = () => {
       {showSuccessPopup && (
         <div className="fixed inset-0 z-[70] bg-black/45 flex items-center justify-center p-4">
           <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Form Bina Marga Berhasil Di Isi</h3>
-            <p className="text-sm text-gray-700 mb-5">Form Anda sudah tersimpan dan akan di hubungi oleh Bina Marga lewat WhatsApp.</p>
-            <button type="button" onClick={() => setShowSuccessPopup(false)} className="w-full bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2.5 rounded-lg text-sm font-semibold">Tutup</button>
+            <h3 className="text-xl font-bold text-[#1E3A7D] mb-4">✓ FORM BERHASIL DIKIRIM</h3>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <p className="text-xs text-gray-600 uppercase mb-1">Kode Tiket Pengaduan Anda:</p>
+              <p className="text-2xl font-bold text-blue-600">{ticketCode}</p>
+              <p className="text-xs text-gray-600 mt-2">Simpan kode ini untuk melacak status pengaduan Anda</p>
+            </div>
+            <p className="text-sm text-gray-700 mb-5">Form pengaduan Anda sudah tersimpan dan akan segera ditindaklanjuti oleh Bina Marga melalui WhatsApp.</p>
+            <button type="button" onClick={() => setShowSuccessPopup(false)} className="w-full bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2.5 rounded-lg text-sm font-semibold">TUTUP</button>
           </div>
         </div>
       )}

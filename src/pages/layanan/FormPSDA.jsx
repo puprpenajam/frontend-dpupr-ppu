@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import FadeIn from '../../components/FadeIn';
+import { generateTicketCode, saveFormDataWithTicket } from '../../data/ticketCodeUtils';
 
 const dampakOptions = [
   'Rumah terdampak',
@@ -48,6 +49,7 @@ const FormPSDA = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [ticketCode, setTicketCode] = useState('');
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -156,14 +158,10 @@ const FormPSDA = () => {
     }
 
     const key = 'formPsdaReports';
-    const existing = JSON.parse(localStorage.getItem(key) || '[]');
-    const payload = {
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
-      ...formData
-    };
+    const code = generateTicketCode(key, 'PSDA');
+    saveFormDataWithTicket(key, formData, code);
 
-    localStorage.setItem(key, JSON.stringify([payload, ...existing]));
+    setTicketCode(code);
     setFormData(initialForm);
     setShowSuccessPopup(true);
   };
@@ -186,36 +184,34 @@ const FormPSDA = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <form noValidate onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sm:p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">1. Nama Pelapor / Penanggung Jawab *</label>
-                  <input
-                    type="text"
-                    name="namaPelapor"
-                    value={formData.namaPelapor}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5"
-                    placeholder="Nama lengkap pelapor"
-                  />
-                  {errors.namaPelapor && <p className="text-red-600 text-xs mt-1">{errors.namaPelapor}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">2. Nomor HP / WhatsApp Aktif *</label>
-                  <input
-                    type="tel"
-                    name="nomorHp"
-                    value={formData.nomorHp}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5"
-                    placeholder="08xxxxxxxxxx"
-                  />
-                  {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">1. NAMA PELAPOR / PENANGGUNG JAWAB *</label>
+                <input
+                  type="text"
+                  name="namaPelapor"
+                  value={formData.namaPelapor}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5"
+                  placeholder="Nama lengkap pelapor"
+                />
+                {errors.namaPelapor && <p className="text-red-600 text-xs mt-1">{errors.namaPelapor}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">3. Lokasi Kejadian / Titik Permasalahan *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">2. NOMOR HP / WHATSAPP AKTIF *</label>
+                <input
+                  type="tel"
+                  name="nomorHp"
+                  value={formData.nomorHp}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5"
+                  placeholder="08xxxxxxxxxx"
+                />
+                {errors.nomorHp && <p className="text-red-600 text-xs mt-1">{errors.nomorHp}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">3. LOKASI KEJADIAN / TITIK PERMASALAHAN *</label>
                 <textarea
                   rows={3}
                   name="alamatKejadian"
@@ -228,7 +224,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">4. Jenis Permasalahan Sumber Air / Drainase *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">4. JENIS PERMASALAHAN SUMBER AIR / DRAINASE *</label>
                 <select
                   name="jenisPermasalahan"
                   value={formData.jenisPermasalahan}
@@ -259,7 +255,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">5. Detail Lokasi Sungai / Drainase *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">5. DETAIL LOKASI SUNGAI / DRAINASE *</label>
                 <textarea
                   rows={2}
                   name="detailLokasi"
@@ -272,7 +268,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">6. Kronologi Kejadian *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">6. KRONOLOGI KEJADIAN *</label>
                 <textarea
                   rows={4}
                   name="kronologi"
@@ -285,7 +281,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">7. Dampak yang terjadi *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">7. DAMPAK YANG TERJADI *</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {dampakOptions.map((item) => (
                     <label key={item} className="flex items-center gap-2 text-sm text-gray-700">
@@ -315,7 +311,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">8. Upload Bukti Foto / Video *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">8. UPLOAD BUKTI FOTO / VIDEO *</label>
                 <input
                   type="file"
                   accept="image/*,video/*"
@@ -327,7 +323,7 @@ const FormPSDA = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">9. Titik Lokasi Google Maps (opsional)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">9. TITIK LOKASI GOOGLE MAPS (OPSIONAL)</label>
                 <input
                   type="url"
                   name="titikLokasi"
@@ -343,7 +339,7 @@ const FormPSDA = () => {
                 type="submit"
                 className="w-full sm:w-auto bg-[#FDB913] hover:bg-[#E5A711] text-[#1E3A7D] font-bold px-8 py-3 rounded-lg transition-colors"
               >
-                Kirim Form PSDA
+                KIRIM FORM PSDA
               </button>
             </form>
           </FadeIn>
@@ -353,14 +349,19 @@ const FormPSDA = () => {
       {showSuccessPopup && (
         <div className="fixed inset-0 z-[70] bg-black/45 flex items-center justify-center p-4">
           <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-[#1E3A7D] mb-2">Form PSDA Berhasil Di Isi</h3>
-            <p className="text-sm text-gray-700 mb-5">Form Anda sudah tersimpan dan akan di hubungi oleh PSDA lewat WhatsApp.</p>
+            <h3 className="text-xl font-bold text-[#1E3A7D] mb-4">✓ FORM BERHASIL DIKIRIM</h3>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <p className="text-xs text-gray-600 uppercase mb-1">Kode Tiket Pengaduan Anda:</p>
+              <p className="text-2xl font-bold text-blue-600">{ticketCode}</p>
+              <p className="text-xs text-gray-600 mt-2">Simpan kode ini untuk melacak status pengaduan Anda</p>
+            </div>
+            <p className="text-sm text-gray-700 mb-5">Form pengaduan Anda sudah tersimpan dan akan segera ditindaklanjuti oleh PSDA melalui WhatsApp.</p>
             <button
               type="button"
               onClick={() => setShowSuccessPopup(false)}
               className="w-full bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2.5 rounded-lg text-sm font-semibold"
             >
-              Tutup
+              TUTUP
             </button>
           </div>
         </div>

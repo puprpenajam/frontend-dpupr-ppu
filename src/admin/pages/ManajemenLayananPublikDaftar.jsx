@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Eye, Edit, Trash2, CalendarDays, Clock3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
@@ -58,6 +58,7 @@ const ManajemenLayananPublikDaftar = () => {
   const categories = useMemo(() => getLayananCategories(), []);
   const sekretariatCategory = useMemo(() => getSekretariatCategory(), []);
   const categoryLinks = useMemo(() => getLayananCategoryLinks(), []);
+  const activeCategoryValue = kategori || sekretariatCategory.value;
 
   const [editForm, setEditForm] = useState({
     status: 'proses',
@@ -68,7 +69,7 @@ const ManajemenLayananPublikDaftar = () => {
 
   const menuCategories = useMemo(() => [sekretariatCategory, ...categories], [categories, sekretariatCategory]);
 
-  const selectedCategory = menuCategories.find((item) => item.value === kategori);
+  const selectedCategory = menuCategories.find((item) => item.value === activeCategoryValue);
 
   const loadData = () => {
     setRequests(getLayananRequests());
@@ -92,7 +93,7 @@ const ManajemenLayananPublikDaftar = () => {
     return null;
   }
 
-  const categoryRequests = requests.filter((item) => item.assignedCategory === kategori);
+  const categoryRequests = requests.filter((item) => item.assignedCategory === activeCategoryValue);
 
   const selectedRequest = requests.find((item) => item.id === editingId) || null;
   const viewingRequest = requests.find((item) => item.id === viewingId) || null;
@@ -218,12 +219,15 @@ const ManajemenLayananPublikDaftar = () => {
               <h2 className="text-lg sm:text-xl font-bold text-gray-800">{selectedCategory.label}</h2>
               <p className="text-sm text-gray-600 mt-1">Total data kategori ini: {categoryRequests.length}</p>
             </div>
-            <Link
-              to="/admin-website-pupr-ppu/manajemen-layanan-publik"
-              className="inline-flex items-center justify-center w-full sm:w-auto bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2 rounded-lg text-sm font-semibold"
-            >
-              Kembali ke Menu Kategori
-            </Link>
+            {kategori && (
+              <button
+                type="button"
+                onClick={() => navigate('/admin-website-pupr-ppu/manajemen-layanan-publik')}
+                className="inline-flex items-center justify-center w-full sm:w-auto bg-[#1E3A7D] hover:bg-[#152856] text-white px-4 py-2 rounded-lg text-sm font-semibold"
+              >
+                Kembali ke Daftar Form Lainnya
+              </button>
+            )}
           </div>
 
           <div className="bg-white rounded-xl shadow-md overflow-x-auto lg:overflow-x-visible">

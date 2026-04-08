@@ -15,6 +15,16 @@ const guideMap = {
     ],
     formLink: '/layanan-publik/form'
   },
+  'form-bagian-umum-sunram-keuangan': {
+    title: 'Tata Cara Isi Form Bagian Umum, Sunram, dan Keuangan',
+    points: [
+      'Isi nama pelapor dan nomor WhatsApp aktif yang dapat dihubungi.',
+      'Pilih unit tujuan pengaduan sesuai kebutuhan (Bagian Umum, Sunram, atau Keuangan).',
+      'Tulis judul pengaduan yang singkat, jelas, dan mudah dipahami.',
+      'Jelaskan isi pengaduan secara lengkap serta upload lampiran pendukung.'
+    ],
+    formLink: '/layanan-publik/form-bagian-umum-sunram-keuangan'
+  },
   'form-psda': {
     title: 'Tata Cara Isi Form PSDA',
     points: [
@@ -115,6 +125,12 @@ const TataCaraDetailForm = () => {
                   className="inline-flex items-center justify-center bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-3 rounded-lg text-sm font-semibold"
                 >
                   Kembali ke Menu Tata Cara
+                </Link>
+                <Link
+                  to={guide.formLink}
+                  className="inline-flex items-center justify-center bg-[#1E3A7D] hover:bg-[#152856] text-white px-5 py-3 rounded-lg text-sm font-semibold"
+                >
+                  Buka Form
                 </Link>
               </div>
             </div>

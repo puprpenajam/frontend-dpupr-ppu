@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Newspaper, LogOut, Archive, ClipboardList, X, Menu } from 'lucide-react';
+import { LayoutDashboard, Newspaper, LogOut, Archive, ClipboardList, Megaphone, HardDrive, X } from 'lucide-react';
 import { useState } from 'react';
 
 const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
@@ -28,6 +28,16 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
       path: '/admin-website-pupr-ppu/manajemen-layanan-publik',
       icon: ClipboardList,
       label: 'Manajemen Layanan Publik'
+    },
+    {
+      path: '/admin-website-pupr-ppu/manajemen-pengaduan',
+      icon: Megaphone,
+      label: 'Manajemen Pengaduan'
+    },
+    {
+      path: '/admin-website-pupr-ppu/ekspor-dan-backup',
+      icon: HardDrive,
+      label: 'Ekspor & Backup'
     }
   ];
 

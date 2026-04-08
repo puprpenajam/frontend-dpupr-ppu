@@ -146,6 +146,7 @@ const Navbar = () => {
                 <li><Link to="/layanan-publik/tata-cara" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Tata Cara Isi Form Layanan Publik</Link></li>
                 <li><Link to="/layanan-publik/form" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Form Layanan Publik</Link></li>
                 <li><Link to="/layanan-publik/tracking" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Tracking Layanan Publik</Link></li>
+                <li><Link to="/layanan-publik/tracking-pengaduan" className="block px-6 py-3 text-dpupr-blue hover:bg-dpupr-yellow/30 transition-colors text-sm">Tracking Pengaduan</Link></li>
               </ul>
             </li>
           </ul>
@@ -294,12 +295,13 @@ const Navbar = () => {
               </button>
               <ul
                 className={`overflow-hidden transition-all duration-300 bg-yellow-100 ${
-                  openSubmenu === 'layanan' ? 'max-h-72' : 'max-h-0'
+                  openSubmenu === 'layanan' ? 'max-h-96' : 'max-h-0'
                 }`}
               >
                 <li><Link to="/layanan-publik/tata-cara" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Tata Cara Isi Form Layanan Publik</Link></li>
                 <li><Link to="/layanan-publik/form" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Form Layanan Publik</Link></li>
                 <li><Link to="/layanan-publik/tracking" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Tracking Layanan Publik</Link></li>
+                <li><Link to="/layanan-publik/tracking-pengaduan" onClick={() => setIsOpen(false)} className="block px-8 py-2 text-dpupr-blue text-sm hover:bg-dpupr-blue/10">Tracking Pengaduan</Link></li>
               </ul>
             </li>
           </ul>
