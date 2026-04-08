@@ -59,7 +59,7 @@ const ManajemenLayananPublik = () => {
 
   const loadData = () => {
     const allRequests = getLayananRequests();
-    const formLayananPublikRequests = allRequests.filter((item) => item.assignedCategory === 'sekretariat-umum');
+    const formLayananPublikRequests = allRequests.filter((item) => item.sourceForm === 'form-layanan-publik');
     setRequests(formLayananPublikRequests);
   };
 

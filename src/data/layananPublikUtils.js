@@ -111,6 +111,7 @@ const normalizeLegacyRequest = (request) => {
 
   const migratedBase = {
     ...request,
+    sourceForm: request.sourceForm || 'form-layanan-publik',
     buktiFileName: request.buktiFileName || request.suratFileName || '',
     buktiFileType: request.buktiFileType || request.suratFileType || '',
     buktiFileData: request.buktiFileData || request.suratFileData || '',
@@ -201,6 +202,7 @@ export const createLayananRequest = (payload) => {
     buktiFileName: payload.buktiFileName,
     buktiFileType: payload.buktiFileType,
     buktiFileData: payload.buktiFileData,
+    sourceForm: 'form-layanan-publik',
     aiDetectedCategory,
     assignedCategory: aiDetectedCategory,
     assignedFormLink: recommendation.destinationLink,
