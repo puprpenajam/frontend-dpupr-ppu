@@ -26,6 +26,7 @@ import Login from './admin/pages/Login';
 import Dashboard from './admin/pages/Dashboard';
 import ManajemenBerita from './admin/pages/ManajemenBerita';
 import ManajemenArsip from './admin/pages/ManajemenArsip';
+import ManajemenLayananPublik from './admin/pages/ManajemenLayananPublik';
 import ManajemenLayananPublikDaftar from './admin/pages/ManajemenLayananPublikDaftar';
 import ManajemenPengaduan from './admin/pages/ManajemenPengaduan';
 import ManajemenPengaduanDaftar from './admin/pages/ManajemenPengaduanDaftar';
@@ -64,7 +65,7 @@ const App = () => {
           <Route path="/admin-website-pupr-ppu/dashboard" element={<Dashboard />} />
           <Route path="/admin-website-pupr-ppu/manajemen-berita" element={<ManajemenBerita />} />
           <Route path="/admin-website-pupr-ppu/manajemen-arsip" element={<ManajemenArsip />} />
-          <Route path="/admin-website-pupr-ppu/manajemen-layanan-publik" element={<ManajemenLayananPublikDaftar />} />
+          <Route path="/admin-website-pupr-ppu/manajemen-layanan-publik" element={<ManajemenLayananPublik />} />
           <Route path="/admin-website-pupr-ppu/manajemen-layanan-publik/:kategori" element={<ManajemenLayananPublikDaftar />} />
           <Route path="/admin-website-pupr-ppu/manajemen-pengaduan" element={<ManajemenPengaduan />} />
           <Route path="/admin-website-pupr-ppu/manajemen-pengaduan/:kategori" element={<ManajemenPengaduanDaftar />} />
